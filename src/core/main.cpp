@@ -6,6 +6,10 @@
 
 #include <fstream>
 
+#ifdef LW_OS_WINDOWS
+#include <cstdlib>
+#endif
+
 using namespace lightwave;
 
 void print_exception(const std::exception &e, int level = 0) {
@@ -23,6 +27,11 @@ int main(int argc, const char *argv[]) {
 #endif
 #ifdef LW_CC_MSC
     logger(EWarn, "lightwave was compiled using MSVC, expect rendering to be slower (we recommend using clang instead)");
+#endif
+
+#ifdef LW_OS_WINDOWS
+    // The error dialog might interfere with the run_tests.py script on Windows, so disable it. 
+   _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
 #endif
 
     try {
