@@ -14,12 +14,12 @@ namespace lightwave
      */
     class Perspective : public Camera
     {
-    private:
+        private:
         float fov, tan_fov, aspect_ratio;
         std::string fov_axis;
-        
-    public:
-        Perspective(const Properties &properties)
+
+        public:
+        Perspective(const Properties& properties)
             : Camera(properties)
         {
             // hints:
@@ -31,7 +31,7 @@ namespace lightwave
             tan_fov = tan(fov / 2.0f);
         }
 
-        CameraSample sample(const Point2 &normalized, Sampler &rng) const override
+        CameraSample sample(const Point2& normalized, Sampler& rng) const override
         {
             // first transforming the normalized coordinates to the local camera coordinate
             float lc_coord_x = normalized.x() * tan_fov;
@@ -49,8 +49,8 @@ namespace lightwave
             // hints:
             // * use m_transform to transform the local camera coordinate system into the world coordinate system
             Ray world_coord_ray = m_transform->apply(Ray(Vector(0.f, 0.f, 0.f), lc_coord_point.normalized()));
-            
-            return CameraSample{.ray = world_coord_ray, .weight = Color(1.0f)};
+
+            return CameraSample{ .ray = world_coord_ray, .weight = Color(1.0f) };
         }
 
         std::string toString() const override
