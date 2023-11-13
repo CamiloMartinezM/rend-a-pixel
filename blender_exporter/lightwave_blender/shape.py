@@ -69,7 +69,7 @@ def _export_bmesh_by_material(registry: SceneRegistry, me) -> list[(str, str)]:
         )
 
         bm.free()
-        shapes.append(rel_filepath)
+        shapes.append(rel_filepath.replace('\\', '/')) # Ensure the shape path is not using \ to keep the xml valid
     
     if mat_count == 0:
         # special case if the mesh has no slots available

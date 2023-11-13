@@ -66,7 +66,7 @@ def _handle_image(registry: SceneRegistry, image: bpy.types.Image):
             (".png" if not image.use_generated_float else ".exr")
         img_path = os.path.join(tex_dir_name, img_name)
         _export_image(image, os.path.join(registry.path, img_path), is_f32=image.use_generated_float)
-        return img_path
+        return img_path.replace('\\', '/') # Ensure the image path is not using \ to keep the xml valid
     elif image.source == 'FILE':
         filepath = image.filepath_raw if image.filepath_raw is not None else image.filepath
         img_path = bpy.path.relpath(bpy.path.abspath(bpy.path.resolve_ncase(
@@ -105,7 +105,7 @@ def _handle_image(registry: SceneRegistry, image: bpy.types.Image):
                 img_path = os.path.join(tex_dir_name, img_name)
                 _export_image(image, os.path.join(registry.path, img_path),
                                   is_f32=False, keep_format=True)
-        return img_path
+        return img_path.replace('\\', '/') # Ensure the image path is not using \ to keep the xml valid
     else:
         registry.error(f"Image type {image.source} not supported")
         return None

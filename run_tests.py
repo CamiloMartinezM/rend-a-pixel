@@ -19,7 +19,7 @@ parser.add_argument('--disable-build', dest='disable_build', action='store_true'
                     help='do not build lightwave before running the tests')
 
 args = parser.parse_args()
-root_path = os.path.abspath(os.path.dirname(__file__))
+root_path = os.path.relpath(os.path.dirname(__file__), os.path.curdir)
 build_path = os.path.join(root_path, "build")
 
 try:
@@ -40,12 +40,15 @@ if not args.disable_build:
     #    "-S", root_path,
     #    "-B", build_path
     #])
-    build = subprocess.run(["cmake",
-        "--build", build_path,
-        "--parallel"
-    ])
-    if build.returncode != 0:
-        exit(build.returncode)
+    try:
+        build = subprocess.run(["cmake",
+            "--build", build_path,
+            "--parallel"
+        ])
+        if build.returncode != 0:
+            exit(build.returncode)
+    except:
+        print("Could not build lightwave for you, please make sure 'cmake' is in your PATH environment variable.")
 
 tests = []
 for filename in args.filenames:
@@ -74,7 +77,8 @@ total_count = 0
 
 print()
 for test in sorted(tests):
-    test_name = "/".join(test.split("/")[-2:]).split(".")[0]
+    test_name = test.replace("\\", "/").split("/")[-2:]
+    test_name = "/".join(test_name).split(".")[0]
     total_count += 1
     
     print(f"\033[90m› {test_name}\033[0m", end="", flush=True)
@@ -88,8 +92,14 @@ for test in sorted(tests):
         passed_count += 1
         continue
 
+    try:
+        error = r.stderr.decode()
+    except:
+        # Windows still hasn't gotten Unicode right
+        error = r.stderr.decode("utf-16")
+    
     print(f"\033[91m⨯ {test_name} failed\033[0m")
-    print("\n".join(r.stderr.decode().split("\n")[-3:-1]))
+    print("\n".join(error.split("\n")[-6:-1]))
     print()
     all_passed = False
 

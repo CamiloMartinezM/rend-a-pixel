@@ -30,6 +30,19 @@ endif()
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 
+# Warn students if some obscure systems are used
+if(MINGW)
+    message(WARNING "Lightwave with MinGW is not supported. Please use Clang or MSVC on Windows")
+endif()
+
+if(MSYS)
+    message(WARNING "Lightwave with MSYS is not supported. Please use Clang or MSVC on Windows")
+endif()
+
+if(CYGWIN)
+    message(WARNING "Lightwave with CygWin is not supported. Please use Clang or MSVC on Windows")
+endif()
+
 # Setup stuff
 include(cmake/SetupWarnings.cmake)
 include(cmake/SetupFlags.cmake)
