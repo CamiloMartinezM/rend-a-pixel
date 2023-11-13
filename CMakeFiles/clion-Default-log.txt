@@ -1,0 +1,7 @@
+/home/Camilo/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_MAKE_PROGRAM=/home/Camilo/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -G Ninja -S "/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin" -B "/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin"
+CMake Error at CMakeLists.txt:13 (message):
+  CMake generation for Lightwave is not allowed within the source directory!
+  Define WITH_IN_SOURCE_BUILD if absolutely necessary!
+
+
+-- Configuring incomplete, errors occurred!
