@@ -29,9 +29,6 @@ namespace lightwave {
             // surf.uv.x() = position.x();
             // surf.uv.y() = position.y();
 
-            float phi = acos(surf.uv.y() / radius); // Calculate the polar angle
-            float theta = acos(surf.uv.x() / (radius * cos(phi))); // Calculate the azimuth angle
-
             // normal always points in the direction of p - o
             surf.frame.normal = (position - center_point).normalized();
             // the tangent always points in positive x direction
