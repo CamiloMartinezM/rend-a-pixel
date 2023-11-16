@@ -14,22 +14,30 @@ namespace lightwave {
        * populate the @ref AreaSample .
        * @param surf The surface event to populate with texture coordinates, shading
        * frame and area pdf
-       * @param position The hitpoint (i.e., point in [-1,-1,0] to [+1,+1,0]), found
+       * @param position The hitpoint (i.e., point in [-radius,-radius,-radius] to [+radius,+radius,+radius]), found
        * via intersection or area sampling
        */
         inline void populate(SurfaceEvent& surf, const Point& position) const {
             surf.position = position;
 
             // Map the position onto the sphere's surface
-            surf.uv.x() = 0.5 + atan2(position.y(), position.x()) / (2 * M_PI);
-            surf.uv.y() = 0.5 - asin(position.z()) / M_PI;
+            // surf.uv.x() = 0.5 + atan2(position.y(), position.x()) / (2 * M_PI);
+            // surf.uv.y() = 0.5 - asin(position.z()) / M_PI;
+            surf.uv.x() = (position.x() + radius) / (2 * radius);
+            surf.uv.y() = (position.y() + radius) / (2 * radius);
 
+            // surf.uv.x() = position.x();
+            // surf.uv.y() = position.y();
+
+            float phi = acos(surf.uv.y() / radius); // Calculate the polar angle
+            float theta = acos(surf.uv.x() / (radius * cos(phi))); // Calculate the azimuth angle
+
+            // normal always points in the direction of p - o
+            surf.frame.normal = (position - center_point).normalized();
             // the tangent always points in positive x direction
-            surf.frame.tangent = Vector(1, 0, 0);
+            surf.frame.tangent = radius * surf.frame.normal.cross(Vector(0.f, 0.f, 1.f));
             // the bitagent always points in positive z direction
-            surf.frame.bitangent = Vector(0, 0, 1);
-            // and accordingly, the normal always points in the positive y direction
-            surf.frame.normal = Vector(0, 1, 0);
+            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
 
             surf.pdf = 0.f;
         }
@@ -97,8 +105,9 @@ namespace lightwave {
             return center_point;
         }
 
-        AreaSample sampleArea(Sampler& rng) const override { 
-            NOT_IMPLEMENTED }
+        AreaSample sampleArea(Sampler& rng) const override {
+            NOT_IMPLEMENTED
+        }
 
         std::string toString() const override {
             return "Sphere[]";

@@ -28,7 +28,7 @@ void for_each_parallel(ForwardIt first, ForwardIt last, UnaryFunction f) {
 
     std::mutex m_lock;
 
-    const int numThreads = std::thread::hardware_concurrency();
+    const int numThreads = 1; // std::thread::hardware_concurrency();
     std::vector<std::thread> m_threads;
     m_threads.reserve(numThreads);
     

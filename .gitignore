@@ -8,3 +8,4 @@ __pycache__
 /scenes
 
 .DS_Store
+CMakeCache.txt
