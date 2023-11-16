@@ -5,21 +5,23 @@
 
 #pragma once
 
-#include <thread>
 #include <mutex>
+#include <thread>
 
 #include <lightwave/color.hpp>
 #include <lightwave/logger.hpp>
 
 #ifdef LW_DEBUG
-// if you feel uncomfortable debugging multi-threaded code, feel free to enable this define and compile in Debug mode
-//#define SINGLE_THREADED
+// if you feel uncomfortable debugging multi-threaded code, feel free to enable
+// this define and compile in Debug mode
+// #define SINGLE_THREADED
 #endif
 
 namespace lightwave {
 
-/// @brief Invokes @c f for each element of the iterator, parallelized across all available cores.
-template<class ForwardIt, class UnaryFunction>
+/// @brief Invokes @c f for each element of the iterator, parallelized across
+/// all available cores.
+template <class ForwardIt, class UnaryFunction>
 void for_each_parallel(ForwardIt first, ForwardIt last, UnaryFunction f) {
 #ifdef SINGLE_THREADED
     std::for_each(first, last, f);
@@ -31,7 +33,7 @@ void for_each_parallel(ForwardIt first, ForwardIt last, UnaryFunction f) {
     const int numThreads = 1; // std::thread::hardware_concurrency();
     std::vector<std::thread> m_threads;
     m_threads.reserve(numThreads);
-    
+
     // build a thread pool
     for (int i = 0; i < numThreads; i++) {
         m_threads.emplace_back([&]() {
@@ -59,27 +61,16 @@ void for_each_parallel(ForwardIt first, ForwardIt last, UnaryFunction f) {
         thread.join();
 }
 
-/// @brief Invokes @c f for each element of the iterator, parallelized across all available cores.
-template<class Iterator, class UnaryFunction>
+/// @brief Invokes @c f for each element of the iterator, parallelized across
+/// all available cores.
+template <class Iterator, class UnaryFunction>
 void for_each_parallel(Iterator it, UnaryFunction f) {
     for_each_parallel(it.begin(), it.end(), f);
 }
 
-/// @see Taken from Mitsuba 0.6.
-inline bool atomicCompareAndExchange(volatile int32_t *v, int32_t newValue, int32_t oldValue) {
-#if defined(_MSC_VER)
-    return _InterlockedCompareExchange(
-        reinterpret_cast<volatile long *>(v), newValue, oldValue) == oldValue;
-#else
-    return __sync_bool_compare_and_swap(v, oldValue, newValue);
-#endif
-}
-
-/**
- * @brief Atomically increment a floating point number.
- * @see Taken from Mitsuba 0.6.
- */
+/// @brief Atomically increment a floating point number.
 inline float atomicAdd(float &dst, float delta) {
+#if defined(__clang__)
     // Atomic FP addition from PBRT
     union bits { float f; int32_t i; };
     bits oldVal, newVal;
@@ -91,24 +82,19 @@ inline float atomicAdd(float &dst, float delta) {
 #endif
         oldVal.f = dst;
         newVal.f = oldVal.f + delta;
-    } while (!atomicCompareAndExchange((volatile int32_t *)&dst, newVal.i, oldVal.i));
+    } while (!__sync_bool_compare_and_swap((volatile int32_t *)&dst, newVal.i, oldVal.i));
     return newVal.f;
+#else
+    return std::atomic_ref<float>(dst) += delta;
+#endif
 }
 
-/**
- * @brief Atomically increment a 64-bit integer.
- * @see Taken from Mitsuba 0.6.
- */
+/// @brief Atomically increment a 64-bit integer.
 inline int64_t atomicAdd(int64_t &dst, int64_t delta) {
-#if defined(_MSC_VER)
-    #if defined(_WIN64)
-        return _InterlockedExchangeAdd64(reinterpret_cast<volatile int64_t *>(&dst), delta) + delta;
-    #else
-        logger(EError, "atomicAdd() cannot handle 64-bit integers on WIN32");
-        return 0;
-    #endif
-#else
+#if defined(__clang__)
     return __sync_add_and_fetch(&dst, delta);
+#else
+    return std::atomic_ref<int64_t>(dst) += delta;
 #endif
 }
 
@@ -118,4 +104,4 @@ inline void atomicAdd(Color &dst, const Color &delta) {
         atomicAdd(dst[channel], delta[channel]);
 }
 
-}
+} // namespace lightwave
