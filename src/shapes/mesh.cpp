@@ -35,21 +35,102 @@ protected:
     }
 
     bool intersect(int primitiveIndex, const Ray &ray, Intersection &its, Sampler &rng) const override {
-        NOT_IMPLEMENTED
+     //   NOT_IMPLEMENTED
 
         // hints:
         // * use m_triangles[primitiveIndex] to get the vertex indices of the triangle that should be intersected
         // * if m_smoothNormals is true, interpolate the vertex normals from m_vertices
         //   * make sure that your shading frame stays orthonormal!
         // * if m_smoothNormals is false, use the geometrical normal (can be computed from the vertex positions)
+    const Vector3i &triIndices = m_triangles[primitiveIndex];
+    const Vertex &v0 = m_vertices[triIndices[0]];
+    const Vertex &v1 = m_vertices[triIndices[1]];
+    const Vertex &v2 = m_vertices[triIndices[2]];
+
+    Vector edge1 = v1.position - v0.position;
+    Vector edge2 = v2.position - v0.position;
+    Vector pvec = ray.direction.cross(edge2);
+    float det = edge1.dot(pvec);
+
+    if (std::abs(det) < Epsilon) return false;
+
+    float invDet = 1.0f / det;
+
+    Vector tvec = ray.origin - v0.position;
+    float u = tvec.dot(pvec) * invDet;
+    if (u < 0 || u > 1) return false;
+
+    Vector qvec = tvec.cross(edge1);
+    float v = ray.direction.dot(qvec) * invDet;
+    if (v < 0 || u + v > 1) return false;
+
+    float t = edge2.dot(qvec) * invDet;
+
+    if (t < 0) return false;
+
+    // If m_smoothNormals is true, interpolate the normals
+    if (m_smoothNormals) {
+        //float w = 1.0f - u - v;
+        Vector2 bary{u,v};
+        its.frame.normal =Vertex::interpolate(bary, v0, v1, v2).normal.normalized();
+    } else {
+        // Compute plane's normal. If the dot product of normal and ray direction is positive,
+        // the triangle is backfacing, which we don't want to hit
+        its.frame.normal = edge1.cross(edge2).normalized();
+       //////// if (its.frame.normal.dot(ray.direction) > 0.0f) its.frame.normal = -its.frame.normal; // Flip the normal if necessary
+    }
+
+    // Compute hit position and update intersection record
+   // its.t = t;
+   // its.p = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
+    // Assuming that the Vertex structure contains UV coordinates
+   // its.uv = Vector(u, v); 
+
+    return true;
+
+
+
     }
 
     Bounds getBoundingBox(int primitiveIndex) const override {
-        NOT_IMPLEMENTED
+       // NOT_IMPLEMENTED
+        const Vector3i &tri = m_triangles[primitiveIndex];
+    const Vertex &v0 = m_vertices[tri[0]];
+    const Vertex &v1 = m_vertices[tri[1]];
+    const Vertex &v2 = m_vertices[tri[2]];
+
+    float minX = std::min({v0.position.x(), v1.position.x(), v2.position.x()});
+    float minY = std::min({v0.position.y(), v1.position.y(), v2.position.y()});
+    float minZ = std::min({v0.position.z(), v1.position.z(), v2.position.z()});
+
+    float maxX = std::max({v0.position.x(), v1.position.x(), v2.position.x()});
+    float maxY = std::max({v0.position.y(), v1.position.y(), v2.position.y()});
+    float maxZ = std::max({v0.position.z(), v1.position.z(), v2.position.z()});
+
+    Point minPoint(minX, minY, minZ);
+    Point maxPoint(maxX, maxY, maxZ);
+
+    return Bounds(minPoint, maxPoint);
     }
 
     Point getCentroid(int primitiveIndex) const override {
-        NOT_IMPLEMENTED
+        //NOT_IMPLEMENTED
+        const Vector3i &tri = m_triangles[primitiveIndex];
+    const Vertex &v0 = m_vertices[tri[0]];
+    const Vertex &v1 = m_vertices[tri[1]];
+    const Vertex &v2 = m_vertices[tri[2]];
+
+    // Sum up each component of the vertices
+    float sumX = v0.position.x() + v1.position.x() + v2.position.x();
+    float sumY = v0.position.y() + v1.position.y() + v2.position.y();
+    float sumZ = v0.position.z() + v1.position.z() + v2.position.z();
+
+    // Compute the average for each component
+    float centerX = sumX / 3.0f;
+    float centerY = sumY / 3.0f;
+    float centerZ = sumZ / 3.0f;
+
+    return Point(centerX, centerY, centerZ);
     }
 
 public:

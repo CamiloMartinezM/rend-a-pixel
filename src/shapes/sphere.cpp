@@ -22,6 +22,7 @@ namespace lightwave {
 
             // Map the position onto the sphere's surface
             // surf.uv.x() = 0.5 + atan2(position.y(), position.x()) / (2 * M_PI);
+        
             // surf.uv.y() = 0.5 - asin(position.z()) / M_PI;
             surf.uv.x() = (position.x() + radius) / (2 * radius);
             surf.uv.y() = (position.y() + radius) / (2 * radius);
