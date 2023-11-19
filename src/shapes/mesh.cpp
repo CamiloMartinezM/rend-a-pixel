@@ -34,6 +34,20 @@ protected:
         return int(m_triangles.size());
     }
 
+
+/****************************************************************************/
+    inline void populate(SurfaceEvent &surf, const Point &position) const
+        {
+            // Calculate tangent and bitangent vectors (using normal and some reference vector)
+            surf.frame.tangent = surf.frame.normal.cross(Vector(1.0f, 0.0f, 0.0f)).normalized();
+            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
+
+            // Set other properties like pdf, etc.
+            surf.pdf = 1.0f; // Placeholder value for probability density function
+            }
+
+/****************************************************************************/
+
     bool intersect(int primitiveIndex, const Ray &ray, Intersection &its, Sampler &rng) const override {
      //   NOT_IMPLEMENTED
 
@@ -85,8 +99,8 @@ protected:
     its.t = t;
    its.position = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
     // Assuming that the Vertex structure contains UV coordinates
-   its.uv = Vector(u, v); 
-
+   //its.uv = Vector(u, v);
+    populate(its, its.position);
     return true;
 
 
