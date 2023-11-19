@@ -66,6 +66,7 @@ protected:
 
     float t = edge2.dot(qvec) * invDet;
 
+    //if (t > its.t || t < Epsilon) return false;
     if (t < 0) return false;
 
     // If m_smoothNormals is true, interpolate the normals
@@ -77,14 +78,14 @@ protected:
         // Compute plane's normal. If the dot product of normal and ray direction is positive,
         // the triangle is backfacing, which we don't want to hit
         its.frame.normal = edge1.cross(edge2).normalized();
-       //////// if (its.frame.normal.dot(ray.direction) > 0.0f) its.frame.normal = -its.frame.normal; // Flip the normal if necessary
+       //if (its.frame.normal.dot(ray.direction) > 0.0f) its.frame.normal = -its.frame.normal; // Flip the normal if necessary
     }
 
     // Compute hit position and update intersection record
-   // its.t = t;
-   // its.p = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
+    its.t = t;
+   its.position = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
     // Assuming that the Vertex structure contains UV coordinates
-   // its.uv = Vector(u, v); 
+   its.uv = Vector(u, v); 
 
     return true;
 
