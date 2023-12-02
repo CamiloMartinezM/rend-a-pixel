@@ -48,7 +48,7 @@ namespace lightwave
             // the scene description file (stored in m_transform).
             // hints:
             // * use m_transform to transform the local camera coordinate system into the world coordinate system
-            Ray world_coord_ray = m_transform->apply(Ray(Vector(0.f, 0.f, 0.f), lc_coord_point.normalized()));
+            Ray world_coord_ray = m_transform->apply(Ray(Vector(0.f, 0.f, 0.f), lc_coord_point)).normalized();
 
             return CameraSample{ .ray = world_coord_ray, .weight = Color(1.0f) };
         }
@@ -66,7 +66,6 @@ namespace lightwave
                 indent(m_transform));
         }
     };
-
 }
 
 REGISTER_CAMERA(Perspective, "perspective")

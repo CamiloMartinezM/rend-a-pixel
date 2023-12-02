@@ -21,14 +21,8 @@ namespace lightwave {
             surf.position = position;
 
             // Map the position onto the sphere's surface
-            // surf.uv.x() = 0.5 + atan2(position.y(), position.x()) / (2 * M_PI);
-        
-            // surf.uv.y() = 0.5 - asin(position.z()) / M_PI;
             surf.uv.x() = (position.x() + radius) / (2 * radius);
             surf.uv.y() = (position.y() + radius) / (2 * radius);
-
-            // surf.uv.x() = position.x();
-            // surf.uv.y() = position.y();
 
             // normal always points in the direction of p - o
             surf.frame.normal = (position - center_point).normalized();
@@ -83,10 +77,6 @@ namespace lightwave {
 
             // compute the hitpoint
             const Point hit_position = ray(t0);
-
-            // dismiss anything outside of the [-radius,-radius,-radius]..[+radius,+radius,+radius] domain.
-            if (!getBoundingBox().includes(hit_position))
-                return false;
 
             // we have determined there was an intersection! 
             // we are now free to change the intersection object and return true.
