@@ -7,8 +7,14 @@ namespace lightwave {
         ref<Texture> m_albedo;
 
         public:
+        
         Diffuse(const Properties& properties) {
             m_albedo = properties.get<Texture>("albedo");
+        }
+
+        BsdfEval evaluate(const Point2& uv, const Vector& wo,
+                      const Vector& wi) const override {
+            NOT_IMPLEMENTED
         }
 
         BsdfSample sample(const Point2& uv, const Vector& wo,

@@ -38,5 +38,5 @@ def unregister():
     bpy.utils.unregister_class(LightwavePreferences)
 
 
-def get_prefs():
+def get_prefs() -> LightwavePreferences:
     return bpy.context.preferences.addons[package_name.__package__].preferences

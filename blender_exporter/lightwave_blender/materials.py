@@ -120,19 +120,23 @@ def export_material(registry: SceneRegistry, material: bpy.types.Material):
             registry.error("Unsupported use of node trees")
             return []
     
-    node_graph = RMNodeGraph(registry, material.name_full, material.node_tree)
-    node_graph.inline_node_groups_recursively()
-    node_graph.remove_reroute_nodes()
-    node_graph.remove_muted_nodes()
-    node_graph.remove_layout_nodes()
+    try:
+        node_graph = RMNodeGraph(registry, material.name_full, material.node_tree)
+        node_graph.inline_node_groups_recursively()
+        node_graph.remove_reroute_nodes()
+        node_graph.remove_muted_nodes()
+        node_graph.remove_layout_nodes()
 
-    for (node_name, rm_node) in node_graph.nodes.items():
-        node = rm_node.bl_node
-        if isinstance(node, bpy.types.ShaderNodeOutputMaterial) \
-        or isinstance(node, bpy.types.ShaderNodeOutputWorld) \
-        or isinstance(node, bpy.types.ShaderNodeOutputLight):
-            if node.is_active_output:
-                return _export_bsdf(registry, rm_node.input("Surface"))
+        for (node_name, rm_node) in node_graph.nodes.items():
+            node = rm_node.bl_node
+            if isinstance(node, bpy.types.ShaderNodeOutputMaterial) \
+            or isinstance(node, bpy.types.ShaderNodeOutputWorld) \
+            or isinstance(node, bpy.types.ShaderNodeOutputLight):
+                if node.is_active_output:
+                    return _export_bsdf(registry, rm_node.input("Surface"))
+    except Exception as e:
+        print(f"failed to export material {material.name}")
+        print(e)
     
     return [] # No active output
 

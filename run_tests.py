@@ -24,7 +24,7 @@ build_path = os.path.join(root_path, "build")
 
 try:
     with open(os.path.join(root_path, "CMakeLists.txt")) as f:
-        binary_name = re.search(r"set\s*\(MY_TARGET_NAME\s+([^)]+)\s*\)", f.read(), re.IGNORECASE)[1]
+        binary_name = re.search(r"set\s*\(MY_TARGET_NAME\s+([^)\s]+)\s*\)", f.read(), re.IGNORECASE)[1]
         lightwave_path = os.path.join(build_path, binary_name)
 except:
     print(f"Could not determine the name of your renderer")

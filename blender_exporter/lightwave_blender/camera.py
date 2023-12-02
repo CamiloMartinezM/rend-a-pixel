@@ -23,7 +23,7 @@ def export_camera(registry: SceneRegistry):
 
     camera_node.add("float", name="fov", value=math.degrees(
         2 * math.atan(camera.data.sensor_width / (2 * camera.data.lens))))
-    camera_node.add("string", name="fovAxis", value="x")
+    camera_node.add("string", name="fovAxis", value="x" if render.resolution_x > render.resolution_y else "y")
 
     # camera_node.add("float", name="nearClip", value=camera.data.clip_start)
     # camera_node.add("float", name="farClip", value=camera.data.clip_end)

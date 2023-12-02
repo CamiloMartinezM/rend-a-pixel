@@ -76,7 +76,7 @@ inline Vector squareToCosineHemisphere(const Point2 &sample) {
 
 /// @brief Returns the density of the @ref squareToCosineHemisphere warping.
 inline float cosineHemispherePdf(const Vector &vector) {
-    return std::max(vector.z(), float(0));
+    return InvPi * std::max(vector.z(), float(0));
 }
 
 }

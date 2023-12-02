@@ -6,10 +6,6 @@ from .xml_node import XMLNode
 
 
 def _export_area_light(registry: SceneRegistry, instance_node, light: bpy.types.Light, inst: bpy.types.DepsgraphObjectInstance):
-    if light.cycles.is_portal:
-        registry.warn("Light portals are not supported")
-        return
-    
     # Compute actual matrix
     # From my understanding, object transforms in Blender are always similarity transformations.
     # This means we do not need to worry about the angle formed by the spanning vectors of our
@@ -61,8 +57,18 @@ def _export_point_light(registry: SceneRegistry, instance_node, light: bpy.types
 
 def export_light(registry: SceneRegistry, inst):
     light = inst.object.data
-    light_node = XMLNode("light", type="area")
-    instance_node = light_node.add("instance") # id=registry._make_unique_name(light.name)
+    if light.cycles.is_portal:
+        registry.warn("Light portals are not supported")
+        return []
+
+    if registry.settings.enable_area_lights:
+        light_node = XMLNode("light", type="area")
+        instance_node = light_node.add("instance") # id=registry._make_unique_name(light.name)
+    else:
+        # Fallback if students did not implement area lights yet
+        light_node = XMLNode("instance")
+        instance_node = light_node
+
     if light.type == "POINT":
         normalization = _export_point_light(registry, instance_node, light, inst)
     elif light.type == "AREA":

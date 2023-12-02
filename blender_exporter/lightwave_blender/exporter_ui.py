@@ -37,43 +37,61 @@ class ExportLightwave(bpy.types.Operator, ExportHelper):
 
     animations: BoolProperty(
         name="Export Animations",
-        description="If true, writes .xml for each frame in the animation.",
+        description="If true, writes .xml for each frame in the animation",
         default=False,
     )
 
     export_materials: BoolProperty(
         name="Export Materials",
-        description="If true, materials will be exported, else a single diffuse material will be used.",
+        description="If true, materials will be exported, else a single diffuse material will be used",
         default=True,
     )
 
     export_lights: BoolProperty(
         name="Export Lights",
-        description="If true, lights will be exported.",
+        description="If true, lights will be exported",
         default=True,
     )
 
     enable_background: BoolProperty(
         name="Export Background",
-        description="If true, background will be exported as a light.",
+        description="If true, background will be exported as a light",
         default=True,
     )
 
     enable_camera: BoolProperty(
         name="Export Camera",
-        description="If true, active camera will be exported.",
+        description="If true, active camera will be exported",
         default=True,
     )
 
     enable_integrator: BoolProperty(
         name="Export Integrator",
-        description="If true, current integrator technique will be mapped to Lightwave.",
+        description="If true, current integrator technique will be mapped to Lightwave",
         default=True,
     )
 
     copy_images: BoolProperty(
         name="Copy all Images",
-        description="If true, copy all images next to the scene file, not only Generated or Packed images.",
+        description="If true, copy all images next to the scene file, not only Generated or Packed images",
+        default=True,
+    )
+
+    enable_area_lights: BoolProperty(
+        name="Export light as area",
+        description="If true, lights will be exported as area lights. If your renderer does not support area lights consider turning this off",
+        default=True,
+    )
+
+    overwrite_existing_meshes: BoolProperty(
+        name="Overwrite existing meshes",
+        description="Disable this to speed up export if you have not modified any geometry",
+        default=True,
+    )
+
+    overwrite_existing_textures: BoolProperty(
+        name="Overwrite existing textures",
+        description="Disable this to speed up export if you have not modified any textures",
         default=True,
     )
 
@@ -150,6 +168,15 @@ class LIGHTWAVE_PT_export_include(bpy.types.Panel):
         layout.separator()
         col = layout.column(heading="Images")
         col.prop(operator, 'copy_images')
+
+        layout.separator()
+        col = layout.column(heading="Overwrite")
+        col.prop(operator, 'overwrite_existing_meshes', text="Existing Meshes")
+        col.prop(operator, 'overwrite_existing_textures', text="Existing Textures")
+
+        layout.separator()
+        col = layout.column(heading="Features")
+        col.prop(operator, 'enable_area_lights')
 
 
 def menu_func_export(self, context):

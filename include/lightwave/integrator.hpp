@@ -50,11 +50,11 @@ public:
     void setImage(const ref<Image> &image) { m_image = image; }
 
     /// @brief Gets the output image that will be populated by rendering. 
-    ref<Image> image() { return m_image; }
+    Image *image() { return m_image.get(); }
     /// @brief Gets the scene that will be rendered. 
-    ref<Scene> scene() { return m_scene; }
+    Scene *scene() { return m_scene.get(); }
     /// @brief Gets the random number generator that steers the sampling decisions. 
-    ref<Sampler> sampler() { return m_sampler; }
+    Sampler *sampler() { return m_sampler.get(); }
 
     /// @brief Computes all pixels of the image by constructing camera rays for them and invoking the @ref Li method.
     void execute() override;

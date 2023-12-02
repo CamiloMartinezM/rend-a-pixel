@@ -30,7 +30,7 @@ def _export_bmesh_by_material(registry: SceneRegistry, me) -> list[(str, str)]:
     mat_count = len(me.materials)
     shapes = []
 
-    def _export_for_mat(mat_id):
+    def _export_for_mat(mat_id, abs_filepath):
         from .ply import save_mesh as ply_save
 
         bm = bmesh.new()
@@ -44,20 +44,15 @@ def _export_bmesh_by_material(registry: SceneRegistry, me) -> list[(str, str)]:
                 if f.material_index != mat_id and not ((f.material_index < 0 or f.material_index >= mat_count) and mat_id == mat_count-1):
                     bm.faces.remove(f)
 
+        if len(bm.verts) == 0 or len(bm.faces) == 0 or not bm.is_valid:
+            bm.free()
+            return False
+
         # Make sure all faces are convex
         bmesh.ops.connect_verts_concave(bm, faces=bm.faces)
         bmesh.ops.triangulate(bm, faces=bm.faces)
 
         bm.normal_update()
-
-        if len(bm.verts) == 0 or len(bm.faces) == 0 or not bm.is_valid:
-            registry.warn(f"Obsolete material slot {mat_id} for shape {me.name}")
-            bm.free()
-            return
-
-        shape_name = me.name if mat_count <= 1 else _shape_name_material(me.name, mat_id)
-        rel_filepath = os.path.join(get_prefs().mesh_dir_name, shape_name + ".ply")
-        abs_filepath = os.path.join(registry.path, rel_filepath)
 
         ply_save(
             filepath=abs_filepath,
@@ -69,16 +64,29 @@ def _export_bmesh_by_material(registry: SceneRegistry, me) -> list[(str, str)]:
         )
 
         bm.free()
-        shapes.append(rel_filepath.replace('\\', '/')) # Ensure the shape path is not using \ to keep the xml valid
+        return True
     
     if mat_count == 0:
         # special case if the mesh has no slots available
-        _export_for_mat(0)
-    else:
-        # split bms by materials
-        for mat_id in range(0, mat_count):
-            _export_for_mat(mat_id)
+        mat_count = 1
+    
+    for mat_id in range(0, mat_count):
+        shape_name = me.name if mat_count <= 1 else _shape_name_material(me.name, mat_id)
+        rel_filepath = os.path.join(get_prefs().mesh_dir_name, shape_name + ".ply")
+        abs_filepath = os.path.join(registry.path, rel_filepath)
 
+        if os.path.exists(abs_filepath) and not registry.settings.overwrite_existing_meshes:
+            # file is already exported
+            pass
+        elif _export_for_mat(mat_id, abs_filepath):
+            # export successful
+            pass
+        else:
+            # export failed
+            continue
+        
+        shapes.append(rel_filepath.replace('\\', '/')) # Ensure the shape path is not using \ to keep the xml valid
+    
     return shapes
 
 

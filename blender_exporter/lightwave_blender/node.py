@@ -33,7 +33,10 @@ def _export_rgb_value(registry: SceneRegistry, input: RMInput, exposure):
     default_value = [ v * factor for v in node.outputs[0].default_value[0:3] ]
     return XMLNode("texture", type="constant", value=str_flat_array(default_value))
 
-def _export_image(image, path, is_f32=False, keep_format=False):
+def _export_image(registry: SceneRegistry, image, path, is_f32=False, keep_format=False):
+    if os.path.exists(path) and not registry.settings.overwrite_existing_textures:
+        return
+
     # Make sure the image is loaded to memory, so we can write it out
     if not image.has_data:
         image.pixels[0]
@@ -65,7 +68,7 @@ def _handle_image(registry: SceneRegistry, image: bpy.types.Image):
         img_name = image.name + \
             (".png" if not image.use_generated_float else ".exr")
         img_path = os.path.join(tex_dir_name, img_name)
-        _export_image(image, os.path.join(registry.path, img_path), is_f32=image.use_generated_float)
+        _export_image(registry, image, os.path.join(registry.path, img_path), is_f32=image.use_generated_float)
         return img_path.replace('\\', '/') # Ensure the image path is not using \ to keep the xml valid
     elif image.source == 'FILE':
         filepath = image.filepath_raw if image.filepath_raw is not None else image.filepath
@@ -98,12 +101,12 @@ def _handle_image(registry: SceneRegistry, image: bpy.types.Image):
                 img_path = os.path.join(tex_dir_name, img_name)
 
             try:
-                _export_image(image, os.path.join(registry.path, img_path),
+                _export_image(registry, image, os.path.join(registry.path, img_path),
                                 is_f32=is_f32, keep_format=keep_format)
             except:
                 # Above failed, so give this a try
                 img_path = os.path.join(tex_dir_name, img_name)
-                _export_image(image, os.path.join(registry.path, img_path),
+                _export_image(registry, image, os.path.join(registry.path, img_path),
                                   is_f32=False, keep_format=True)
         return img_path.replace('\\', '/') # Ensure the image path is not using \ to keep the xml valid
     else:
