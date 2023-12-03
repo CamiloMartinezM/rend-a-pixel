@@ -92,8 +92,8 @@ namespace lightwave {
 
             // Compute hit position and update intersection record
             its.t = t;
-            its.position = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
-            its.uv = Point2(Vertex::interpolate(bary, v0, v1, v2).position.x(), Vertex::interpolate(bary, v0, v1, v2).position.y());
+            its.position = ray(t); 
+            its.uv = Vertex::interpolate(bary, v0, v1, v2).texcoords;
             populate(its, its.position);
             return true;
         }
