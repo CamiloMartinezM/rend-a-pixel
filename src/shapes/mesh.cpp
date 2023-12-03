@@ -74,7 +74,7 @@ namespace lightwave {
 
             float t = edge2.dot(qvec) * invDet;
 
-            if (t > its.t || t < 1e-8) return false; // Not using Epsilon!
+            if (t > its.t || t < 1e-8f) return false; // Not using Epsilon!
 
             // If m_smoothNormals is true, interpolate the normals
             if (m_smoothNormals) {

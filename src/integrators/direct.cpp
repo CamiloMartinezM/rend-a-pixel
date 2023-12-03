@@ -13,49 +13,40 @@ namespace lightwave {
         /**
          * @brief Compute the contribution of a camera-sampled ray using direct lighting.
          */
-        Color Li(const Ray& ray, Sampler& rng) override {
-            // Initialize the accumulated weight of the ray.
+        Color Li(const Ray& ray, Sampler& rng) override {           
             Color accumulatedWeight = Color(1.0f);
 
-            // Step a: Determine if the ray intersects any surfaces in the scene.
-            Intersection its;
-            m_scene->intersect(ray, its, rng);
-
-            // Ray doesn't hit any surface, return background color
+            Intersection its = m_scene->intersect(ray, rng);
             if (!its) {
+                // The ray misses all objects and hits the background.
+                // return accumulatedWeight * m_scene->evaluateBackground(ray.direction).value;
                 return accumulatedWeight * m_scene->evaluateBackground(ray.direction).value;
             }
-
-            // Step b: If a surface intersection occurs, generate a new direction based on the BSDF
+            
+            // Sample the BSDF to get the new direction and the weight.
             BsdfSample bsdfSample = its.sampleBsdf(rng);
-
-            // Check for invalid sample
             if (bsdfSample.isInvalid()) {
-                return Color(0.0f);
+                return Color(0.0f); // Invalid BSDF sample, return black.
             }
 
-            // Update the ray's weight by multiplying it by the sampled BSDF weight.
             accumulatedWeight *= bsdfSample.weight;
 
-            // Step c: Trace a secondary ray in the direction determined by the BSDF sample.
+            // Construct the secondary ray from the intersection point along the sampled direction.
             Ray secondaryRay(its.position, bsdfSample.wi.normalized());
-
-            // Step d: If the secondary ray escapes the scene, return its contribution.
-            Intersection secondaryIts;
-            m_scene->intersect(secondaryRay, secondaryIts, rng);
+            Intersection secondaryIts = m_scene->intersect(secondaryRay, rng);
 
             if (!secondaryIts) {
+                // The secondary ray misses all objects and hits the background.
                 return accumulatedWeight * m_scene->evaluateBackground(secondaryRay.direction).value;
             }
 
-            // If the secondary ray hits another surface, continue the recursion
             return accumulatedWeight;
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.
         std::string toString() const override {
             return tfm::format(
-                "DirectLightingIntegrator[\n"
+                "DirectIntegrator[\n"
                 "  sampler = %s,\n"
                 "  image = %s,\n"
                 "]",
@@ -66,5 +57,5 @@ namespace lightwave {
     };
 } // namespace lightwave
 
-// Register the DirectLightingIntegrator class for the "direct" integrator type.
+// Register the DirectIntegrator class for the "direct" integrator type.
 REGISTER_INTEGRATOR(DirectIntegrator, "direct")
