@@ -44,86 +44,87 @@ namespace lightwave {
         }
 
         Color evaluate(const Point2& uv) const override {
-            // First, adjust the UV coordinates based on the border mode.
-            Point2 adjustedUV = uv;
-            switch (m_border) {
-            case BorderMode::Clamp:
-                adjustedUV.x() = std::min(std::max(adjustedUV.x(), 0.0f), 1.0f);
-                adjustedUV.y() = std::min(std::max(adjustedUV.y(), 0.0f), 1.0f);
-                break;
-            case BorderMode::Repeat:
-                adjustedUV.x() = adjustedUV.x() - std::floor(adjustedUV.x());
-                adjustedUV.y() = adjustedUV.y() - std::floor(adjustedUV.y());
-                break;
-            }
-
-            // Now sample the color from the image based on the filter mode.
-            Color sampledColor;
-            switch (m_filter) {
-            case FilterMode::Nearest:
-                sampledColor = sampleNearest(adjustedUV);
-                break;
-            case FilterMode::Bilinear:
-                sampledColor = sampleBilinear(adjustedUV);
-                break;
-            }
-
-            // Apply the exposure correction.
-            sampledColor *= std::pow(2.0f, m_exposure);
-
-            return sampledColor;
+            Point2 adjustedUV = adjustUV(uv);
+            Color sampledColor = (m_filter == FilterMode::Nearest) ? sampleNearest(adjustedUV) : sampleBilinear(adjustedUV);
+            return sampledColor * m_exposure;
         }
 
         Color sampleNearest(const Point2& uv) const {
-            // Apply border handling and get the color directly using the public interface
-            Point2 adjustedUV = applyBorderMode(uv);
-            return (*m_image)(adjustedUV);
+            // Map UV coordinates to shifted lattice coordinates
+            Point2 adjustedUV = Point2(uv.x() * m_image->resolution().x(), uv.y() * m_image->resolution().y()) - Point2(0.5f, 0.5f);
+            Point2i latticeCoord = Point2i(std::floor(adjustedUV.x()), std::floor(adjustedUV.y()));
+
+            latticeCoord = applyBorderHandling(latticeCoord);
+
+            return m_image->operator()(Point2(static_cast<float>(latticeCoord.x()) / m_image->resolution().x(),
+                                              static_cast<float>(latticeCoord.y()) / m_image->resolution().y()));
         }
 
         Color sampleBilinear(const Point2& uv) const {
-            // Apply border handling for the UV coordinates
-            Point2 adjustedUV = applyBorderMode(uv);
+            Point2 adjustedUV = Point2(uv.x() * m_image->resolution().x(), uv.y() * m_image->resolution().y()) - Point2(0.5f, 0.5f);
+            
+            // Base lattice coordinates
+            Point2i baseCoord = Point2i(std::floor(adjustedUV.x()), std::floor(adjustedUV.y()));
+            
+            // Fractional part for interpolation
+            Point2 frac(adjustedUV.x() - baseCoord.x(), adjustedUV.y() - baseCoord.y());
 
-            // Calculate the base coordinates and fractional parts
-            Point2i baseCoord = Point2i(std::floor(adjustedUV.x() * m_image->resolution().x()),
-                                        std::floor(adjustedUV.y() * m_image->resolution().y()));
-            Point2 frac(adjustedUV.x() * m_image->resolution().x() - baseCoord.x(),
-                        adjustedUV.y() * m_image->resolution().y() - baseCoord.y());
+            // Neighboring lattice coordinates for bilinear interpolation
+            Point2i coords[4] = {
+                applyBorderHandling(baseCoord),
+                applyBorderHandling(Point2i(baseCoord.x() + 1, baseCoord.y())),
+                applyBorderHandling(Point2i(baseCoord.x(), baseCoord.y() + 1)),
+                applyBorderHandling(Point2i(baseCoord.x() + 1, baseCoord.y() + 1))
+            };
 
-            // Retrieve the colors of the four neighboring pixels
-            Color c00 = m_image->operator()(Point2(baseCoord.x() / static_cast<float>(m_image->resolution().x()),
-                baseCoord.y() / static_cast<float>(m_image->resolution().y())));
-            Color c10 = m_image->operator()(Point2((baseCoord.x() + 1) / static_cast<float>(m_image->resolution().x()),
-                baseCoord.y() / static_cast<float>(m_image->resolution().y())));
-            Color c01 = m_image->operator()(Point2(baseCoord.x() / static_cast<float>(m_image->resolution().x()),
-                (baseCoord.y() + 1) / static_cast<float>(m_image->resolution().y())));
-            Color c11 = m_image->operator()(Point2((baseCoord.x() + 1) / static_cast<float>(m_image->resolution().x()),
-                (baseCoord.y() + 1) / static_cast<float>(m_image->resolution().y())));
+            // Fetch texel values for each of the four neighboring coordinates
+            Color texelValues[4] = {
+                m_image->operator()(Point2(static_cast<float>(coords[0].x()) / m_image->resolution().x(),
+                                           static_cast<float>(coords[0].y()) / m_image->resolution().y())),
+                m_image->operator()(Point2(static_cast<float>(coords[1].x()) / m_image->resolution().x(),
+                                           static_cast<float>(coords[1].y()) / m_image->resolution().y())),
+                m_image->operator()(Point2(static_cast<float>(coords[2].x()) / m_image->resolution().x(),
+                                           static_cast<float>(coords[2].y()) / m_image->resolution().y())),
+                m_image->operator()(Point2(static_cast<float>(coords[3].x()) / m_image->resolution().x(),
+                                           static_cast<float>(coords[3].y()) / m_image->resolution().y()))
+            };
 
-            // Perform bilinear interpolation
-            Color interpolatedColor = (c00 * (1 - frac.x()) * (1 - frac.y())) +
-                (c10 * frac.x() * (1 - frac.y())) +
-                (c01 * (1 - frac.x()) * frac.y()) +
-                (c11 * frac.x() * frac.y());
+            // Perform bilinear interpolation between the texel values
+            Color interpolatedColor = texelValues[0] * (1 - frac.x()) * (1 - frac.y()) +
+                                      texelValues[1] * frac.x() * (1 - frac.y()) +
+                                      texelValues[2] * (1 - frac.x()) * frac.y() +
+                                      texelValues[3] * frac.x() * frac.y();
 
             return interpolatedColor;
         }
 
-        // Utility method to apply border mode adjustments to UV coordinates
-        Point2 applyBorderMode(const Point2& uv) const {
-            Point2 adjustedUV = uv;
+        Point2i applyBorderHandling(const Point2i& latticeCoord) const {
+            Point2i adjustedCoord = latticeCoord;
             if (m_border == BorderMode::Clamp) {
-                adjustedUV.x() = std::clamp(uv.x(), 0.0f, 1.0f);
-                adjustedUV.y() = std::clamp(uv.y(), 0.0f, 1.0f);
+                adjustedCoord.x() = std::clamp(latticeCoord.x(), 0, m_image->resolution().x() - 1);
+                adjustedCoord.y() = std::clamp(latticeCoord.y(), 0, m_image->resolution().y() - 1);
+            } else if (m_border == BorderMode::Repeat) {
+                adjustedCoord.x() = latticeCoord.x() % m_image->resolution().x();
+                adjustedCoord.y() = latticeCoord.y() % m_image->resolution().y();
             }
-            else if (m_border == BorderMode::Repeat) {
-                adjustedUV.x() = uv.x() - std::floor(uv.x());
-                adjustedUV.y() = uv.y() - std::floor(uv.y());
+            return adjustedCoord;
+        }
+
+        Point2 adjustUV(const Point2& uv) const {
+            Point2 adjustedUV = uv;
+            switch (m_border) {
+                case BorderMode::Clamp:
+                    adjustedUV.x() = std::clamp(uv.x(), 0.0f, 1.0f);
+                    adjustedUV.y() = std::clamp(uv.y(), 0.0f, 1.0f);
+                    break;
+                case BorderMode::Repeat:
+                    adjustedUV.x() = uv.x() - std::floor(uv.x());
+                    adjustedUV.y() = uv.y() - std::floor(uv.y());
+                    break;
             }
             return adjustedUV;
         }
-
-
+        
         std::string toString() const override {
             return tfm::format("ImageTexture[\n"
                                "  image = %s,\n"
@@ -132,7 +133,6 @@ namespace lightwave {
                                indent(m_image), m_exposure);
         }
     };
-
 } // namespace lightwave
 
 REGISTER_TEXTURE(ImageTexture, "image")

@@ -24,17 +24,16 @@ namespace lightwave {
             // Apply the environment map transform to the input world direction
             Vector transformedDirection = direction;
             if (m_transform)
-            {
                 transformedDirection = m_transform->inverse(direction);
-            }
+            transformedDirection = transformedDirection.normalized();
+        
             // Convert 3D Cartesian coordinates to spherical coordinates (θ, φ)
             float theta = std::acos(transformedDirection.y());                          // θ: polar angle
             float phi = std::atan2(transformedDirection.z(), transformedDirection.x()); // φ: azimuthal angle
 
             // Normalize θ and φ to [0, 1] range for texture coordinates
-            float u = phi / (2 * Pi);
-            if (u < 0) u += 1.0f; // Wrap around if negative
-            float v = 1.0f - (theta / Pi); // This inverts the texture on the V-axis
+            float u = 0.5f - phi / (2 * Pi);
+            float v = 1.0f - theta / Pi;
 
             // Return the evaluated texture value at the mapped coordinates
             Vector2 warped(u, v);
