@@ -18,20 +18,45 @@ namespace lightwave {
        * via intersection or area sampling
        */
         inline void populate(SurfaceEvent& surf, const Point& position) const {
+            // For assignment_1 the following worked to pass the tests: 
+            // 
+            // Map the position onto the sphere's surface
+            // surf.uv.x() = (position.x() + radius) / (2 * radius);
+            // surf.uv.y() = (position.z() + radius) / (2 * radius);
+            // // normal always points in the direction of p - o
+            // surf.frame.normal = (position - center_point).normalized();
+            // // the tangent always points in positive x direction
+            // surf.frame.tangent = radius * surf.frame.normal.cross(Vector(0.f, 0.f, 1.f)).normalized();
+            // // the bitagent always points in positive z direction
+            // surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
+            // surf.pdf = 0.f;
+            // For assignment_2 the following was made:
             surf.position = position;
 
-            // Map the position onto the sphere's surface
-            surf.uv.x() = (position.x() + radius) / (2 * radius);
-            surf.uv.y() = (position.y() + radius) / (2 * radius);
+            // Normal always points in the direction of p - o
+            Vector p_o = (position - center_point).normalized();
+            surf.frame.normal = p_o;
 
-            // normal always points in the direction of p - o
-            surf.frame.normal = (position - center_point).normalized();
-            // the tangent always points in positive x direction
-            surf.frame.tangent = radius * surf.frame.normal.cross(Vector(0.f, 0.f, 1.f)).normalized();
-            // the bitagent always points in positive z direction
-            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
+            // Calculate spherical coordinates
+            float theta = std::acos(p_o.y()); // inclination
+            float phi = std::atan2(p_o.x(), p_o.z()); // azimuth
 
-            surf.pdf = 0.f;
+            // Map the spherical coordinates to UV coordinates
+            // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
+            // V coordinate: theta mapped from [0, PI] to [0, 1]
+            surf.uv.x() = phi / (2 * M_PI);
+            surf.uv.y() = theta / M_PI;
+
+            // Adjust phi to be in the range [0, 2*PI]
+            if (surf.uv.x() < 0) surf.uv.x() += 1.0f;
+
+            // Construct the shading frame
+            // The tangent is perpendicular to the normal and the up vector (0, 1, 0)
+            surf.frame.tangent = Vector(0.f, 1.f, 0.f).cross(surf.frame.normal).normalized();
+            // The bitangent is perpendicular to both the normal and the tangent
+            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
+            // Uniform PDF over the sphere's surface
+            surf.pdf = 1.0f / (4.0f * M_PI * radius * radius);
         }
 
         private:
