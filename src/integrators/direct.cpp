@@ -23,13 +23,19 @@ namespace lightwave {
 
             // Ray doesn't hit any surface, return background color
             if (!its) {
-                return m_scene->evaluateBackground(ray.direction).value;
+                return accumulatedWeight * m_scene->evaluateBackground(ray.direction).value;
             }
 
             // Step b: If a surface intersection occurs, generate a new direction based on the BSDF
             BsdfSample bsdfSample = its.sampleBsdf(rng);
-            Color bsdfValue = bsdfSample.weight;
-            accumulatedWeight *= bsdfValue;
+
+            // Check for invalid sample
+            if (bsdfSample.isInvalid()) {
+                return Color(0.0f);
+            }
+
+            // Update the ray's weight by multiplying it by the sampled BSDF weight.
+            accumulatedWeight *= bsdfSample.weight;
 
             // Step c: Trace a secondary ray in the direction determined by the BSDF sample.
             Ray secondaryRay(its.position, bsdfSample.wi.normalized());
@@ -39,11 +45,11 @@ namespace lightwave {
             m_scene->intersect(secondaryRay, secondaryIts, rng);
 
             if (!secondaryIts) {
-                return accumulatedWeight * m_scene->evaluateBackground(ray.direction).value;
+                return accumulatedWeight * m_scene->evaluateBackground(secondaryRay.direction).value;
             }
 
-            // If the secondary ray hits another surface, return the background color.
-            return accumulatedWeight * m_scene->evaluateBackground(secondaryRay.direction).value;
+            // If the secondary ray hits another surface, continue the recursion
+            return accumulatedWeight;
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.

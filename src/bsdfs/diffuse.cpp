@@ -7,14 +7,20 @@ namespace lightwave {
         ref<Texture> m_albedo;
 
         public:
-        
+
         Diffuse(const Properties& properties) {
             m_albedo = properties.get<Texture>("albedo");
         }
 
-        BsdfEval evaluate(const Point2& uv, const Vector& wo,
-                      const Vector& wi) const override {
-            NOT_IMPLEMENTED
+        BsdfEval evaluate(const Point2& uv, const Vector& wo, const Vector& wi) const override {
+            Color albedo = m_albedo->evaluate(uv);
+            Vector normalizedWo = wo.normalized();
+            Vector normalizedWi = wi.normalized();
+
+            // Compute the cosine of the angle between the normal and the incoming direction
+            float cosTheta = normalizedWi.dot(normalizedWo.dot(Vector(0, 0, 1)) * Vector(0, 0, 1)); 
+            Color brdfValue = albedo / M_PI * cosTheta;
+            return { brdfValue };
         }
 
         BsdfSample sample(const Point2& uv, const Vector& wo,
