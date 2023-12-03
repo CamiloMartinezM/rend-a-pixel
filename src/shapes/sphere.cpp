@@ -27,9 +27,9 @@ namespace lightwave {
             // normal always points in the direction of p - o
             surf.frame.normal = (position - center_point).normalized();
             // the tangent always points in positive x direction
-            surf.frame.tangent = radius * surf.frame.normal.cross(Vector(0.f, 0.f, 1.f));
+            surf.frame.tangent = radius * surf.frame.normal.cross(Vector(0.f, 0.f, 1.f)).normalized();
             // the bitagent always points in positive z direction
-            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
+            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
 
             surf.pdf = 0.f;
         }
@@ -72,7 +72,7 @@ namespace lightwave {
             // note that we never report an intersection closer than Epsilon (to avoid self-intersections)!
             // we also do not update the intersection if a closer intersection already exists (i.e., its.t is 
             // lower than our own t)
-            if (t0 < Epsilon || t0 > its.t)
+            if (t0 < 3e-5f || t0 > its.t)
                 return false;
 
             // compute the hitpoint

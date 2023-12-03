@@ -60,7 +60,7 @@ namespace lightwave {
             Vector pvec = ray.direction.cross(edge2);
             float det = edge1.dot(pvec);
 
-            if (std::abs(det) < Epsilon) return false;
+            if (std::abs(det) < 1e-8f) return false;
 
             float invDet = 1.0f / det;
 
@@ -74,7 +74,7 @@ namespace lightwave {
 
             float t = edge2.dot(qvec) * invDet;
 
-            if (t > its.t || t < 1e-8f) return false; // Not using Epsilon!
+            if (t > its.t || t < Epsilon) return false; // Not using Epsilon!
 
             // If m_smoothNormals is true, interpolate the normals
             if (m_smoothNormals) {

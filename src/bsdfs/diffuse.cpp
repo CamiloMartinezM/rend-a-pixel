@@ -15,25 +15,14 @@ namespace lightwave {
             NOT_IMPLEMENTED; // This is for assignment 3
         }
 
-        BsdfSample sample(const Point2& uv, const Vector& wo,
-                          Sampler& rng) const override {
+        BsdfSample sample(const Point2& uv, const Vector& wo, Sampler& rng) const override {
             // Sample a random point
-            const Point2 sampledPoint = Point2(rng.next(), rng.next());
+            Point2 sampledPoint = Point2(rng.next(), rng.next());
             
             // Sample a direction on the cosine-weighted hemisphere
             Vector sampledVector = squareToCosineHemisphere(sampledPoint);
 
-            // Evaluate the BSDF for the sampled direction
-            Color bsdfValue = m_albedo->evaluate(uv);
-
-            // Compute the probability of sampling the direction
-            // float pdf = cosineHemispherePdf(sampledVector);
-
-            // Correct for the foreshortening term cos 𝜔𝑖
-            // if (pdf != 0)
-            //    bsdfValue *= std::abs(Frame::cosTheta(sampledVector)) / pdf;
-
-            return BsdfSample(sampledVector.normalized(), bsdfValue);
+            return BsdfSample(sampledVector.normalized(), m_albedo->evaluate(uv));
         }
 
         std::string toString() const override {
