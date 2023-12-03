@@ -122,9 +122,10 @@ namespace lightwave {
                     adjustedUV.y() = uv.y() - std::floor(uv.y());
                     break;
             }
+            adjustedUV.y() = 1.0f - adjustedUV.y(); 
             return adjustedUV;
         }
-        
+
         std::string toString() const override {
             return tfm::format("ImageTexture[\n"
                                "  image = %s,\n"

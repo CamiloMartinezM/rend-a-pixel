@@ -33,7 +33,7 @@ namespace lightwave {
 
             // Normalize θ and φ to [0, 1] range for texture coordinates
             float u = 0.5f - phi / (2 * Pi);
-            float v = 1.0f - theta / Pi;
+            float v = theta / Pi;
 
             // Return the evaluated texture value at the mapped coordinates
             Vector2 warped(u, v);
