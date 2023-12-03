@@ -43,6 +43,7 @@ namespace lightwave {
                 });
         }
 
+        // Main method to call
         Color evaluate(const Point2& uv) const override {
             Point2 adjustedUV = adjustUV(uv);
             Color sampledColor = (m_filter == FilterMode::Nearest) ? sampleNearest(adjustedUV) : sampleBilinear(adjustedUV);
@@ -50,10 +51,11 @@ namespace lightwave {
         }
 
         Color sampleNearest(const Point2& uv) const {
-            // Map UV coordinates to shifted lattice coordinates
-            Point2 adjustedUV = Point2(uv.x() * m_image->resolution().x(), uv.y() * m_image->resolution().y()) - Point2(0.5f, 0.5f);
-            Point2i latticeCoord = Point2i(std::floor(adjustedUV.x()), std::floor(adjustedUV.y()));
+            // Convert UV to lattice coordinates
+            Point2i latticeCoord = Point2i(std::floor(uv.x() * m_image->resolution().x()),
+                                           std::floor(uv.y() * m_image->resolution().y()));
 
+            // Apply border handling
             latticeCoord = applyBorderHandling(latticeCoord);
 
             return m_image->operator()(Point2(static_cast<float>(latticeCoord.x()) / m_image->resolution().x(),
@@ -61,13 +63,12 @@ namespace lightwave {
         }
 
         Color sampleBilinear(const Point2& uv) const {
-            Point2 adjustedUV = Point2(uv.x() * m_image->resolution().x(), uv.y() * m_image->resolution().y()) - Point2(0.5f, 0.5f);
-            
+            // Shift UV coordinates to align with pixel centers
+            Point2 shiftedUV = Point2(uv.x() * m_image->resolution().x() - 0.5f,
+                                      uv.y() * m_image->resolution().y() - 0.5f);
+
             // Base lattice coordinates
-            Point2i baseCoord = Point2i(std::floor(adjustedUV.x()), std::floor(adjustedUV.y()));
-            
-            // Fractional part for interpolation
-            Point2 frac(adjustedUV.x() - baseCoord.x(), adjustedUV.y() - baseCoord.y());
+            Point2i baseCoord = Point2i(std::floor(shiftedUV.x()), std::floor(shiftedUV.y()));
 
             // Neighboring lattice coordinates for bilinear interpolation
             Point2i coords[4] = {
@@ -77,19 +78,17 @@ namespace lightwave {
                 applyBorderHandling(Point2i(baseCoord.x() + 1, baseCoord.y() + 1))
             };
 
-            // Fetch texel values for each of the four neighboring coordinates
-            Color texelValues[4] = {
-                m_image->operator()(Point2(static_cast<float>(coords[0].x()) / m_image->resolution().x(),
-                                           static_cast<float>(coords[0].y()) / m_image->resolution().y())),
-                m_image->operator()(Point2(static_cast<float>(coords[1].x()) / m_image->resolution().x(),
-                                           static_cast<float>(coords[1].y()) / m_image->resolution().y())),
-                m_image->operator()(Point2(static_cast<float>(coords[2].x()) / m_image->resolution().x(),
-                                           static_cast<float>(coords[2].y()) / m_image->resolution().y())),
-                m_image->operator()(Point2(static_cast<float>(coords[3].x()) / m_image->resolution().x(),
-                                           static_cast<float>(coords[3].y()) / m_image->resolution().y()))
-            };
+            // Calculate fractional part for interpolation
+            Point2 frac = Point2(shiftedUV.x() - baseCoord.x(), shiftedUV.y() - baseCoord.y());
 
-            // Perform bilinear interpolation between the texel values
+            // Fetch texel values for each coordinate
+            Color texelValues[4];
+            for (int i = 0; i < 4; ++i) {
+                texelValues[i] = m_image->operator()(Point2(static_cast<float>(coords[i].x()) / m_image->resolution().x(),
+                                                            static_cast<float>(coords[i].y()) / m_image->resolution().y()));
+            }
+
+            // Perform bilinear interpolation
             Color interpolatedColor = texelValues[0] * (1 - frac.x()) * (1 - frac.y()) +
                                       texelValues[1] * frac.x() * (1 - frac.y()) +
                                       texelValues[2] * (1 - frac.x()) * frac.y() +
@@ -99,15 +98,14 @@ namespace lightwave {
         }
 
         Point2i applyBorderHandling(const Point2i& latticeCoord) const {
-            Point2i adjustedCoord = latticeCoord;
             if (m_border == BorderMode::Clamp) {
-                adjustedCoord.x() = std::clamp(latticeCoord.x(), 0, m_image->resolution().x() - 1);
-                adjustedCoord.y() = std::clamp(latticeCoord.y(), 0, m_image->resolution().y() - 1);
+                return Point2i(std::clamp(latticeCoord.x(), 0, m_image->resolution().x() - 1),
+                               std::clamp(latticeCoord.y(), 0, m_image->resolution().y() - 1));
             } else if (m_border == BorderMode::Repeat) {
-                adjustedCoord.x() = latticeCoord.x() % m_image->resolution().x();
-                adjustedCoord.y() = latticeCoord.y() % m_image->resolution().y();
+                return Point2i(latticeCoord.x() % m_image->resolution().x(),
+                               latticeCoord.y() % m_image->resolution().y());
             }
-            return adjustedCoord;
+            return latticeCoord; // Default case
         }
 
         Point2 adjustUV(const Point2& uv) const {

@@ -76,10 +76,11 @@ namespace lightwave {
 
             if (t > its.t || t < Epsilon) return false; // Not using Epsilon!
 
+            Vector2 bary{ u,v };
+
             // If m_smoothNormals is true, interpolate the normals
             if (m_smoothNormals) {
                 //float w = 1.0f - u - v;
-                Vector2 bary{ u,v };
                 its.frame.normal = Vertex::interpolate(bary, v0, v1, v2).normal.normalized();
             }
             else {
@@ -92,8 +93,7 @@ namespace lightwave {
             // Compute hit position and update intersection record
             its.t = t;
             its.position = ray(t); // Assuming ray(t) correctly computes the point on the ray at t
-             // Assuming that the Vertex structure contains UV coordinates
-            //its.uv = Vector(u, v);
+            // its.uv = Point(Vertex::interpolate(bary, v0, v1, v2).position.x(), Vertex::interpolate(bary, v0, v1, v2).position.y());
             populate(its, its.position);
             return true;
         }
