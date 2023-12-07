@@ -19,7 +19,6 @@ namespace lightwave {
             Intersection its = m_scene->intersect(ray, rng);
             if (!its) {
                 // The ray misses all objects and hits the background.
-                // accumulatedWeight *= m_scene->evaluateBackground(ray.direction).value;
                 return m_scene->evaluateBackground(ray.direction).value;
             }
 
@@ -33,7 +32,7 @@ namespace lightwave {
 
             Color sampledColor = bsdfSample.weight;
             accumulatedWeight *= sampledColor;
-            accumulatedWeight += itsEmission;
+            // accumulatedWeight += itsEmission;
 
             // c) Trace a secondary ray in the direction determined by the BSDF sample.
             Ray secondaryRay(its.position, bsdfSample.wi.normalized(), ray.depth + 1);
@@ -42,13 +41,13 @@ namespace lightwave {
             Intersection secondaryIts = m_scene->intersect(secondaryRay, rng);
             if (!secondaryIts) {
                 // multiply its weight with the background’s emission and return the ray’s contribution.
-                return sampledColor * m_scene->evaluateBackground(secondaryRay.direction).value;
+                return accumulatedWeight * m_scene->evaluateBackground(secondaryRay.direction).value;
             }
             
             // Since there's no further bounce, we return the accumulated color which includes the BSDF weight
             // and the secondary ray contribution
             Color secondaryItsEmission = secondaryIts.evaluateEmission();
-            return secondaryItsEmission * sampledColor;
+            return secondaryItsEmission * accumulatedWeight;
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.

@@ -80,19 +80,18 @@ namespace lightwave {
 
             // If m_smoothNormals is true, interpolate the normals
             if (m_smoothNormals) {
-                //float w = 1.0f - u - v;
                 its.frame.normal = Vertex::interpolate(bary, v0, v1, v2).normal.normalized();
             }
             else {
-             // Compute plane's normal. If the dot product of normal and ray direction is positive,
-             // the triangle is backfacing, which we don't want to hit
+                // Compute plane's normal. If the dot product of normal and ray direction is positive,
+                // the triangle is backfacing, which we don't want to hit
                 its.frame.normal = edge1.cross(edge2).normalized();
-               //if (its.frame.normal.dot(ray.direction) > 0.0f) its.frame.normal = -its.frame.normal; // Flip the normal if necessary
+                //if (its.frame.normal.dot(ray.direction) > 0.0f) its.frame.normal = -its.frame.normal; // Flip the normal if necessary
             }
 
             // Compute hit position and update intersection record
             its.t = t;
-            its.position = ray(t); 
+            its.position = ray(t);
             its.uv = Vertex::interpolate(bary, v0, v1, v2).texcoords;
             populate(its, its.position);
             return true;
