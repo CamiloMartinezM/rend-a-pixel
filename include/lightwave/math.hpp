@@ -769,6 +769,8 @@ struct Intersection : public SurfaceEvent {
     Color evaluateEmission() const;
     /// @brief Samples the Bsdf of the underlying surface.
     BsdfSample sampleBsdf(Sampler &rng) const;
+    /// @brief Evaluates the Bsdf of the underlying surface.
+    BsdfEval evaluateBsdf(const Vector &wi) const;
 };
 
 /// @brief Print a given point to an output stream.
