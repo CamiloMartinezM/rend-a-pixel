@@ -58,8 +58,7 @@ namespace lightwave {
             // Apply border handling
             latticeCoord = applyBorderHandling(latticeCoord);
 
-            return m_image->operator()(Point2(static_cast<float>(latticeCoord.x()) / m_image->resolution().x(),
-                                              static_cast<float>(latticeCoord.y()) / m_image->resolution().y()));
+            return m_image->operator()(Point2i(latticeCoord));
         }
 
         Color sampleBilinear(const Point2& uv) const {
@@ -84,8 +83,9 @@ namespace lightwave {
             // Fetch texel values for each coordinate
             Color texelValues[4];
             for (int i = 0; i < 4; ++i) {
-                texelValues[i] = m_image->operator()(Point2(static_cast<float>(coords[i].x()) / m_image->resolution().x(),
-                                                            static_cast<float>(coords[i].y()) / m_image->resolution().y()));
+                // texelValues[i] = m_image->operator()(Point2(static_cast<float>(coords[i].x()) / m_image->resolution().x(),
+                //                                             static_cast<float>(coords[i].y()) / m_image->resolution().y()));
+                texelValues[i] = m_image->operator()(Point2i(coords[i]));
             }
 
             // Perform bilinear interpolation
@@ -102,8 +102,10 @@ namespace lightwave {
                 return Point2i(std::clamp(latticeCoord.x(), 0, m_image->resolution().x() - 1),
                                std::clamp(latticeCoord.y(), 0, m_image->resolution().y() - 1));
             } else if (m_border == BorderMode::Repeat) {
-                return Point2i(latticeCoord.x() % m_image->resolution().x(),
-                               latticeCoord.y() % m_image->resolution().y());
+                // return Point2i(latticeCoord.x() % m_image->resolution().x(),
+                //                latticeCoord.y() % m_image->resolution().y());
+                return Point2i((latticeCoord.x() % m_image->resolution().x() + m_image->resolution().x()) % m_image->resolution().x(),
+                               (latticeCoord.y() % m_image->resolution().y() + m_image->resolution().y()) % m_image->resolution().y());
             }
             return latticeCoord; // Default case
         }
