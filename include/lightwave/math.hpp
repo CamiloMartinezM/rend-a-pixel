@@ -45,7 +45,7 @@ static constexpr float Rad2Deg = 180.0f * InvPi;
  * This threshold allows us to solve this (and many other) inaccuracy problem, by treating anything below this threshold
  * as zero.
  */
-static constexpr float Epsilon = 1e-5f;
+static constexpr float Epsilon = 1e-4f;
 
 /// @brief Infinity
 static constexpr float Infinity = std::numeric_limits<float>::infinity();

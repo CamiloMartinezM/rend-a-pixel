@@ -32,7 +32,7 @@ namespace lightwave {
 
             Color sampledColor = bsdfSample.weight;
             accumulatedWeight *= sampledColor;
-            accumulatedWeight += itsEmission;
+            // accumulatedWeight += itsEmission;
 
             // c) Trace a secondary ray in the direction determined by the BSDF sample.
             Ray secondaryRay(its.position, bsdfSample.wi.normalized(), ray.depth + 1);
@@ -47,7 +47,7 @@ namespace lightwave {
             // Since there's no further bounce, we return the accumulated color which includes the BSDF weight
             // and the secondary ray contribution
             Color secondaryItsEmission = secondaryIts.evaluateEmission();
-            return secondaryItsEmission * accumulatedWeight;
+            return (itsEmission + secondaryItsEmission) * accumulatedWeight;
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.
