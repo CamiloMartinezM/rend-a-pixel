@@ -1,8 +1,8 @@
-# Install script for directory: /mnt/c/CGAssignments/CGAssign/dipplin/deps/miniz
+# Install script for directory: /home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin/deps/miniz
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/mnt/c/CGAssignments/CGAssign/dipplin")
+  set(CMAKE_INSTALL_PREFIX "/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -29,7 +29,7 @@ endif()
 
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  set(CMAKE_INSTALL_SO_NO_EXE "1")
+  set(CMAKE_INSTALL_SO_NO_EXE "0")
 endif()
 
 # Is this installation the result of a crosscompile?

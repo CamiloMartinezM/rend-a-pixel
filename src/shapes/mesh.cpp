@@ -98,7 +98,6 @@ namespace lightwave {
         }
 
         Bounds getBoundingBox(int primitiveIndex) const override {
-           // NOT_IMPLEMENTED
             const Vector3i& tri = m_triangles[primitiveIndex];
             const Vertex& v0 = m_vertices[tri[0]];
             const Vertex& v1 = m_vertices[tri[1]];

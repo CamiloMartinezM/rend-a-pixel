@@ -1,8 +1,8 @@
-# Install script for directory: /mnt/c/CGAssignments/CGAssign/dipplin/blender_exporter
+# Install script for directory: /home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin/blender_exporter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/mnt/c/CGAssignments/CGAssign/dipplin")
+  set(CMAKE_INSTALL_PREFIX "/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -29,7 +29,7 @@ endif()
 
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  set(CMAKE_INSTALL_SO_NO_EXE "1")
+  set(CMAKE_INSTALL_SO_NO_EXE "0")
 endif()
 
 # Is this installation the result of a crosscompile?
@@ -42,7 +42,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xpluginsx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/plugins" TYPE FILE MESSAGE_LAZY FILES "/mnt/c/CGAssignments/CGAssign/dipplin/lightwave_blender.zip")
+if(CMAKE_INSTALL_COMPONENT STREQUAL "plugins" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/plugins" TYPE FILE MESSAGE_LAZY FILES "/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin/lightwave_blender.zip")
 endif()
 

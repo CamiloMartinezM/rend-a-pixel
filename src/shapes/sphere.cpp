@@ -44,8 +44,8 @@ namespace lightwave {
             // Map the spherical coordinates to UV coordinates
             // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
             // V coordinate: theta mapped from [0, PI] to [0, 1]
-            surf.uv.x() = phi / (2 * M_PI);
-            surf.uv.y() = theta / M_PI;
+            surf.uv.x() = phi / (2 * Pi);
+            surf.uv.y() = theta / Pi;
 
             // Adjust phi to be in the range [0, 2*PI]
             if (surf.uv.x() < 0) surf.uv.x() += 1.0f;
@@ -56,7 +56,7 @@ namespace lightwave {
             // The bitangent is perpendicular to both the normal and the tangent
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
             // Uniform PDF over the sphere's surface
-            surf.pdf = 1.0f / (4.0f * M_PI * radius * radius);
+            surf.pdf = 1.0f / (4.0f * Pi * radius * radius);
         }
 
         private:
@@ -97,7 +97,7 @@ namespace lightwave {
             // note that we never report an intersection closer than Epsilon (to avoid self-intersections)!
             // we also do not update the intersection if a closer intersection already exists (i.e., its.t is 
             // lower than our own t)
-            if (t0 < 3e-5f || t0 > its.t)
+            if (t0 < Epsilon || t0 > its.t)
                 return false;
 
             // compute the hitpoint

@@ -1,4 +1,4 @@
-prefix=/mnt/c/CGAssignments/CGAssign/dipplin
+prefix=/home/Camilo/Documentos/Repositorios/Computer Graphics I/dipplin
 exec_prefix=${prefix}
 libdir=${exec_prefix}/
 includedir=${prefix}//miniz

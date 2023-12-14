@@ -12,16 +12,12 @@ namespace lightwave {
         }
 
         BsdfEval evaluate(const Point2& uv, const Vector& wo, const Vector& wi) const override {
-            NOT_IMPLEMENTED; // This is for assignment 3
+            return { m_albedo->evaluate(uv) * max(0.0f, Frame::cosTheta(wi)) / Pi };
         }
 
         BsdfSample sample(const Point2& uv, const Vector& wo, Sampler& rng) const override {
-            // Sample a random point
-            Point2 sampledPoint = Point2(rng.next(), rng.next());
-            
-            // Sample a direction on the cosine-weighted hemisphere
+            Point2 sampledPoint = rng.next2D(); 
             Vector sampledVector = squareToCosineHemisphere(sampledPoint);
-
             return BsdfSample(sampledVector.normalized(), m_albedo->evaluate(uv));
         }
 

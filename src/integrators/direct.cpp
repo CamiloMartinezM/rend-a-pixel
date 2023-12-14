@@ -15,6 +15,7 @@ namespace lightwave {
          */
         Color Li(const Ray& ray, Sampler& rng) override {
             Color accumulatedWeight = Color(1.0f);
+            Color actualColor = Color(0.0f);
 
             Intersection its = m_scene->intersect(ray, rng);
             if (!its) {
@@ -23,16 +24,29 @@ namespace lightwave {
             }
 
             Color itsEmission = its.evaluateEmission();
+            actualColor += itsEmission * accumulatedWeight;
 
             // b) Sample the BSDF to get the new direction and the weight.
             BsdfSample bsdfSample = its.sampleBsdf(rng);
             if (bsdfSample.isInvalid()) {
-                return itsEmission;
+                return actualColor;
             }
 
-            Color sampledColor = bsdfSample.weight;
-            accumulatedWeight *= sampledColor;
-            // accumulatedWeight += itsEmission;
+            // Next-Event Estimation (assignment 3)
+            if (m_scene->hasLights()) {
+                LightSample lightSample = m_scene->sampleLight(rng);
+                if (!lightSample.light->canBeIntersected()) {
+                    DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
+                    Ray shadowRay(its.position, directLightSample.wi);
+                    if (!m_scene->intersect(shadowRay, directLightSample.distance, rng)) {
+                        // If the light is visible from the intersection point
+                        Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
+                        actualColor += bsdfVal * directLightSample.weight / lightSample.probability * accumulatedWeight;
+                    }
+                }
+            }
+
+            accumulatedWeight *= bsdfSample.weight;
 
             // c) Trace a secondary ray in the direction determined by the BSDF sample.
             Ray secondaryRay(its.position, bsdfSample.wi.normalized(), ray.depth + 1);
@@ -41,13 +55,15 @@ namespace lightwave {
             Intersection secondaryIts = m_scene->intersect(secondaryRay, rng);
             if (!secondaryIts) {
                 // multiply its weight with the background’s emission and return the ray’s contribution.
-                return accumulatedWeight * m_scene->evaluateBackground(secondaryRay.direction).value;
+                actualColor += m_scene->evaluateBackground(secondaryRay.direction).value * accumulatedWeight;
+                return actualColor;
             }
             
             // Since there's no further bounce, we return the accumulated color which includes the BSDF weight
             // and the secondary ray contribution
             Color secondaryItsEmission = secondaryIts.evaluateEmission();
-            return (itsEmission + secondaryItsEmission) * accumulatedWeight;
+            actualColor += secondaryItsEmission * accumulatedWeight;
+            return actualColor;
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.
