@@ -23,7 +23,7 @@ def flat_matrix(matrix):
 
 
 def str_float(f: float):
-    return "%.3g" % f
+    return "%.5g" % f
 
 
 def str_flat_matrix(matrix):
