@@ -16,7 +16,7 @@ def _export_area_light(registry: SceneRegistry, instance_node, light: bpy.types.
     elif light.shape == "RECTANGLE" or light.shape == "ELLIPSE":
         scale_y = light.size_y
     else:
-        op.report({'WARNING'}, f"Unsupported light shape '{light.shape}'")
+        registry.warn(f"Unsupported light shape '{light.shape}'")
         scale_y = light.size
     
     matrix_world = [ [ x for x in row ] for row in inst.matrix_world ]
@@ -36,14 +36,8 @@ def _export_area_light(registry: SceneRegistry, instance_node, light: bpy.types.
     return 1 / (16 * (lensqr_x * lensqr_y) ** 0.5)
 
 def _export_point_light(registry: SceneRegistry, instance_node, light: bpy.types.Light, inst: bpy.types.DepsgraphObjectInstance):
-    radius = max(light.shadow_soft_size, 1e-6)
+    radius = max(light.shadow_soft_size, 1e-3)
 
-    matrix_world = [ [ x for x in row ] for row in inst.matrix_world ]
-    for i in range(3):
-        matrix_world[i][0] *= radius
-        matrix_world[i][1] *= radius
-        matrix_world[i][2] *= radius
-    
     instance_node.add("shape", type="sphere")
     transform = instance_node.add("transform")
     transform.add("scale", value=radius)
@@ -61,6 +55,16 @@ def export_light(registry: SceneRegistry, inst):
         registry.warn("Light portals are not supported")
         return []
 
+    if light.type == "POINT" and light.shadow_soft_size < 1e-3:
+        power = str_flat_array([ light.energy * light.color[chan] for chan in range(3) ])
+        position = str_flat_array([ inst.matrix_world[dim][3] for dim in range(3) ])
+        return [XMLNode("light", type="point", position=position, power=power)]
+
+    if light.type == "SUN":
+        intensity = str_flat_array([ light.energy * light.color[chan] for chan in range(3) ])
+        position = str_flat_array([ inst.matrix_world[dim][2] for dim in range(3) ])
+        return [XMLNode("light", type="directional", direction=position, intensity=intensity)]
+
     if registry.settings.enable_area_lights:
         light_node = XMLNode("light", type="area")
         instance_node = light_node.add("instance") # id=registry._make_unique_name(light.name)
@@ -74,7 +78,7 @@ def export_light(registry: SceneRegistry, inst):
     elif light.type == "AREA":
         normalization = _export_area_light(registry, instance_node, light, inst)
     else:
-        registry.warn("Light type unsupported")
+        registry.warn(f"Light type {light.type} unsupported")
         return []
 
     emission = [

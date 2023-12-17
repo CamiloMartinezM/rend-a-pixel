@@ -29,8 +29,7 @@ void Image::loadImage(const std::filesystem::path &path, bool isLinearSpace) {
         free(data);
     } else {
         // anything that is not an EXR file is handled by stb
-        if (isLinearSpace)
-            stbi_ldr_to_hdr_gamma(1);
+        stbi_ldr_to_hdr_gamma(isLinearSpace ? 1.0f : 2.2f);
 
         int numChannels;
         float *data =
