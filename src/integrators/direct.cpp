@@ -23,8 +23,7 @@ namespace lightwave {
                 return m_scene->evaluateBackground(ray.direction).value;
             }
 
-            Color itsEmission = its.evaluateEmission();
-            actualColor += itsEmission * accumulatedWeight;
+            actualColor += its.evaluateEmission() * accumulatedWeight;
 
             // b) Sample the BSDF to get the new direction and the weight.
             BsdfSample bsdfSample = its.sampleBsdf(rng);
@@ -61,8 +60,7 @@ namespace lightwave {
             
             // Since there's no further bounce, we return the accumulated color which includes the BSDF weight
             // and the secondary ray contribution
-            Color secondaryItsEmission = secondaryIts.evaluateEmission();
-            actualColor += secondaryItsEmission * accumulatedWeight;
+            actualColor += secondaryIts.evaluateEmission() * accumulatedWeight;
             return actualColor;
         }
 
