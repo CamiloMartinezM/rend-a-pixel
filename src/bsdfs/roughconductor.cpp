@@ -4,49 +4,58 @@
 
 namespace lightwave {
 
-class RoughConductor : public Bsdf {
-    ref<Texture> m_reflectance;
-    ref<Texture> m_roughness;
+    class RoughConductor : public Bsdf {
+        ref<Texture> m_reflectance;
+        ref<Texture> m_roughness;
 
-public:
-    RoughConductor(const Properties &properties) {
-        m_reflectance = properties.get<Texture>("reflectance");
-        m_roughness   = properties.get<Texture>("roughness");
-    }
+        public:
+        RoughConductor(const Properties& properties) {
+            m_reflectance = properties.get<Texture>("reflectance");
+            m_roughness = properties.get<Texture>("roughness");
+        }
 
-    BsdfEval evaluate(const Point2 &uv, const Vector &wo,
-                      const Vector &wi) const override {
-        // Using the squared roughness parameter results in a more gradual
-        // transition from specular to rough. For numerical stability, we avoid
-        // extremely specular distributions (alpha values below 10^-3)
-        const auto alpha = std::max(float(1e-3), sqr(m_roughness->scalar(uv)));
+        BsdfEval evaluate(const Point2& uv, const Vector& wo,
+                          const Vector& wi) const override {
+            // Using the squared roughness parameter results in a more gradual
+            // transition from specular to rough. For numerical stability, we avoid
+            // extremely specular distributions (alpha values below 10^-3)
+            const auto alpha = std::max(float(1e-3), sqr(m_roughness->scalar(uv)));
 
-        NOT_IMPLEMENTED
+            // hints:
+            // * the microfacet normal can be computed from `wi' and `wo'
+            Vector wm = (wi + wo).normalized();
+            float D = microfacet::evaluateGGX(alpha, wm);
+            float G1wi = microfacet::smithG1(alpha, wm, wi);
+            float G1wo = microfacet::smithG1(alpha, wm, wo);
+            Color R = m_reflectance->evaluate(uv);
 
-        // hints:
-        // * the microfacet normal can be computed from `wi' and `wo'
-    }
+            float denominator = 4 * Frame::absCosTheta(wi) * Frame::absCosTheta(wo);
+            return BsdfEval(R * D * G1wi * G1wo / denominator);
+        }
 
-    BsdfSample sample(const Point2 &uv, const Vector &wo,
-                      Sampler &rng) const override {
-        const auto alpha = std::max(float(1e-3), sqr(m_roughness->scalar(uv)));
+        BsdfSample sample(const Point2& uv, const Vector& wo,
+                          Sampler& rng) const override {
+            const auto alpha = std::max(float(1e-3), sqr(m_roughness->scalar(uv)));
 
-        NOT_IMPLEMENTED
-        
-        // hints:
-        // * do not forget to cancel out as many terms from your equations as possible!
-        //   (the resulting sample weight is only a product of two factors)
-    }
+            // hints:
+            // * do not forget to cancel out as many terms from your equations as possible!
+            //   (the resulting sample weight is only a product of two factors)
+            Vector m = microfacet::sampleGGXVNDF(alpha, wo, rng.next2D()); // Sample microfacet normal m
+            Vector wi = reflect(wo, m); // Reflect wo about m to get outgoing direction wi
+            Vector wm = (wi + wo).normalized();
+            float G1wi = microfacet::smithG1(alpha, wm, wi);
+            Color weight = m_reflectance->evaluate(uv) * G1wi;
+            return BsdfSample(wi, weight);
+        }
 
-    std::string toString() const override {
-        return tfm::format("RoughConductor[\n"
-                           "  reflectance = %s,\n"
-                           "  roughness = %s\n"
-                           "]",
-                           indent(m_reflectance), indent(m_roughness));
-    }
-};
-
+        std::string toString() const override {
+            return tfm::format("RoughConductor[\n"
+                               "  reflectance = %s,\n"
+                               "  roughness = %s\n"
+                               "]",
+                               indent(m_reflectance), indent(m_roughness));
+        }
+    };
 } // namespace lightwave
 
 REGISTER_BSDF(RoughConductor, "roughconductor")

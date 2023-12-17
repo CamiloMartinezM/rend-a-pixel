@@ -25,12 +25,6 @@ namespace lightwave {
 
             actualColor += its.evaluateEmission() * accumulatedWeight;
 
-            // b) Sample the BSDF to get the new direction and the weight.
-            BsdfSample bsdfSample = its.sampleBsdf(rng);
-            if (bsdfSample.isInvalid()) {
-                return actualColor;
-            }
-
             // Next-Event Estimation (assignment 3)
             if (m_scene->hasLights()) {
                 LightSample lightSample = m_scene->sampleLight(rng);
@@ -43,6 +37,12 @@ namespace lightwave {
                         actualColor += bsdfVal * directLightSample.weight / lightSample.probability * accumulatedWeight;
                     }
                 }
+            }
+
+            // b) Sample the BSDF to get the new direction and the weight.
+            BsdfSample bsdfSample = its.sampleBsdf(rng);
+            if (bsdfSample.isInvalid()) {
+                return actualColor;
             }
 
             accumulatedWeight *= bsdfSample.weight;
