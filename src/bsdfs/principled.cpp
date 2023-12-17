@@ -40,7 +40,7 @@ namespace lightwave {
             float G1wi = microfacet::smithG1(alpha, wm, wi);
             float G1wo = microfacet::smithG1(alpha, wm, wo);
             float denominator = 4 * Frame::absCosTheta(wi) * Frame::absCosTheta(wo);
-            return BsdfEval(color * D * G1wi * G1wo / denominator * Frame::cosTheta(wi));
+            return BsdfEval(color * D * G1wi * G1wo / denominator * Frame::absCosTheta(wi));
         }
 
         BsdfSample sample(const Vector& wo, Sampler& rng) const {
