@@ -29,7 +29,7 @@ namespace lightwave {
             bool entering = Frame::cosTheta(wo) > 0;
             Vector normal = Vector(0.f, 0.f, 1.f) * (entering ? 1.f : -1.f); // Flip the normal for exiting rays
             float eta = entering ? ior : 1.f / ior;
-            float F = fresnelDielectric(entering ? Frame::cosTheta(wo) : -Frame::cosTheta(wo), eta);
+            float F = fresnelDielectric(Frame::cosTheta(wo), eta);
 
             if (rng.next() < F) {
                 Vector wi = reflect(wo, normal);
@@ -39,8 +39,7 @@ namespace lightwave {
             else {
                 Vector wi = refract(wo, normal, eta);
                 if (!wi.isZero()) {
-                    float cosThetaT = Frame::absCosTheta(wi);
-                    Color transmittance = m_transmittance->evaluate(uv) * cosThetaT * 1 / (eta * eta);
+                    Color transmittance = m_transmittance->evaluate(uv) * 1 / (eta * eta);
                     return BsdfSample(wi, transmittance * (1.f - F));
                 }
 
