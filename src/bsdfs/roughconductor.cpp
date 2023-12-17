@@ -30,7 +30,7 @@ namespace lightwave {
             Color R = m_reflectance->evaluate(uv);
 
             float denominator = 4 * Frame::absCosTheta(wi) * Frame::absCosTheta(wo);
-            return BsdfEval(R * D * G1wi * G1wo / denominator);
+            return BsdfEval(R * D * G1wi * G1wo / denominator * Frame::cosTheta(wi));
         }
 
         BsdfSample sample(const Point2& uv, const Vector& wo,
