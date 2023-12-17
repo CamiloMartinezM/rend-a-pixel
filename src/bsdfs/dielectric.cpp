@@ -34,13 +34,13 @@ namespace lightwave {
             if (rng.next() < F) {
                 Vector wi = reflect(wo, normal);
                 Color reflectance = m_reflectance->evaluate(uv);
-                return BsdfSample(wi, reflectance * F);
+                return BsdfSample(wi, reflectance);
             }
             else {
                 Vector wi = refract(wo, normal, eta);
                 if (!wi.isZero()) {
                     Color transmittance = m_transmittance->evaluate(uv) * 1 / (eta * eta);
-                    return BsdfSample(wi, transmittance * (1.f - F));
+                    return BsdfSample(wi, transmittance);
                 }
 
                 return BsdfSample(reflect(wo, normal), m_reflectance->evaluate(uv)); // Handle total internal reflection
