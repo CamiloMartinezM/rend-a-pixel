@@ -31,10 +31,12 @@ namespace lightwave {
             // surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
             // surf.pdf = 0.f;
             // For assignment_2 the following was made:
-            surf.position = position;
 
             // Normal always points in the direction of p - o
             Vector p_o = (position - center_point).normalized();
+
+            surf.position = Point(p_o); // Hit point is normalized
+
             surf.frame.normal = p_o;
 
             // Calculate spherical coordinates
@@ -88,16 +90,16 @@ namespace lightwave {
 
             if (!solveQuadratic(a, b, c, t0, t1)) return false; // if no solution, then no intersection
 
-            if (t0 < 0) {
-                // if t0 is negative, try t1
-                if (t1 < 0) return false; // both t0 and t1 are negative, hence no intersection
-                t0 = t1; // if t0 > 0, then stay with t1 and discard t0
+            if (t0 < Epsilon) {
+                // if t0 is less than Epsilon, try t1
+                if (t1 < Epsilon) return false; // both t0 and t1 are less than Epsilon, hence no intersection
+                t0 = t1; // if t1 > Epsilon, then stay with t1 and discard t0
             }
 
-            // note that we never report an intersection closer than Epsilon (to avoid self-intersections)!
+            // until now we never report an intersection closer than Epsilon (to avoid self-intersections)!
             // we also do not update the intersection if a closer intersection already exists (i.e., its.t is 
             // lower than our own t)
-            if (t0 < Epsilon || t0 > its.t)
+            if (t0 > its.t)
                 return false;
 
             // compute the hitpoint

@@ -12,9 +12,11 @@ namespace lightwave {
 
         EmissionEval evaluate(const Point2& uv, const Vector& wo) const override {
             // Evaluate the texture at the given UV coordinates to get the emission color
-            Color emissionColor = m_emission->evaluate(uv);
-            // Return the emission. No π factor needed
-            return EmissionEval{ .value = emissionColor };
+            // - Check the sign of the cosine to not emit any light in the backwards direction of the lightsource. 
+            // - Check whether the sign of your cosine in the Lambertian emission evaluation is negative and 
+            //   return zero in that case.
+            Color emissionColor = (Frame::cosTheta(wo) < 0)? Color(0.0f) : m_emission->evaluate(uv);
+            return EmissionEval{ .value = emissionColor }; // Return the emission. No π factor needed
         }
 
         std::string toString() const override {

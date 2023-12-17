@@ -75,7 +75,7 @@ namespace lightwave {
             L_direct += its.evaluateEmission() * throughput;
             Color L_indirect = Color(0.0f);
 
-            if(ray.depth < maxDepth - 2) {
+            if(ray.depth < maxDepth - 1) {
                 // Compute the direct lighting using next-event estimation
                 if (m_scene->hasLights()) {
                     LightSample lightSample = m_scene->sampleLight(rng);
@@ -88,6 +88,9 @@ namespace lightwave {
                         }
                     }
                 }
+            }
+            else {
+                return L_direct;
             }
 
             // Sample the BSDF to get the new direction and the weight (next event estimation)
