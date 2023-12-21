@@ -16,7 +16,7 @@ namespace lightwave {
 
         DirectLightSample sampleDirect(const Point& origin, Sampler& rng) const override {
             return DirectLightSample{
-                .wi = m_direction,  // Reverse the direction for incoming light
+                .wi = m_direction,  // No need to reverse the direction for incoming light
                 .weight = m_intensity, // Intensity of the light remains constant
                 .distance = Infinity // Distance is infinity for a directional light
             };
