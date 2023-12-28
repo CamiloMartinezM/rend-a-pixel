@@ -34,13 +34,13 @@ namespace lightwave {
 
 float stof_substr(const std::string &str, size_t &index) {
     size_t tmp;
-    auto result = std::stof(str.substr(index), &tmp);
+    auto result = float(std::stod(str.substr(index), &tmp));
     index += tmp;
     return result;
 }
 
 template<> float parse_string(const std::string &str) {
-    return std::stof(str);
+    return float(std::stod(str));
 }
 
 template<> int parse_string(const std::string &str) {

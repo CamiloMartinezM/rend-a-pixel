@@ -50,9 +50,6 @@ class SceneRegistry(object):
         self.converted[full_name] = export_fn("TODO")
         return self.converted[full_name]
     
-    def relative_path(self, path):
-        return os.path.relpath(path, self.basepath)
-    
     @property
     def scene(self):
         return self.depsgraph.scene

@@ -7,7 +7,8 @@ from .xml_node import XMLNode
 def export_camera(registry: SceneRegistry):
     camera = registry.scene.camera
     if camera is None:
-        return
+        registry.error("Your scene needs a camera!")
+        return []
 
     matrix = orient_camera(camera.matrix_world, skip_scale=True)
 

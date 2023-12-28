@@ -72,20 +72,24 @@ def _handle_image(registry: SceneRegistry, image: bpy.types.Image):
         return img_path.replace('\\', '/') # Ensure the image path is not using \ to keep the xml valid
     elif image.source == 'FILE':
         filepath = image.filepath_raw if image.filepath_raw is not None else image.filepath
-        img_path = bpy.path.relpath(bpy.path.abspath(bpy.path.resolve_ncase(
-            filepath), library=image.library), start=registry.path).replace("\\", "/")
+        img_path = bpy.path.abspath(bpy.path.resolve_ncase(filepath), library=image.library)
+        try:
+            img_path = bpy.path.relpath(img_path, start=registry.path)
+        except:
+            # relpath can fail on Windows if paths have different drive letters
+            print("unable to create relative path")
+        img_path = img_path.replace("\\", "/")
         if img_path.startswith("//"):
             img_path = img_path[2:]
 
-        export_image = image.packed_file or getattr(
+        copy_image = image.packed_file or getattr(
             registry.settings, "copy_images", False) or img_path == ''
 
-        if export_image:
-            registry.debug(f"Exporting image {img_path}") 
+        if copy_image:
+            registry.debug(f"Copying image {img_path}") 
             img_name = bpy.path.basename(img_path)
 
             # Special case: We can not export PNG if bit depth is not 8 (or 32), for whatever reason
-
             if img_name == '' or image.depth > 32 or image.depth == 16:
                 keep_format = False
                 if image.depth > 32 or image.depth == 16 or image.file_format in ["OPEN_EXR", "OPEN_EXR_MULTILAYER", "HDR"]:
