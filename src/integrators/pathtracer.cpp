@@ -9,41 +9,41 @@ namespace lightwave {
         /**
          * @brief Compute the contribution of a camera-sampled ray using iterative path tracing.
          */
-        Color iterativePathTracing(const Ray& ray, Sampler& rng, int depth) {
-            Color actualColor(0.0f); // Color accumulated throughout the path
-            Color throughput(1.0f); // Weight
+        Color iterativePathTracing(const Ray& ray, Sampler& rng) {
             Ray iterRay = ray;
+            Color L_di = Color(0.0f);
+            Color throughput(1.0f); 
             for (int depth = 0; depth < maxDepth; depth++) {
                 Intersection its = m_scene->intersect(iterRay, rng);
                 if (!its) {
                     // The ray misses and hits the background
-                    actualColor += m_scene->evaluateBackground(iterRay.direction).value * throughput;
+                    L_di += m_scene->evaluateBackground(iterRay.direction).value * throughput;
                     break;
                 }
 
-                // Add intersection emission from the hit point if this is the first 
-                if (depth == 0) {
-                    actualColor += its.evaluateEmission() * throughput;
-                }
+                // Evaluate direct emission from the hit point
+                L_di += its.evaluateEmission() * throughput;
 
-                // b) Sample the BSDF to get the new direction and the weight.
-                BsdfSample bsdfSample = its.sampleBsdf(rng);
-                if (bsdfSample.isInvalid()) {
-                    break;
-                }
-
-                // Next-Event Estimation (assignment 3)
-                if (m_scene->hasLights()) {
-                    LightSample lightSample = m_scene->sampleLight(rng);
-                    if (!lightSample.light->canBeIntersected()) {
-                        DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
-                        Ray shadowRay(its.position, directLightSample.wi);
-                        if (!m_scene->intersect(shadowRay, directLightSample.distance, rng)) {
-                            Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                            actualColor += bsdfVal * directLightSample.weight / lightSample.probability * throughput;
+                // Compute the direct lighting using next-event estimation
+                if (iterRay.depth < maxDepth - 1) {
+                    if (m_scene->hasLights()) {
+                        LightSample lightSample = m_scene->sampleLight(rng);
+                        if (!lightSample.light->canBeIntersected()) {
+                            DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
+                            Ray shadowRay(its.position, directLightSample.wi);
+                            if (!m_scene->intersect(shadowRay, directLightSample.distance, rng)) {
+                                Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
+                                L_di += bsdfVal * directLightSample.weight / lightSample.probability * throughput;
+                            }
                         }
                     }
                 }
+                else 
+                    continue;
+
+                // Sample the BSDF to get the new direction and the weight
+                BsdfSample bsdfSample = its.sampleBsdf(rng);
+                if (bsdfSample.isInvalid()) break;
 
                 throughput *= bsdfSample.weight;
 
@@ -51,7 +51,7 @@ namespace lightwave {
                 iterRay = Ray(its.position, bsdfSample.wi.normalized(), iterRay.depth + 1);
             }
 
-            return actualColor;
+            return L_di;
         }
 
         /**
@@ -75,7 +75,7 @@ namespace lightwave {
             L_direct += its.evaluateEmission() * throughput;
             Color L_indirect = Color(0.0f);
 
-            if(ray.depth < maxDepth - 1) {
+            if (ray.depth < maxDepth - 1) {
                 // Compute the direct lighting using next-event estimation
                 if (m_scene->hasLights()) {
                     LightSample lightSample = m_scene->sampleLight(rng);
@@ -93,7 +93,7 @@ namespace lightwave {
                 return L_direct;
             }
 
-            // Sample the BSDF to get the new direction and the weight (next event estimation)
+            // Sample the BSDF to get the new direction and the weight
             BsdfSample bsdfSample = its.sampleBsdf(rng);
             if (bsdfSample.isInvalid()) {
                 // If the BSDF sampling is invalid, return the direct emission
@@ -124,7 +124,10 @@ namespace lightwave {
          * @brief Compute the contribution of a camera-sampled ray using path tracing.
          */
         Color Li(const Ray& ray, Sampler& rng) override {
-            return recursivePathTracing(ray, rng, Color(1.0f));
+            if (useRecursivePathTracer)
+                return recursivePathTracing(ray, rng, Color(1.0f));
+            else
+                return iterativePathTracing(ray, rng);
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.

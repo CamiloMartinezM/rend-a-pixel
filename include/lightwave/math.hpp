@@ -15,6 +15,9 @@
 
 namespace lightwave {
 
+// MARK: - Added constants (Dipplin)
+static const bool useRecursivePathTracer = false; // Set to false if one wants to use the iterative method for path-tracing
+
 // MARK: - useful constants
 
 /// @brief Pi
