@@ -1,5 +1,4 @@
 #include <lightwave.hpp>
-#include <math.h>
 
 namespace lightwave
 {
@@ -27,7 +26,7 @@ namespace lightwave
             // * use m_resolution to find the aspect ratio of the image
             fov_axis = properties.get<std::string>("fovAxis");
             aspect_ratio = static_cast<float>(m_resolution.x()) / static_cast<float>(m_resolution.y());
-            fov = (properties.get<float>("fov") * M_PI) / 180.0f; // fov converted to radians
+            fov = (properties.get<float>("fov") * Pi) / 180.0f; // fov converted to radians
             tan_fov = tan(fov / 2.0f);
         }
 

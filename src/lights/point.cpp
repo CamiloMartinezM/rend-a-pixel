@@ -29,7 +29,7 @@ namespace lightwave {
             Color intensity = m_power / (4 * Pi * distanceSquared);
 
             return DirectLightSample{
-                .wi = direction,        
+                .wi = direction,
                 .weight = intensity,
                 .distance = std::sqrt(distanceSquared)
             };

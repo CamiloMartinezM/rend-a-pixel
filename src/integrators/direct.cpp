@@ -31,7 +31,7 @@ namespace lightwave {
                 if (!lightSample.light->canBeIntersected()) {
                     DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
                     Ray shadowRay(its.position, directLightSample.wi);
-                    if (!m_scene->intersect(shadowRay, directLightSample.distance,  rng)) {
+                    if (!m_scene->intersect(shadowRay, directLightSample.distance, rng)) {
                         // If the light is visible from the intersection point
                         Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
                         actualColor += bsdfVal * directLightSample.weight / lightSample.probability * accumulatedWeight;
