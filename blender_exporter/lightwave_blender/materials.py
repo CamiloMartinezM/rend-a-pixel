@@ -10,11 +10,8 @@ from .node_graph import RMInput, RMNode, RMNodeGraph
 
 
 def export_default_bsdf():
-    node = XMLNode("bsdf", type="principled")
-    node.add("texture", name="baseColor", type="constant", value=0.8)
-    node.add("texture", name="roughness", type="constant", value=0.5)
-    node.add("texture", name="metallic", type="constant", value=0.0)
-    node.add("texture", name="specular", type="constant", value=0.5)
+    node = XMLNode("bsdf", type="diffuse")
+    node.add("texture", name="albedo", type="constant", value=0.8)
     return [node]
 
 def _export_diffuse_bsdf(registry: SceneRegistry, bsdf_node: RMNode):
