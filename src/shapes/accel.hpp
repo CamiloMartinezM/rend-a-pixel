@@ -226,10 +226,23 @@ namespace lightwave
          * returns the split cost
          * https://jacco.ompf2.com/2022/04/18/how-to-build-a-bvh-part-2-faster-rays/
          */
-        float SAHwithoutBinning(Node &node, int &splitAxis, float &splitPos)
+        float SAHwithoutBinning(Node &node, int &splitAxis, float &splitPos, int enforceAxis)
         {
             float bestCost = Infinity;
-            for (int axis = 0; axis < 3; axis++)
+            int startingAxis, endAxis;
+            if (enforceAxis == -1) // Iterate over all axis
+            {
+                startingAxis = 0;
+                endAxis = 3;
+            }
+            else
+            {
+                // This way, we make sure that in the following for-loop, axis = enforceAxis
+                startingAxis = enforceAxis;
+                endAxis = enforceAxis + 1;
+            }
+
+            for (int axis = startingAxis; axis < endAxis; axis++)
                 for (NodeIndex i = 0; i < node.primitiveCount; i++)
                 {
                     float candidatePos = getCentroid(m_primitiveIndices[node.leftFirst + i])[axis];
@@ -237,6 +250,7 @@ namespace lightwave
                     if (cost < bestCost)
                         splitPos = candidatePos, splitAxis = axis, bestCost = cost;
                 }
+
             return bestCost;
         }
 
@@ -285,7 +299,8 @@ namespace lightwave
                 startingAxis = 0;
                 endAxis = 3;
             }
-            else { 
+            else
+            {
                 // This way, we make sure that in the following for-loop, axis = enforceAxis
                 startingAxis = enforceAxis;
                 endAxis = enforceAxis + 1;
@@ -393,13 +408,15 @@ namespace lightwave
             {
                 int bestAxis = -1;
                 float splitCost;
-                if (SAHMethod == 0) // SAH without binning
-                    splitCost = SAHwithoutBinning(parent, bestAxis, splitPos);
-                else
-                    // enforceAxis is set to splitAxis
-                    splitCost = binning(parent, bestAxis, splitPos, splitAxis);
 
-                // NOTE: If I uncomment this, it does not pass bvh_simple
+                // In the calls to SAHwithoutBinning and binning, enforceAxis is set to splitAxis
+                // if the global constant useHighestBBLengthAxis = true
+                int enforceAxis = useHighestBBLengthAxis ? splitAxis : -1;
+
+                // If SAHMethod == 0, use SAH without binning, else use binning
+                splitCost = (SAHMethod == 0) ? SAHwithoutBinning(parent, bestAxis, splitPos, enforceAxis)
+                                             : binning(parent, bestAxis, splitPos, enforceAxis);
+
                 // We call CalculateNodeCost after finding the best split plane,
                 // and terminate if it isn’t worth it
                 float nosplitCost = CalculateNodeCost(parent);
