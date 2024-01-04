@@ -29,8 +29,9 @@ namespace lightwave {
             float G1wo = microfacet::smithG1(alpha, wm, wo);
             Color R = m_reflectance->evaluate(uv);
 
-            float denominator = 4 * Frame::absCosTheta(wi) * Frame::absCosTheta(wo);
-            return BsdfEval(R * D * G1wi * G1wo / denominator * Frame::absCosTheta(wi));
+            // Frame::absCosTheta(wi) cancels out from the denominator
+            float denominator = 4 * Frame::absCosTheta(wo);
+            return BsdfEval(R * D * G1wi * G1wo / denominator);
         }
 
         BsdfSample sample(const Point2& uv, const Vector& wo,
