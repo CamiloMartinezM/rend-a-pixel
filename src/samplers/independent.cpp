@@ -45,11 +45,6 @@ namespace lightwave
             return std::make_shared<Independent>(*this);
         }
 
-        ref<Sampler> clone(const Vector2i &resolution) override
-        {
-            return std::make_shared<Independent>(*this);
-        }
-
         AvailableSampler name() const override
         {
             return AvailableSampler::IndependentSampler;

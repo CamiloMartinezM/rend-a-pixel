@@ -58,11 +58,18 @@ namespace lightwave
         virtual ref<Sampler> clone() const = 0;
 
         /**
-         * @brief Returns a copy of the sampler, after setting a new variable inside the sampler, that defines the image
-         * resolution.
+         * @brief Additional initialization to be performed, which can be optionally overridden by derived samplers.
+         *
+         * This method provides a hook for derived classes to perform additional initialization steps.
+         * The default implementation does nothing. Derived sampler classes may override this method to implement
+         * specific initialization logic that has the given parameters.
+         *
          * @param resolution Full image resolution, should be the same as m_scene->camera()->resolution();
          */
-        virtual ref<Sampler> clone(const Vector2i &resolution) = 0;
+        virtual void additionalInitialization(const Vector2i &resolution)
+        {
+            // Default implementation does nothing
+        }
 
         /// @brief Returns the name of the given sampler.
         virtual AvailableSampler name() const = 0;

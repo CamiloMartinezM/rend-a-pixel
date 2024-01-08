@@ -187,23 +187,17 @@ namespace lightwave
             return std::make_shared<Halton>(*this);
         }
 
-        ref<Sampler> clone(const Vector2i &resolution) override
-        {
-            // Only make a new instance if the current resolution is different than the given
-            if (this->fullResolution == resolution)
-                return clone();
-            else
-            {
-                Halton temp = *this;              // Create a temporary copy
-                temp.fullResolution = resolution; // Modify the copy
-                temp.setUpBaseScalesExponents();  // Re-define base scales and base exponents based on image resolution
-                return std::make_shared<Halton>(temp);
-            }
-        }
-
         AvailableSampler name() const override
         {
             return AvailableSampler::HaltonSampler;
+        }
+
+        void additionalInitialization(const Vector2i &resolution) override
+        {
+            // Modify the current sampler's resolution
+            this->fullResolution = resolution;
+            // Re-define base scales and base exponents based on provided image resolution
+            setUpBaseScalesExponents();
         }
 
         std::string toString() const override
