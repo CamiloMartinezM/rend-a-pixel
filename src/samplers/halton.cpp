@@ -6,13 +6,34 @@ namespace lightwave
     class Halton : public Sampler
     {
       private:
+        // Stores digit permutations for each dimension used to scramble the Halton sequence,
+        // enhancing the randomness and reducing correlation between samples.
         pstd::vector<DigitPermutation> *digitPermutations = nullptr;
+
+        // Maximum resolution limit for the Halton sequence. It helps in maintaining sufficient floating-point precision
+        // in the computed sample values. For images with resolution greater than MaxHaltonResolution in one or both
+        // dimensions, a tile of Halton points is repeated across the image.
         static constexpr int MaxHaltonResolution = 128;
+
+        // The resolution of the image or sampling grid. It is used to scale the Halton sequence appropriately to cover
+        // the sampling area.
         Vector2i fullResolution{(int)Infinity};
+
+        // baseScales stores scale factors for the Halton sequence in each dimension.
+        // baseExponents stores the corresponding exponents for these scale factors.
         Point2i baseScales, baseExponents;
+
+        // multInverse stores the multiplicative inverses for the base scales, used in computing the Halton sequence
+        // values. Meanwhile, dimension tracks the current dimension in the multi-dimensional sample space.
         int multInverse[2], dimension = 0;
+
+        // The current index in the Halton sequence, which is used to compute the radical inverse for generating sample
+        // values.
         int64_t haltonIndex = 0;
         uint64_t m_seed;
+
+        // PBRT's allocator instance for memory management, which is used for allocating digit permutations that help
+        // for pixel decorrelation.
         Allocator alloc;
 
         /**
