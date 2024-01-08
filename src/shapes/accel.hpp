@@ -411,7 +411,7 @@ namespace lightwave
 
                 // In the calls to SAHwithoutBinning and binning, enforceAxis is set to splitAxis
                 // if the global constant useHighestBBLengthAxis = true
-                int enforceAxis = useHighestBBLengthAxis ? splitAxis : -1;
+                int enforceAxis = UseHighestBBLengthAxis ? splitAxis : -1;
 
                 // If SAHMethod == 0, use SAH without binning, else use binning
                 splitCost = (SAHMethod == 0) ? SAHwithoutBinning(parent, bestAxis, splitPos, enforceAxis)

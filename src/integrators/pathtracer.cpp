@@ -140,7 +140,7 @@ namespace lightwave
          */
         Color Li(const Ray &ray, Sampler &rng) override
         {
-            if (useRecursivePathTracer)
+            if (UseRecursivePathTracer)
                 return recursivePathTracing(ray, rng, Color(1.0f));
             else
                 return iterativePathTracing(ray, rng);

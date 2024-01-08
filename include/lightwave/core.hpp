@@ -182,6 +182,22 @@ static std::string indent(const T &obj, int amount = 1) {
     return indent(ss.str(), amount);
 }
 
+/**
+ * @brief Concatenates elements of a container into a string with a specified delimiter. 
+ * @note Used for convenience together with indent in many @c toString functions of objects.
+ */
+template <typename Iter>
+static std::string join(Iter begin, Iter end, const std::string &separator) {
+    std::ostringstream result;
+    if (begin != end) {
+        result << *begin++;
+    }
+    while (begin != end) {
+        result << separator << *begin++;
+    }
+    return result.str();
+}
+
 /// @brief Indents the given string by @c amount levels (two spaces each).
 template<>
 std::string indent(const std::string &str, int amount) {
