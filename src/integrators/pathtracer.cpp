@@ -27,19 +27,25 @@ namespace lightwave
                 L_di += its.evaluateEmission() * throughput;
 
                 // Compute the direct lighting using next-event estimation
-                if (iterRay.depth < maxDepth - 1)
+                if (iterRay.depth < maxDepth - 1 && m_scene->hasLights())
                 {
-                    if (m_scene->hasLights())
+                    LightSample lightSample = m_scene->sampleLight(rng);
+                    if (!lightSample.light->canBeIntersected()) 
                     {
-                        LightSample lightSample = m_scene->sampleLight(rng);
-                        if (!lightSample.light->canBeIntersected())
+                        DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
+                        Ray shadowRay(its.position, directLightSample.wi);
+                        if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                         {
-                            DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
-                            Ray shadowRay(its.position, directLightSample.wi);
-                            if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
+                            // Check if we hit an emissive surface and if it matches the sampled light
+                            Color emitted = its.evaluateEmission();
+                            bool isEmissiveSurface = emitted != Color::black();
+                            bool isDifferentLight = isEmissiveSurface && emitted != directLightSample.weight;
+
+                            if (!isDifferentLight) // Avoid double counting if hit by BSDF-sampled ray
                             {
                                 Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                                L_di += bsdfVal * directLightSample.weight / lightSample.probability * throughput;
+                                float lightSampleProb = lightSample.probability;
+                                L_di += bsdfVal * directLightSample.weight / lightSampleProb * throughput;
                             }
                         }
                     }

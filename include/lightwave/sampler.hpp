@@ -80,5 +80,4 @@ namespace lightwave
             return m_samplesPerPixel;
         }
     };
-
 } // namespace lightwave

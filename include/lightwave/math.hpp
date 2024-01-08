@@ -98,7 +98,7 @@ static const int Primes[NumPrimes] = {                  // Subsequent prime numb
 enum class AvailableSampler { Unnamed, HaltonSampler, IndependentSampler };
 // For the Halton Sampler, this enumeration encodes them the randomization strategies available
 enum class RandomizeStrategy { None, PermuteDigits, Owen }; 
-const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::None;
+const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;
 // From: https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/math.h
 template <typename T>
 inline T Mod(T a, T b) {

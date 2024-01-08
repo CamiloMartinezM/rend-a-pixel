@@ -1,21 +1,21 @@
 #include <lightwave.hpp>
 
-namespace lightwave {
-
-    class PointLight final : public Light {
-
+namespace lightwave
+{
+    class PointLight final : public Light
+    {
         Point m_position; // Position of the point light in world space
         Color m_power;    // Power (flux) of the point light
 
-        public:
-
-        PointLight(const Properties& properties) {
+      public:
+        PointLight(const Properties &properties)
+        {
             m_position = properties.get<Point>("position");
             m_power = properties.get<Color>("power");
         }
 
-        DirectLightSample sampleDirect(const Point& origin,
-                                       Sampler& rng) const override {
+        DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
+        {
             // Direction from the point on the surface to the light source
             Vector direction = m_position - origin;
 
@@ -28,16 +28,16 @@ namespace lightwave {
             // I = P / (4 * pi * r^2)
             Color intensity = m_power / (4 * Pi * distanceSquared);
 
-            return DirectLightSample{
-                .wi = direction,
-                .weight = intensity,
-                .distance = std::sqrt(distanceSquared)
-            };
+            return DirectLightSample{.wi = direction, .weight = intensity, .distance = std::sqrt(distanceSquared)};
         }
 
-        bool canBeIntersected() const override { return false; }
+        bool canBeIntersected() const override
+        {
+            return false;
+        }
 
-        std::string toString() const override {
+        std::string toString() const override
+        {
             return tfm::format("PointLight[\n"
                                "]");
         }
