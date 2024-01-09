@@ -28,8 +28,10 @@ namespace lightwave
             // Evaluate emission at the sampled point on the shape's surface UV coordinates
             Color emission = m_shape->emission()->evaluate(sampledArea.uv, sampledArea.frame.toLocal(direction)).value;
 
-            // Adjust intensity based on the inverse square distance and the area of the light (probability)
-            Color intensity = emission / (sampledArea.pdf * distance * distance);
+            // Adjust intensity based on the area of the light (probability), not diving by squared distance, therefore
+            // using radiance as a measure
+            Color intensity = emission / sampledArea.pdf;
+
             return DirectLightSample{.wi = direction, .weight = intensity, .distance = distance};
         }
 
