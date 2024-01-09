@@ -66,8 +66,8 @@ namespace lightwave
             // Map the spherical coordinates to UV coordinates
             // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
             // V coordinate: theta mapped from [0, PI] to [0, 1]
-            surf.uv.x() = phi / (2 * Pi);
-            surf.uv.y() = theta / Pi;
+            surf.uv.x() = phi * Inv2Pi;
+            surf.uv.y() = theta * InvPi;
 
             // Adjust phi to be in the range [0, 2*PI]
             if (surf.uv.x() < 0)
@@ -79,7 +79,7 @@ namespace lightwave
             // The bitangent is perpendicular to both the normal and the tangent
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
             // Uniform PDF over the sphere's surface
-            surf.pdf = 1.0f / (4.0f * Pi * radius * radius);
+            surf.pdf = Inv4Pi / (radius * radius);
         }
 
       private:

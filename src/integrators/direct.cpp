@@ -40,17 +40,9 @@ namespace lightwave
                     Ray shadowRay(its.position, directLightSample.wi);
                     if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                     {
-                        // Check if we hit an emissive surface and if it matches the sampled light
-                        // Color emitted = its.evaluateEmission();
-                        // bool isEmissiveSurface = emitted != Color::black();
-                        // bool isDifferentLight = isEmissiveSurface && emitted != directLightSample.weight;
-
-                        // if (!isDifferentLight) // Avoid double counting if hit by BSDF-sampled ray
-                        // {
-                            Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                            float lightSampleProb = lightSample.probability;
-                            actualColor += bsdfVal * directLightSample.weight / lightSampleProb * accumulatedWeight;
-                        // }
+                        Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
+                        float lightSampleProb = lightSample.probability;
+                        actualColor += bsdfVal * directLightSample.weight / lightSampleProb * accumulatedWeight;
                     }
                 }
             }
