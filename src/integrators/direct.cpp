@@ -41,9 +41,17 @@ namespace lightwave
                     Ray shadowRay(its.position, directLightSample.wi);
                     if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                     {
+                        // Calculate the cosine of the angle between the light direction and the surface normal
+                        float cosTheta = max(directLightSample.wi.dot(its.frame.normal), 0.0f);
+                        
+                        // Evaluate the BSDF at the hit point for the light direction
                         Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                        float lightSampleProb = lightSample.probability;
-                        actualColor += bsdfVal * directLightSample.weight / lightSampleProb * accumulatedWeight;
+                        
+                        // Modulate the light's contribution by the cosine factor
+                        Color lightContribution = bsdfVal * directLightSample.weight * cosTheta;
+
+                        // Final color contribution multiplying by the throughput and dividing by the light probability
+                        actualColor += lightContribution / lightSample.probability * accumulatedWeight;
                     }
                 }
             }

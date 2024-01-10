@@ -100,7 +100,7 @@ enum class AvailableSampler { Unnamed, HaltonSampler, IndependentSampler }; // N
 enum class RandomizeStrategy { None, PermuteDigits, Owen }; 
 const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  // Randomization strategy to use in Halton
 
-// Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling.
+// Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling
 enum class ShapeSamplingMethod { Uniform, CosineWeighted, SubtendedCone }; 
 const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform;    // Sphere sampling routine
 
