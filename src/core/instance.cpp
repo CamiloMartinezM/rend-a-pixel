@@ -14,18 +14,24 @@ namespace lightwave
         // * make sure that the frame is orthonormal (you are free to change the bitangent for this, but keep
         //   the direction of the transformed tangent the same)
         surf.position = m_transform->apply(surf.position);
-        surf.frame.tangent = m_transform->apply(surf.frame.tangent).normalized();
-        surf.frame.bitangent = m_transform->apply(surf.frame.bitangent).normalized();
+        Vector transformedTangent = m_transform->apply(surf.frame.tangent);
+        Vector transformedBitangent = m_transform->apply(surf.frame.bitangent);
 
-        if (m_flipNormal)
-            surf.frame.bitangent *= -1;
+        // The length of the cross product gives us the area spanned by tangent and bitangent, which is a measure of the
+        // change in surface area, which can affect the sampling density
+        Vector crossProduct = transformedTangent.cross(transformedBitangent);
 
+        // If m_flipNormal is true, flip the direction of the bitangent
+        transformedBitangent *= m_flipNormal ? -1 : 1;
+
+        // Normalize the tangent and bitangent to ensure the frame remains orthonormal
+        surf.frame.tangent = transformedTangent.normalized();
+        surf.frame.bitangent = transformedBitangent.normalized();
         surf.frame.normal = surf.frame.tangent.cross(surf.frame.bitangent).normalized();
-        surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent).normalized();
 
-        // Adjust PDF for transformed area, by getting the determinant and using it as scaling factor to account for the
-        // transforms which can affect the density
-        surf.pdf *= abs(m_transform->determinant());
+        // Adjust PDF for transformed area, measured by the cross product, to account for the transforms which can
+        // affect the sampling density
+        surf.pdf /= crossProduct.length();
     }
 
     bool Instance::intersect(const Ray &worldRay, Intersection &its, Sampler &rng) const
@@ -112,7 +118,7 @@ namespace lightwave
         return m_transform->apply(m_shape->getCentroid());
     }
 
-    AreaSample Instance::sampleArea(Sampler &rng) const 
+    AreaSample Instance::sampleArea(Sampler &rng) const
     {
         AreaSample sample = m_shape->sampleArea(rng);
         transformFrame(sample);

@@ -14,7 +14,7 @@ namespace lightwave
          * @param sampledArea The result of sampling an AreaSample of the shape. Every shape has its way of doing this.
          * @return DirectLightSample instance.
         */
-        DirectLightSample computeDirectLightSample(const Point &origin, AreaSample sampledArea) const
+        DirectLightSample computeDirectLightSample(const Point &origin, const AreaSample &sampledArea) const
         {
             Vector sampledAreaVector = sampledArea.position - origin; // Vector from the origin to the sampled point
 
@@ -27,9 +27,8 @@ namespace lightwave
             // Evaluate emission at the sampled point on the shape's surface UV coordinates
             Color emission = m_shape->emission()->evaluate(sampledArea.uv, sampledArea.frame.toLocal(direction)).value;
 
-            // Adjust intensity based on the area of the light (probability), not diving by squared distance, therefore
-            // using radiance as a measure
-            Color intensity = emission / sampledArea.pdf;
+            // Adjust intensity based on the area of the light (probability)
+            Color intensity = emission / (sampledArea.pdf * distance * distance);
 
             return DirectLightSample{.wi = direction, .weight = intensity, .distance = distance};
         }
@@ -42,13 +41,13 @@ namespace lightwave
 
         DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
         {
-            AreaSample sampledArea = m_shape->sampleArea(rng);
+            const AreaSample sampledArea = m_shape->sampleArea(rng);
             return computeDirectLightSample(origin, sampledArea);
         }
 
         DirectLightSample sampleDirect(const Point &origin, Sampler &rng, const Intersection &ref) const override
         {
-            AreaSample sampledArea = m_shape->sampleArea(rng, ref);
+            const AreaSample sampledArea = m_shape->sampleArea(rng, ref);
             return computeDirectLightSample(origin, sampledArea);
         }
 

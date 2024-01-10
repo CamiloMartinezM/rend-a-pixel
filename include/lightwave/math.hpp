@@ -22,7 +22,7 @@ static const int BINS = 16;                             // Number of bins to use
 static const bool UseHighestBBLengthAxis = true;        // Set to true if use axis with highest bounding box length in SAH
                                                         // Set to false it iterate over all axis (x, y, z) to pick splitAxis
 static constexpr float OneMinusEpsilon = 0x1.fffffep-1; // https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/float.h      
-static const bool UseImprovedAreaLightSampling = true;  // If true, then Shapes are gonna try to call its Importance 
+static const bool UseImprovedAreaLightSampling = false;  // If true, then Shapes are gonna try to call its Importance 
                                                         // Sampling variation to sample a point on them, namely,
                                                         // sampleArea(Sampler &rng, const Intersection &ref)
 static const int NumPrimes = 1000;                        
