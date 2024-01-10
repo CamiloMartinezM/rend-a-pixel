@@ -78,8 +78,6 @@ namespace lightwave
             surf.frame.tangent = Vector(0.f, 1.f, 0.f).cross(surf.frame.normal).normalized();
             // The bitangent is perpendicular to both the normal and the tangent
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
-            // Uniform PDF over the sphere's surface
-            surf.pdf = Inv4Pi / (radius * radius);
         }
 
       private:
@@ -89,20 +87,34 @@ namespace lightwave
         /**
          * @brief Projects a point back on the surface of the sphere and scales by the sphere radius
          * @param sample A previously sampled point.
-         * @return A 3D point on the surface of the sphere. 
+         * @return A 3D point on the surface of the sphere.
          */
-        inline Point projectBackOnSphere(const Point &p) const 
+        inline Point projectBackOnSphere(const Point &p) const
         {
             Point pObj = centerPoint + radius * Vector(p); // Use the point with the center and radius of the sphere
             return Point(Vector(pObj) * radius / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius
         }
 
         /// @brief Populates an AreaSample with the given position.
-        AreaSample populateAreaSampleWithPosition(const Point &position) const  
+        AreaSample populateAreaSampleWithPosition(const Point &position) const
         {
             AreaSample sample;
             populate(sample, position);
             return sample;
+        }
+
+        /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted, 
+        /// subtended cone).
+        inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod usedSamplingMethod,
+                              const Vector sampledVector, const Point refPoint) const
+        {
+            if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
+                surf.pdf = uniformSpherePdf(); 
+            else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
+                surf.pdf = cosineSpherePdf(sampledVector);
+            else
+                surf.pdf = subtendedConePdf(centerPoint, radius, refPoint); 
+            surf.pdf /= sqr(radius);
         }
 
       public:
@@ -167,31 +179,50 @@ namespace lightwave
         AreaSample sampleArea(Sampler &rng) const override
         {
             Point sampledPoint;
+            ShapeSamplingMethod usedSamplingMethod;
             if (SphereSampling == ShapeSamplingMethod::Uniform)
+            {
                 sampledPoint = squareToUniformSphere(rng.next2D());
-            else if (SphereSampling == ShapeSamplingMethod::CosineWeighted) 
+                usedSamplingMethod = ShapeSamplingMethod::Uniform;
+            }
+            else if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
+            {
                 sampledPoint = squareToCosineSphere(rng.next2D());
-            
+                usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
+            }
+
             // Project the sampled point back on the sphere and populate an AreaSample with it
-            return populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
+            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
+            updatePdf(sampledArea, usedSamplingMethod, Vector(0.f), Point(0.f));
+            return sampledArea;
         }
 
         AreaSample sampleArea(Sampler &rng, const Intersection &ref) const override
         {
             // Use default behaviour if the sphere sampling method is to be uniform or cosine-weighted
-            if (SphereSampling == ShapeSamplingMethod::Uniform || SphereSampling == ShapeSamplingMethod::CosineWeighted) 
+            if (SphereSampling == ShapeSamplingMethod::Uniform || SphereSampling == ShapeSamplingMethod::CosineWeighted)
                 return sampleArea(rng);
 
+            Point sampledPoint;
+            ShapeSamplingMethod usedSamplingMethod;
+
             // Sample uniformly on sphere if ref.position is inside it
-            // Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
-            // if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
-            //    return sampleArea(rng);
-            
-            // Otherwise, sample sphere uniformly inside subtended cone
-            Point sampledPoint = subtendedConeSphereSampling3ed(rng.next2D(), centerPoint, radius, ref.position);
+            Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
+            if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
+            {
+                sampledPoint = squareToUniformSphere(rng.next2D());
+                usedSamplingMethod = ShapeSamplingMethod::Uniform;
+            }
+            else // Otherwise, sample sphere uniformly inside subtended cone
+            {
+                sampledPoint = subtendedConeSphereSampling4ed(rng.next2D(), centerPoint, radius, ref.position);
+                usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
+            }
 
             // Project the sampled point back on the sphere and populate an AreaSample with it
-            return populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
+            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
+            updatePdf(sampledArea, usedSamplingMethod, Vector(sampledPoint), ref.position);
+            return sampledArea;
         }
 
         std::string toString() const override

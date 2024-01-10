@@ -64,6 +64,11 @@ inline float uniformHemispherePdf() {
     return Inv2Pi;
 }
 
+/// @brief Returns the density of the @ref squareToUniformSphere warping.
+inline float uniformSpherePdf() {
+    return Inv4Pi;
+}
+
 /**
  * @brief Warps a given point from the unit square ([0,0] to [1,1]) to a unit hemisphere (centered around [0,0,0] with radius 1,
  * pointing in z direction), with density given by @code cos( angle( result, [0,0,1] ) ) @endcode .
@@ -95,6 +100,11 @@ inline Vector squareToCosineSphere(const Point2 &sample)
 /// @brief Returns the density of the @ref squareToCosineHemisphere warping.
 inline float cosineHemispherePdf(const Vector &vector) {
     return InvPi * std::max(vector.z(), float(0));
+}
+
+/// @brief Returns the density of the @ref squareToCosineSphere warping.
+inline float cosineSpherePdf(const Vector &vector) {
+    return Inv2Pi * std::max(vector.z(), float(0));
 }
 
 /**
@@ -188,7 +198,7 @@ inline Point subtendedConeSphereSampling3ed(const Point2 &sample, const Point &p
     // Vector nObj = sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);
     // Point p(pCenter + radius * Vector(nObj)); // Sampled point
     // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
-    
+
     return Point(sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc));
 }
 
@@ -241,6 +251,20 @@ inline Point subtendedConeSphereSampling4ed(const Point2 &sample, const Point &p
     return Point(samplingFrame.toWorld(-w));
 }
 
+/// @brief Returns the density of the @ref subtendedConeSphereSampling3ed and subtendedConeSphereSampling4ed warping.
+inline float subtendedConePdf(const Point &pCenter, const float &radius, const Point &refPoint)
+{
+    // Compute general solid angle sphere PDF
+    float sin2ThetaMax = sqr(radius) / (refPoint - pCenter).lengthSquared();
+    float cosThetaMax = safe_sqrt(1 - sin2ThetaMax);
+    float oneMinusCosThetaMax = 1 - cosThetaMax;
+    // Compute more accurate oneMinusCosThetaMax for small solid angle
+    if (sin2ThetaMax < 0.00068523f /* sin^2(1.5 deg) */)
+        oneMinusCosThetaMax = sin2ThetaMax / 2;
+
+    return Inv2Pi / oneMinusCosThetaMax;
+}
+
 /**
  * @brief Offsets a point slightly along the normal direction to avoid self-intersection based on the geometry normal
  * and the incident direction. From: https://pbr-book.org/3ed-2018/Shapes/Managing_Rounding_Error#OffsetRayOrigin
@@ -262,4 +286,5 @@ inline Point OffsetRayOrigin(const Point &p, const Vector &n, const Vector &w)
     Point po = p + offset; // Round offset point po away from p
     return po;
 }
+
 }
