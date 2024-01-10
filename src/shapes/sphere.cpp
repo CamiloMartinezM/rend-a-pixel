@@ -85,13 +85,13 @@ namespace lightwave
         Point centerPoint;
 
         /**
-         * @brief Projects a point back on the surface of the sphere and scales by the sphere radius
-         * @param sample A previously sampled point.
+         * @brief Projects a sampled vector on the surface of the sphere and scales by the sphere radius
+         * @param v A previously sampled vector.
          * @return A 3D point on the surface of the sphere.
          */
-        inline Point projectBackOnSphere(const Point &p) const
+        inline Point projectBackOnSphere(const Vector &v) const
         {
-            Point pObj = centerPoint + radius * Vector(p); // Use the point with the center and radius of the sphere
+            Point pObj = centerPoint + radius * v;
             return Point(Vector(pObj) * radius / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius
         }
 
@@ -178,22 +178,15 @@ namespace lightwave
 
         AreaSample sampleArea(Sampler &rng) const override
         {
-            Point sampledPoint;
-            ShapeSamplingMethod usedSamplingMethod;
+            Vector sampledVector;
             if (SphereSampling == ShapeSamplingMethod::Uniform)
-            {
-                sampledPoint = squareToUniformSphere(rng.next2D());
-                usedSamplingMethod = ShapeSamplingMethod::Uniform;
-            }
+                sampledVector = squareToUniformSphere(rng.next2D());
             else if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
-            {
-                sampledPoint = squareToCosineSphere(rng.next2D());
-                usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
-            }
+                sampledVector = squareToCosineSphere(rng.next2D());
 
             // Project the sampled point back on the sphere and populate an AreaSample with it
-            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
-            updatePdf(sampledArea, usedSamplingMethod, Vector(0.f), Point(0.f));
+            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledVector));
+            updatePdf(sampledArea, SphereSampling, sampledVector, Point(0.f));
             return sampledArea;
         }
 
@@ -203,25 +196,25 @@ namespace lightwave
             if (SphereSampling == ShapeSamplingMethod::Uniform || SphereSampling == ShapeSamplingMethod::CosineWeighted)
                 return sampleArea(rng);
 
-            Point sampledPoint;
+            Vector sampledVector;
             ShapeSamplingMethod usedSamplingMethod;
 
             // Sample uniformly on sphere if ref.position is inside it
             Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
             if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
             {
-                sampledPoint = squareToUniformSphere(rng.next2D());
+                sampledVector = squareToUniformSphere(rng.next2D());
                 usedSamplingMethod = ShapeSamplingMethod::Uniform;
             }
             else // Otherwise, sample sphere uniformly inside subtended cone
             {
-                sampledPoint = subtendedConeSphereSampling4ed(rng.next2D(), centerPoint, radius, ref.position);
+                sampledVector = subtendedConeSphereSampling4ed(rng.next2D(), centerPoint, radius, ref.position);
                 usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
             }
 
             // Project the sampled point back on the sphere and populate an AreaSample with it
-            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
-            updatePdf(sampledArea, usedSamplingMethod, Vector(sampledPoint), ref.position);
+            AreaSample sampledArea = populateAreaSampleWithPosition(projectBackOnSphere(sampledVector));
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, ref.position);
             return sampledArea;
         }
 

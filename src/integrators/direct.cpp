@@ -42,7 +42,7 @@ namespace lightwave
                     if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                     {
                         // Calculate the cosine of the angle between the light direction and the surface normal
-                        float cosTheta = directLightSample.wi.dot(its.frame.normal);
+                        float cosTheta = max(abs(directLightSample.wi.dot(its.frame.normal)), 0.0f);
                         
                         // Evaluate the BSDF at the hit point for the light direction
                         Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;

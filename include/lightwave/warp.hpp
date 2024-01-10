@@ -104,7 +104,7 @@ inline float cosineHemispherePdf(const Vector &vector) {
 
 /// @brief Returns the density of the @ref squareToCosineSphere warping.
 inline float cosineSpherePdf(const Vector &vector) {
-    return Inv2Pi * std::max(vector.z(), float(0));
+    return 2 * InvPi * std::max(vector.z(), float(0));
 }
 
 /**
@@ -172,8 +172,8 @@ inline Vector sphericalDirection4ed(float sinTheta, float cosTheta, float phi)
  * 
  * @return A 3D point of the sphere in world space (not on the surface of the sphere!).
  */
-inline Point subtendedConeSphereSampling3ed(const Point2 &sample, const Point &pCenter, const float &radius,
-                                            const Point &refPoint)
+inline Vector subtendedConeSphereSampling3ed(const Point2 &sample, const Point &pCenter, const float &radius,
+                                             const Point &refPoint)
 {
     // Compute coordinate system for sphere sampling
     Vector wc = (pCenter - refPoint).normalized();
@@ -199,11 +199,11 @@ inline Point subtendedConeSphereSampling3ed(const Point2 &sample, const Point &p
     // Point p(pCenter + radius * Vector(nObj)); // Sampled point
     // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
 
-    return Point(sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc));
+    return sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);
 }
 
 /**
- * @brief Samples a point on a sphere from a given reference point using uniform sampling within the subtended cone.
+ * @brief Samples a vector on a sphere from a given reference point using uniform sampling within the subtended cone.
  * 
  * This function samples points on the sphere that are more likely to be visible from the reference point,
  * based on the solid angle subtended by the sphere. It avoids sampling points on the backside of the sphere
@@ -216,10 +216,10 @@ inline Point subtendedConeSphereSampling3ed(const Point2 &sample, const Point &p
  * @param radius The radius of the sphere.
  * @param refPoint The reference point from which the sphere is viewed.
  * 
- * @return A 3D point of the sphere in world space (not on the surface of the sphere!).
+ * @return A 3D vector of the sphere in world space (not on the surface of the sphere!).
  */
-inline Point subtendedConeSphereSampling4ed(const Point2 &sample, const Point &pCenter, const float &radius, 
-                                            const Point &refPoint) {
+inline Vector subtendedConeSphereSampling4ed(const Point2 &sample, const Point &pCenter, const float &radius, 
+                                             const Point &refPoint) {
     // Compute theta and phi values for sample in cone
     float sinThetaMax = radius / (refPoint - pCenter).length();
     float sin2ThetaMax = sqr(sinThetaMax);
@@ -248,7 +248,7 @@ inline Point subtendedConeSphereSampling4ed(const Point2 &sample, const Point &p
     // Point p(pCenter + radius * Vector(n)); // Sampled point
     // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
 
-    return Point(samplingFrame.toWorld(-w));
+    return samplingFrame.toWorld(-w);
 }
 
 /// @brief Returns the density of the @ref subtendedConeSphereSampling3ed and subtendedConeSphereSampling4ed warping.
