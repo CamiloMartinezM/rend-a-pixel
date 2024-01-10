@@ -87,13 +87,14 @@ namespace lightwave
         Point centerPoint;
 
         /**
-         * @brief Samples a point on the surface of the sphere uniformly using the squareToUniformSphere method.
-         * @param sample A 2D point in the unit square.
-         * @return A 3D point on the surface of the sphere corresponding to the input sample.
+         * @brief Projects a point back on the surface of the sphere and scales by the sphere radius
+         * @param sample A previously sampled point.
+         * @return A 3D point on the surface of the sphere. 
          */
-        inline Point SphereUniformSample(const Point2 &sample) const 
+        inline Point projectBackOnSphere(const Point &p) const 
         {
-            return centerPoint + radius * squareToUniformSphere(sample);
+            Point pObj = centerPoint + radius * Vector(p); // Use the point with the center and radius of the sphere
+            return Point(Vector(pObj) * radius / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius
         }
 
         /// @brief Populates an AreaSample with the given position.
@@ -165,21 +166,32 @@ namespace lightwave
 
         AreaSample sampleArea(Sampler &rng) const override
         {
-            // Sample a point on the unit sphere using spherical coordinates, transform the point to the sphere's scale
-            // and position, and populate the AreaSample
-            return populateAreaSampleWithPosition(SphereUniformSample(rng.next2D()));
+            Point sampledPoint;
+            if (SphereSampling == ShapeSamplingMethod::Uniform)
+                sampledPoint = squareToUniformSphere(rng.next2D());
+            else if (SphereSampling == ShapeSamplingMethod::CosineWeighted) 
+                sampledPoint = squareToCosineSphere(rng.next2D());
+            
+            // Project the sampled point back on the sphere and populate an AreaSample with it
+            return populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
         }
 
         AreaSample sampleArea(Sampler &rng, const Intersection &ref) const override
         {
-            // Sample uniformly on sphere if ref.position is inside it
-            Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
-            if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
+            // Use default behaviour if the sphere sampling method is to be uniform or cosine-weighted
+            if (SphereSampling == ShapeSamplingMethod::Uniform || SphereSampling == ShapeSamplingMethod::CosineWeighted) 
                 return sampleArea(rng);
 
+            // Sample uniformly on sphere if ref.position is inside it
+            // Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
+            // if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
+            //    return sampleArea(rng);
+            
             // Otherwise, sample sphere uniformly inside subtended cone
-            Point sampledPoint = subtendedConeUniformSphereSampling(rng.next2D(), centerPoint, radius, ref.position);
-            return populateAreaSampleWithPosition(sampledPoint);
+            Point sampledPoint = subtendedConeSphereSampling3ed(rng.next2D(), centerPoint, radius, ref.position);
+
+            // Project the sampled point back on the sphere and populate an AreaSample with it
+            return populateAreaSampleWithPosition(projectBackOnSphere(sampledPoint));
         }
 
         std::string toString() const override

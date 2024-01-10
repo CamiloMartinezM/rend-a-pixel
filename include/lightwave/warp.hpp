@@ -43,8 +43,8 @@ inline Vector squareToUniformSphere(const Point2 &sample) {
     float z = 1 - 2 * sample.y();
     float r = safe_sqrt(1 - z * z);
     float phi = 2 * Pi * sample.x();
-    float cosPhi = std::cos(phi);
-    float sinPhi = std::sin(phi);
+    float cosPhi = cos(phi);
+    float sinPhi = sin(phi);
     return { r * cosPhi, r * sinPhi, z };
 }
 
@@ -74,6 +74,24 @@ inline Vector squareToCosineHemisphere(const Point2 &sample) {
     return { p.x(), p.y(), z };
 }
 
+/**
+ * @brief Warps a given point from the unit square ([0,0] to [1,1]) to a unit sphere (centered around [0,0,0] with
+ * radius 1, pointing in z direction). It uses the same method in squareToCosineHemisphere(), and a random variable,
+ * such as sample.x() to decide whether to flip the z axis, effectively sampling both hemispheres.
+ */
+inline Vector squareToCosineSphere(const Point2 &sample)
+{
+    // First, perform cosine-weighted sampling on a hemisphere
+    Point2 p = squareToUniformDiskConcentric(sample);
+    float z = safe_sqrt(1.0f - p.x() * p.x() - p.y() * p.y());
+
+    // Randomly decide whether to use the upper or lower hemisphere
+    if (sample.x() < 0.5)
+        return {p.x(), p.y(), z}; // Use the upper hemisphere
+    else
+        return {p.x(), p.y(), -z}; // Use the lower hemisphere (flip the z-coordinate)
+}
+
 /// @brief Returns the density of the @ref squareToCosineHemisphere warping.
 inline float cosineHemispherePdf(const Vector &vector) {
     return InvPi * std::max(vector.z(), float(0));
@@ -88,9 +106,9 @@ inline float cosineHemispherePdf(const Vector &vector) {
  * @param phi The azimuthal angle in radians.
  * @return A direction vector in 3D space corresponding to the spherical coordinates.
  */
-inline Vector sphericalDirection(float sinTheta, float cosTheta, float phi)
+inline Vector sphericalDirection3ed(float sinTheta, float cosTheta, float phi)
 {
-    return Vector(sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta);
+    return Vector(sinTheta * cos(phi), sinTheta * sin(phi), cosTheta);
 }
 
 /**
@@ -105,10 +123,27 @@ inline Vector sphericalDirection(float sinTheta, float cosTheta, float phi)
  * @param z The z-axis of the local coordinate system.
  * @return A direction vector in the local coordinate system corresponding to the spherical coordinates.
  */
-inline Vector sphericalDirection(float sinTheta, float cosTheta, float phi, const Vector &x, const Vector &y,
-                                 const Vector &z)
+inline Vector sphericalDirection3ed(float sinTheta, float cosTheta, float phi, const Vector &x, const Vector &y,
+                                    const Vector &z)
 {
     return sinTheta * cos(phi) * x + sinTheta * sin(phi) * y + cosTheta * z;
+}
+
+/**
+ * @brief Converts a theta and phi pair into a unit (x, y, z) vector, applying these equations directly. Notice that
+ * the function is given the sine and cosine of theta, rather than theta itself. This is because the sine and cosine of
+ * theta are often already available to the caller. This is not normally the case for phi, however, so phi is passed in
+ * as is. From: https://pbr-book.org/4ed/Geometry_and_Transformations/Spherical_Geometry#SphericalDirection
+ *
+ * @param sinTheta The sine of the polar angle theta.
+ * @param cosTheta The cosine of the polar angle theta.
+ * @param phi The azimuthal angle in radians.
+ *
+ * @return A (x, y, z) vector in the local coordinate system.
+ */
+inline Vector sphericalDirection4ed(float sinTheta, float cosTheta, float phi)
+{
+    return Vector(clamp(sinTheta, -1, 1) * cos(phi), clamp(sinTheta, -1, 1) * sin(phi), clamp(cosTheta, -1, 1));
 }
 
 /**
@@ -116,7 +151,7 @@ inline Vector sphericalDirection(float sinTheta, float cosTheta, float phi, cons
  * 
  * This function samples points on the sphere that are more likely to be visible from the reference point,
  * based on the solid angle subtended by the sphere. It avoids sampling points on the backside of the sphere
- * that would not be visible.
+ * that would not be visible. Taken from PBRT's 3rd Edition.
  * 
  * From: https://pbr-book.org/3ed-2018/Light_Transport_I_Surface_Reflection/Sampling_Light_Sources
  * 
@@ -125,15 +160,15 @@ inline Vector sphericalDirection(float sinTheta, float cosTheta, float phi, cons
  * @param radius The radius of the sphere.
  * @param refPoint The reference point from which the sphere is viewed.
  * 
- * @return A 3D point on the surface of the sphere in world space.
+ * @return A 3D point of the sphere in world space (not on the surface of the sphere!).
  */
-inline Point subtendedConeUniformSphereSampling(const Point2 &sample, const Point &pCenter, const float &radius,
-                                                const Point &refPoint)
+inline Point subtendedConeSphereSampling3ed(const Point2 &sample, const Point &pCenter, const float &radius,
+                                            const Point &refPoint)
 {
     // Compute coordinate system for sphere sampling
     Vector wc = (pCenter - refPoint).normalized();
     Vector wcX, wcY;
-    buildOrthonormalBasis(wc, wcX, wcY);
+    buildOrthonormalBasisPBRT(wc, wcX, wcY);
 
     // Sample sphere uniformly inside subtended cone
     // Compute theta and phi values for the sample in the cone
@@ -149,10 +184,61 @@ inline Point subtendedConeUniformSphereSampling(const Point2 &sample, const Poin
     float cosAlpha = (dc * dc + radius * radius - ds * ds) / (2 * dc * radius);
     float sinAlpha = sqrt(max(0.f, 1 - cosAlpha * cosAlpha));
 
-    // Compute the surface normal and the sampled point on the sphere
-    Vector nObj = sphericalDirection(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);
-    Point pObj = Point(radius * nObj);
-    return pObj;
+    // If we wanted to project back on the sphere, compute the surface normal and the sampled point on the sphere
+    // Vector nObj = sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc);
+    // Point p(pCenter + radius * Vector(nObj)); // Sampled point
+    // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
+    
+    return Point(sphericalDirection3ed(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wc));
+}
+
+/**
+ * @brief Samples a point on a sphere from a given reference point using uniform sampling within the subtended cone.
+ * 
+ * This function samples points on the sphere that are more likely to be visible from the reference point,
+ * based on the solid angle subtended by the sphere. It avoids sampling points on the backside of the sphere
+ * that would not be visible. Taken from PBRT's 4th Edition.
+ * 
+ * From: https://pbr-book.org/4ed/Shapes/Spheres#Sampling
+ * 
+ * @param sample A random 2D point on the unit square used to generate the sample.
+ * @param pCenter The center point of the sphere.
+ * @param radius The radius of the sphere.
+ * @param refPoint The reference point from which the sphere is viewed.
+ * 
+ * @return A 3D point of the sphere in world space (not on the surface of the sphere!).
+ */
+inline Point subtendedConeSphereSampling4ed(const Point2 &sample, const Point &pCenter, const float &radius, 
+                                            const Point &refPoint) {
+    // Compute theta and phi values for sample in cone
+    float sinThetaMax = radius / (refPoint - pCenter).length();
+    float sin2ThetaMax = sqr(sinThetaMax);
+    float cosThetaMax = safe_sqrt(1 - sin2ThetaMax);
+
+    float cosTheta = (cosThetaMax - 1) * sample.x() + 1;
+    float sin2Theta = 1 - sqr(cosTheta);
+    
+    // Compute cone sample via Taylor series expansion for small angles
+    if (sin2ThetaMax < 0.00068523f /* sin^2(1.5 deg) */) {
+        sin2Theta = sin2ThetaMax * sample.x();
+        cosTheta = safe_sqrt(1 - sin2Theta);
+    }
+
+    // Compute angle alpha from center of sphere to sampled point on surface
+    float cosAlpha = sin2Theta / sinThetaMax + cosTheta * safe_sqrt(1 - sin2Theta / sqr(sinThetaMax));
+    float sinAlpha = safe_sqrt(1 - sqr(cosAlpha));
+    float phi = sample.y() * 2 * Pi;
+
+    // Compute surface normal and sampled point on sphere
+    Vector w = sphericalDirection4ed(sinAlpha, cosAlpha, phi);
+    Frame samplingFrame = Frame((pCenter - refPoint).normalized());
+
+    // If we wanted to project back on the sphere
+    // Vector n(samplingFrame.toWorld(-w));
+    // Point p(pCenter + radius * Vector(n)); // Sampled point
+    // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
+
+    return Point(samplingFrame.toWorld(-w));
 }
 
 /**

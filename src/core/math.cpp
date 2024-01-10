@@ -140,6 +140,15 @@ void buildOrthonormalBasis(const Vector &a, Vector &b, Vector &c) {
     b = c.cross(a);
 }
 
+void buildOrthonormalBasisPBRT(const Vector &v1, Vector &v2, Vector &v3)
+{
+    if (abs(v1.x()) > abs(v1.y()))
+        v2 = Vector(-v1.z(), 0, v1.x()) / sqrt(v1.x() * v1.x() + v1.z() * v1.z());
+    else
+        v2 = Vector(0, v1.z(), -v1.y()) / sqrt(v1.y() * v1.y() + v1.z() * v1.z());
+    v3 = v1.cross(v2);
+}
+
 Color Intersection::evaluateEmission() const {
     if (!instance->emission()) return Color::black();
     return instance->emission()->evaluate(uv, frame.toLocal(wo)).value;

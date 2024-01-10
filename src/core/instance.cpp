@@ -31,7 +31,7 @@ namespace lightwave
 
         // Adjust PDF for transformed area, measured by the cross product, to account for the transforms which can
         // affect the sampling density
-        surf.pdf /= crossProduct.length();
+        surf.pdf /= abs(crossProduct.length());
     }
 
     bool Instance::intersect(const Ray &worldRay, Intersection &its, Sampler &rng) const
