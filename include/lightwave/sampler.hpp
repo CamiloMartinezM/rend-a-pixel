@@ -66,9 +66,9 @@ namespace lightwave
          *
          * @param resolution Full image resolution, should be the same as m_scene->camera()->resolution();
          */
-        virtual void additionalInitialization(const Vector2i &resolution)
-        {
-            // Default implementation does nothing
+        virtual void additionalInitialization(const Vector2i &resolution) 
+        { 
+            // Default implementation does nothing 
         }
 
         /// @brief Returns the name of the given sampler.

@@ -93,6 +93,10 @@ public:
      */
     AreaSample sampleArea(Sampler &rng) const override;
 
+    /// @brief The Importance Sampling counterpart to sampleArea but with the Intersection event given as parameter 
+    /// for its use in Importance Sampling routines.
+    AreaSample sampleArea(Sampler &rng, const Intersection &ref) const override;
+
     /// @brief Returns a textual representation of this image.
     std::string toString() const override {
         return tfm::format(

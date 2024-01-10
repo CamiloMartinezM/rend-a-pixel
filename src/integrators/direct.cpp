@@ -36,7 +36,10 @@ namespace lightwave
                 LightSample lightSample = m_scene->sampleLight(rng);
                 if (!lightSample.light->canBeIntersected())
                 {
-                    DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
+                    DirectLightSample directLightSample;
+                    directLightSample = UseImprovedAreaLightSampling
+                                            ? lightSample.light->sampleDirect(its.position, rng, its)
+                                            : lightSample.light->sampleDirect(its.position, rng);
                     Ray shadowRay(its.position, directLightSample.wi);
                     if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                     {

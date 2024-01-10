@@ -112,12 +112,20 @@ namespace lightwave
         return m_transform->apply(m_shape->getCentroid());
     }
 
-    AreaSample Instance::sampleArea(Sampler &rng) const
+    AreaSample Instance::sampleArea(Sampler &rng) const 
     {
         AreaSample sample = m_shape->sampleArea(rng);
         transformFrame(sample);
         return sample;
     }
+
+    AreaSample Instance::sampleArea(Sampler &rng, const Intersection &ref) const
+    {
+        AreaSample sample = m_shape->sampleArea(rng, ref);
+        transformFrame(sample);
+        return sample;
+    }
+
 } // namespace lightwave
 
 REGISTER_CLASS(Instance, "instance", "default")

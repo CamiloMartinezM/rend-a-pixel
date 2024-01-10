@@ -53,7 +53,7 @@ namespace lightwave
             // For assignment_2 the following was made:
 
             // Normal always points in the direction of p - o
-            Vector p_o = (position - center_point).normalized();
+            Vector p_o = (position - centerPoint).normalized();
 
             surf.position = Point(p_o); // Hit point is normalized
 
@@ -84,13 +84,31 @@ namespace lightwave
 
       private:
         float radius;
-        Point center_point;
+        Point centerPoint;
+
+        /**
+         * @brief Samples a point on the surface of the sphere uniformly using the squareToUniformSphere method.
+         * @param sample A 2D point in the unit square.
+         * @return A 3D point on the surface of the sphere corresponding to the input sample.
+         */
+        inline Point SphereUniformSample(const Point2 &sample) const 
+        {
+            return centerPoint + radius * squareToUniformSphere(sample);
+        }
+
+        /// @brief Populates an AreaSample with the given position.
+        AreaSample populateAreaSampleWithPosition(const Point &position) const  
+        {
+            AreaSample sample;
+            populate(sample, position);
+            return sample;
+        }
 
       public:
         Sphere(const Properties &properties)
         {
             radius = 1;
-            center_point = Point(0.f, 0.f, 0.f);
+            centerPoint = Point(0.f, 0.f, 0.f);
         }
 
         bool intersect(const Ray &ray, Intersection &its, Sampler &rng) const override
@@ -102,7 +120,7 @@ namespace lightwave
             // d²*t² + 2*(o - c)*d*t + ((o - c)² - r²) = 0
             // Where a point p in the line is defined by: p = o + t*d
             // and a point p in the sphere is (p - c)² - r² = 0
-            Vector L = ray.origin - center_point;
+            Vector L = ray.origin - centerPoint;
             float a = ray.direction.dot(ray.direction);
             float b = 2 * ray.direction.dot(L);
             float c = L.dot(L) - radius * radius;
@@ -142,16 +160,26 @@ namespace lightwave
 
         Point getCentroid() const override
         {
-            return center_point;
+            return centerPoint;
         }
 
         AreaSample sampleArea(Sampler &rng) const override
         {
             // Sample a point on the unit sphere using spherical coordinates, transform the point to the sphere's scale
-            // and position and populate the sample
-            AreaSample sample;
-            populate(sample, center_point + radius * squareToUniformSphere(rng.next2D()));
-            return sample;
+            // and position, and populate the AreaSample
+            return populateAreaSampleWithPosition(SphereUniformSample(rng.next2D()));
+        }
+
+        AreaSample sampleArea(Sampler &rng, const Intersection &ref) const override
+        {
+            // Sample uniformly on sphere if ref.position is inside it
+            Point pOrigin = OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
+            if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
+                return sampleArea(rng);
+
+            // Otherwise, sample sphere uniformly inside subtended cone
+            Point sampledPoint = subtendedConeUniformSphereSampling(rng.next2D(), centerPoint, radius, ref.position);
+            return populateAreaSampleWithPosition(sampledPoint);
         }
 
         std::string toString() const override

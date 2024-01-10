@@ -45,8 +45,16 @@ public:
      */
     virtual Point getCentroid() const = 0;
     /// @brief Samples a random point on the surface of this shape.
-    virtual AreaSample sampleArea(Sampler &rng) const {
-        NOT_IMPLEMENTED
+    virtual AreaSample sampleArea(Sampler &rng) const = 0;
+
+    /**
+     * @brief Samples a random point on the surface of the shape with importance sampling, using a reference
+     * Intersection or Surface Event. The idea is for the latter to carry inside a referente point.
+     * @param ref Intersection/Surface Event with which an importance sampling routine is used.
+     */
+    virtual AreaSample sampleArea(Sampler &rng, const Intersection &ref) const 
+    { 
+        return sampleArea(rng); // Default implementation does not use the provided reference
     }
 
     /**
