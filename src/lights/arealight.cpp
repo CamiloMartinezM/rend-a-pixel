@@ -16,21 +16,31 @@ namespace lightwave
         */
         DirectLightSample computeDirectLightSample(const Point &origin, const AreaSample &sampledArea) const
         {
-            Vector sampledAreaVector = sampledArea.position - origin; // Vector from the origin to the sampled point
+            // Vector from the origin towards the sampled point on the light source
+            Vector sampledAreaWi = sampledArea.position - origin; 
 
-            if (sampledArea.pdf == 0 || sampledAreaVector.lengthSquared() == 0)
-                return DirectLightSample::invalid();
+            if (sampledArea.pdf == 0 || sampledAreaWi.lengthSquared() == 0) 
+               return DirectLightSample::invalid();
 
-            Vector direction = sampledAreaVector.normalized();
-            float distance = sampledAreaVector.length();
+            Vector wi = sampledAreaWi.normalized();
+            float distance = sampledAreaWi.length();
+
+            // Vectors on the local coordinate system
+            Vector localSampledAreaWi = sampledArea.frame.toLocal(sampledAreaWi).normalized();  // Towards the light
+            Vector localSampledAreaWo = sampledArea.frame.toLocal(-sampledAreaWi).normalized(); // Towards the origin 
 
             // Evaluate emission at the sampled point on the shape's surface UV coordinates
-            Color emission = m_shape->emission()->evaluate(sampledArea.uv, sampledArea.frame.toLocal(direction)).value;
+            Color emission = m_shape->emission()->evaluate(sampledArea.uv, localSampledAreaWi).value;
 
-            // Adjust intensity based on the area of the light (probability)
-            Color intensity = emission / (sampledArea.pdf * distance * distance);
+            // Contribution of the angle between the surface normal pointing out and the incoming ray angle pointing
+            // from the sampled point on the area light towards the origin point
+            float cosTheta = Frame::absCosTheta(localSampledAreaWo.normalized());
 
-            return DirectLightSample{.wi = direction, .weight = intensity, .distance = distance};
+            // Adjust intensity based on the area of the light (probability) and the angle of the surface normal and 
+            // the incoming ray angle with respect to the surface normal
+            Color intensity = (emission * cosTheta) / (sampledArea.pdf * sqr(distance));
+
+            return DirectLightSample{.wi = wi, .weight = intensity, .distance = distance};
         }
 
       public:
