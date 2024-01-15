@@ -16,25 +16,25 @@ namespace lightwave
         */
         DirectLightSample computeDirectLightSample(const Point &origin, const AreaSample &sampledArea) const
         {
-            // Vector from the origin towards the sampled point on the light source
-            Vector sampledAreaWi = sampledArea.position - origin; 
+            // Vector from the sampled point on the light source towards the origin
+            // By convention, vectors point out of the surface 
+            Vector sampledAreaWo = origin - sampledArea.position; 
 
-            if (sampledArea.pdf == 0 || sampledAreaWi.lengthSquared() == 0) 
+            if (sampledArea.pdf == 0 || sampledAreaWo.lengthSquared() == 0) 
                return DirectLightSample::invalid();
 
-            Vector wi = sampledAreaWi.normalized();
-            float distance = sampledAreaWi.length();
+            Vector wi = (-sampledAreaWo).normalized();
+            float distance = sampledAreaWo.length();
 
-            // Vectors on the local coordinate system
-            Vector localSampledAreaWi = sampledArea.frame.toLocal(sampledAreaWi).normalized();  // Towards the light
-            Vector localSampledAreaWo = sampledArea.frame.toLocal(-sampledAreaWi).normalized(); // Towards the origin 
+            // Vector on the local coordinate system
+            Vector localSampledAreaWo = sampledArea.frame.toLocal(sampledAreaWo).normalized();
 
             // Evaluate emission at the sampled point on the shape's surface UV coordinates
-            Color emission = m_shape->emission()->evaluate(sampledArea.uv, localSampledAreaWi).value;
+            Color emission = m_shape->emission()->evaluate(sampledArea.uv, localSampledAreaWo).value;
 
             // Contribution of the angle between the surface normal pointing out and the incoming ray angle pointing
             // from the sampled point on the area light towards the origin point
-            float cosTheta = Frame::absCosTheta(localSampledAreaWo.normalized());
+            float cosTheta = Frame::absCosTheta(localSampledAreaWo);
 
             // Adjust intensity based on the area of the light (probability) and the angle of the surface normal and 
             // the incoming ray angle with respect to the surface normal
