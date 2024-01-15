@@ -13,15 +13,15 @@ namespace lightwave
          * @param origin Origin point.
          * @param sampledArea The result of sampling an AreaSample of the shape. Every shape has its way of doing this.
          * @return DirectLightSample instance.
-        */
+         */
         DirectLightSample computeDirectLightSample(const Point &origin, const AreaSample &sampledArea) const
         {
             // Vector from the sampled point on the light source towards the origin
-            // By convention, vectors point out of the surface 
-            Vector sampledAreaWo = origin - sampledArea.position; 
+            // By convention, vectors point out of the surface
+            Vector sampledAreaWo = origin - sampledArea.position;
 
-            if (sampledArea.pdf == 0 || sampledAreaWo.lengthSquared() == 0) 
-               return DirectLightSample::invalid();
+            if (sampledArea.pdf == 0 || sampledAreaWo.lengthSquared() == 0)
+                return DirectLightSample::invalid();
 
             Vector wi = (-sampledAreaWo).normalized();
             float distance = sampledAreaWo.length();
@@ -36,7 +36,7 @@ namespace lightwave
             // from the sampled point on the area light towards the origin point
             float cosTheta = Frame::absCosTheta(localSampledAreaWo);
 
-            // Adjust intensity based on the area of the light (probability) and the angle of the surface normal and 
+            // Adjust intensity based on the area of the light (probability) and the angle of the surface normal and
             // the incoming ray angle with respect to the surface normal
             Color intensity = (emission * cosTheta) / (sampledArea.pdf * sqr(distance));
 
