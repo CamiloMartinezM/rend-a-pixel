@@ -80,11 +80,10 @@ namespace lightwave
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
 
             // Uniform area pdf. updatePdf() overwrites this if it is called after this method
-            surf.pdf = Inv4Pi / sqr(radius);
+            surf.pdf = Inv4Pi;
         }
 
       private:
-        float radius;
         Point centerPoint;
 
         /**
@@ -94,8 +93,8 @@ namespace lightwave
          */
         inline Point projectBackOnSphere(const Vector &v) const
         {
-            Point pObj = centerPoint + radius * v;
-            return Point(Vector(pObj) * radius / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius
+            Point pObj = centerPoint + v;                               // radius * v, but radius=1
+            return Point(Vector(pObj) / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius=1
         }
 
         /// @brief Populates an AreaSample with the given position.
@@ -109,38 +108,25 @@ namespace lightwave
         /// @brief Updates the PDF of the given Surface Event with the Uniform Sphere PDF
         inline void updatePdfUniform(SurfaceEvent &surf) const
         {
-            surf.pdf = uniformSpherePdf() / sqr(radius);
+            surf.pdf = uniformSpherePdf();
         }
 
         /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted,
         /// subtended cone).
         inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod usedSamplingMethod,
-                              const Vector sampledVector, const Point projectedPoint, const Intersection ref,
-                              const bool adjustUniform) const
+                              const Vector sampledVector, const Point projectedPoint, const Intersection ref) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
-            {
-                surf.pdf = uniformSpherePdf();
-                if (adjustUniform)
-                {
-                    // Convert area sampling PDF in ss to solid angle measure
-                    Vector n = Vector(projectedPoint).normalized();
-                    surf.pdf /= n.dot(ref.wo) / (ref.position - projectedPoint).lengthSquared();
-                    if (std::isinf(surf.pdf))
-                        surf.pdf = 0;
-                }
-            }
+                updatePdfUniform(surf);
             else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
                 surf.pdf = cosineHemispherePdf(sampledVector);
             else
-                surf.pdf = subtendedConePdf(centerPoint, radius, ref.position);
-            surf.pdf /= sqr(radius);
+                surf.pdf = subtendedConePdf(centerPoint, 1.0f, ref.position);
         }
 
       public:
         Sphere(const Properties &properties)
         {
-            radius = 1;
             centerPoint = Point(0.f, 0.f, 0.f);
         }
 
@@ -156,7 +142,7 @@ namespace lightwave
             Vector L = ray.origin - centerPoint;
             float a = ray.direction.dot(ray.direction);
             float b = 2 * ray.direction.dot(L);
-            float c = L.dot(L) - sqr(radius);
+            float c = L.dot(L) - 1; // - sqr(radius), but radius=1
 
             if (!solveQuadratic(a, b, c, t0, t1))
                 return false; // if no solution, then no intersection
@@ -188,7 +174,7 @@ namespace lightwave
 
         Bounds getBoundingBox() const override
         {
-            return Bounds(Point{-radius, -radius, -radius}, Point{+radius, +radius, +radius});
+            return Bounds(Point{-1.0f, -1.0f, -1.0f}, Point{+1.0f, +1.0f, +1.0f});
         }
 
         Point getCentroid() const override
@@ -219,35 +205,47 @@ namespace lightwave
             Vector sampledVector, importanceSampledVector;
             ShapeSamplingMethod usedSamplingMethod;
             Point projectedPoint;
-            bool adjustUniform = false;
             if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
             {
-                usedSamplingMethod = ShapeSamplingMethod::CosineWeighted;
-                sampledVector = squareToCosineHemisphere(rng.next2D());
+                // Sample uniformly on sphere if ref.position is inside it
+                Point pOrigin =
+                    OffsetRayOrigin(ref.position, ref.frame.normal, (centerPoint - ref.position).normalized());
+                if ((pOrigin - centerPoint).lengthSquared() <= 1.0f)
+                {
+                    importanceSampledVector = squareToUniformSphere(rng.next2D());
+                    usedSamplingMethod = ShapeSamplingMethod::Uniform;
+                }
+                else // Otherwise, sample sphere with cosine-weighted sampling
+                {
+                    usedSamplingMethod = ShapeSamplingMethod::CosineWeighted;
 
-                Vector importantDirection = (ref.position - centerPoint).normalized();
-                Frame importanceSamplingFrame = Frame(importantDirection);
+                    // Get a vector on the hemisphere
+                    sampledVector = squareToCosineHemisphere(rng.next2D());
 
-                importanceSampledVector = importanceSamplingFrame.toWorld(sampledVector);
+                    // Build a normal from the center of the sphere towards the origin (points outside of the surface)
+                    Vector importantDirection = (pOrigin - centerPoint).normalized();
 
-                // Project the sampled point back on the sphere and populate an AreaSample with it
-                projectedPoint = projectBackOnSphere(importanceSampledVector);
+                    // Build a frame out of that normal and convert the sampled vector to this coordinate system that
+                    // points towards the intersection point from the sphere
+                    Frame importanceSamplingFrame = Frame(importantDirection);
+                    importanceSampledVector = importanceSamplingFrame.toWorld(sampledVector);
+                }
             }
             else
             {
                 // Sample uniformly on sphere if ref.position is inside it
-                Point pOrigin = ref.position; // OffsetRayOrigin(ref.position, ref.wo, centerPoint - ref.position);
-                if ((pOrigin - centerPoint).lengthSquared() <= radius * radius)
+                Point pOrigin =
+                    OffsetRayOrigin(ref.position, ref.frame.normal, (centerPoint - ref.position).normalized());
+                if ((pOrigin - centerPoint).lengthSquared() <= 1.0f)
                 {
                     importanceSampledVector = squareToUniformSphere(rng.next2D());
                     usedSamplingMethod = ShapeSamplingMethod::Uniform;
-                    adjustUniform = true;
                 }
                 else // Otherwise, sample sphere inside subtended cone
                 {
-                    importanceSampledVector =
-                        subtendedConeSphereSampling4ed(rng.next2D(), centerPoint, radius, ref.position);
                     usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
+                    importanceSampledVector =
+                        subtendedConeSphereSampling3ed(rng.next2D(), centerPoint, 1.0f, ref.position);
                 }
             }
 
@@ -257,7 +255,7 @@ namespace lightwave
 
             // For Uniform, only sampleArea is used; for cosine-weighted, sampleArea and sampledVector are used; and
             // for subtended cone, all parameters are used to calculate the PDF
-            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref, adjustUniform);
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref);
             return sampledArea;
         }
 

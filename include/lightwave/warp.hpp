@@ -231,7 +231,7 @@ inline Vector subtendedConeSphereSampling4ed(const Point2 &sample, const Point &
     // Compute cone sample via Taylor series expansion for small angles
     if (sin2ThetaMax < 0.00068523f /* sin^2(1.5 deg) */) {
         sin2Theta = sin2ThetaMax * sample.x();
-        cosTheta = safe_sqrt(1 - sin2Theta);
+        cosTheta = sqrt(1 - sin2Theta);
     }
 
     // Compute angle alpha from center of sphere to sampled point on surface
@@ -241,14 +241,14 @@ inline Vector subtendedConeSphereSampling4ed(const Point2 &sample, const Point &
 
     // Compute surface normal and sampled point on sphere
     Vector w = sphericalDirection4ed(sinAlpha, cosAlpha, phi);
-    Frame samplingFrame = Frame((pCenter - refPoint).normalized());
+    Frame samplingFrame = Frame((refPoint - pCenter).normalized());
 
     // If we wanted to project back on the sphere
-    // Vector n(samplingFrame.toWorld(-w));
+    // Vector n(samplingFrame.toWorld(w));
     // Point p(pCenter + radius * Vector(n)); // Sampled point
     // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
 
-    return samplingFrame.toWorld(-w);
+    return samplingFrame.toWorld(w);
 }
 
 /// @brief Returns the density of the @ref subtendedConeSphereSampling3ed and subtendedConeSphereSampling4ed warping.
