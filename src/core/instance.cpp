@@ -127,7 +127,9 @@ namespace lightwave
 
     AreaSample Instance::sampleArea(Sampler &rng, const Intersection &ref) const
     {
-        AreaSample sample = m_shape->sampleArea(rng, ref);
+        Intersection localRef = ref;
+        localRef.position = m_transform->inverse(ref.position);
+        AreaSample sample = m_shape->sampleArea(rng, localRef);
         transformFrame(sample);
         return sample;
     }
