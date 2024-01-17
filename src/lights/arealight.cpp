@@ -55,7 +55,7 @@ namespace lightwave
             return computeDirectLightSample(origin, sampledArea);
         }
 
-        DirectLightSample sampleDirect(const Point &origin, Sampler &rng, const Intersection &ref) const override
+        DirectLightSample sampleDirect(const Point &origin, Sampler &rng, const SurfaceEvent &ref) const override
         {
             const AreaSample sampledArea = m_shape->sampleArea(rng, ref);
             return computeDirectLightSample(origin, sampledArea);

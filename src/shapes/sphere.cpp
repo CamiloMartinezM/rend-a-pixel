@@ -113,11 +113,22 @@ namespace lightwave
 
         /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted,
         /// subtended cone).
-        inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod usedSamplingMethod,
-                              const Vector sampledVector, const Point projectedPoint, const Intersection ref) const
+        inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod &usedSamplingMethod,
+                              const Vector &sampledVector, const Point &projectedPoint, const SurfaceEvent &ref,
+                              const bool adjustUniform) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
+            {
                 updatePdfUniform(surf);
+                if (adjustUniform) // Convert area sampling PDF in ss to solid angle measure
+                {
+                    Vector n = Vector(projectedPoint).normalized();
+                    Vector wi = (projectedPoint - ref.position).normalized();
+                    surf.pdf /= abs(n.dot(-wi)) / (ref.position - projectedPoint).lengthSquared();
+                    if (std::isinf(surf.pdf))
+                        surf.pdf = 0;
+                }
+            }
             else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
                 surf.pdf = cosineHemispherePdf(sampledVector);
             else
@@ -196,7 +207,7 @@ namespace lightwave
             return sampledArea;
         }
 
-        AreaSample sampleArea(Sampler &rng, const Intersection &ref) const override
+        AreaSample sampleArea(Sampler &rng, const SurfaceEvent &ref) const override
         {
             // Use default behaviour if the sphere sampling method is to be uniform
             if (SphereSampling == ShapeSamplingMethod::Uniform)
@@ -205,31 +216,22 @@ namespace lightwave
             Vector sampledVector, importanceSampledVector;
             ShapeSamplingMethod usedSamplingMethod;
             Point projectedPoint;
+            bool adjustUniform = false;
             if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
             {
-                // Sample uniformly on sphere if ref.position is inside it
-                Point pOrigin =
-                    OffsetRayOrigin(ref.position, ref.frame.normal, (centerPoint - ref.position).normalized());
-                if ((pOrigin - centerPoint).lengthSquared() <= 1.0f)
-                {
-                    importanceSampledVector = squareToUniformSphere(rng.next2D());
-                    usedSamplingMethod = ShapeSamplingMethod::Uniform;
-                }
-                else // Otherwise, sample sphere with cosine-weighted sampling
-                {
-                    usedSamplingMethod = ShapeSamplingMethod::CosineWeighted;
+                // Otherwise, sample sphere with cosine-weighted sampling
+                usedSamplingMethod = ShapeSamplingMethod::CosineWeighted;
 
-                    // Get a vector on the hemisphere
-                    sampledVector = squareToCosineHemisphere(rng.next2D());
+                // Get a vector on the hemisphere
+                sampledVector = squareToCosineHemisphere(rng.next2D());
 
-                    // Build a normal from the center of the sphere towards the origin (points outside of the surface)
-                    Vector importantDirection = (pOrigin - centerPoint).normalized();
+                // Build a normal from the center of the sphere towards the origin (points outside of the surface)
+                Vector importantDirection = (ref.position - centerPoint).normalized();
 
-                    // Build a frame out of that normal and convert the sampled vector to this coordinate system that
-                    // points towards the intersection point from the sphere
-                    Frame importanceSamplingFrame = Frame(importantDirection);
-                    importanceSampledVector = importanceSamplingFrame.toWorld(sampledVector);
-                }
+                // Build a frame out of that normal and convert the sampled vector to this coordinate system that
+                // points towards the intersection point from the sphere
+                Frame importanceSamplingFrame = Frame(importantDirection);
+                importanceSampledVector = importanceSamplingFrame.toWorld(sampledVector);
             }
             else
             {
@@ -240,12 +242,13 @@ namespace lightwave
                 {
                     importanceSampledVector = squareToUniformSphere(rng.next2D());
                     usedSamplingMethod = ShapeSamplingMethod::Uniform;
+                    adjustUniform = true;
                 }
                 else // Otherwise, sample sphere inside subtended cone
                 {
                     usedSamplingMethod = ShapeSamplingMethod::SubtendedCone;
                     importanceSampledVector =
-                        subtendedConeSphereSampling3ed(rng.next2D(), centerPoint, 1.0f, ref.position);
+                        subtendedConeSphereSampling4ed(rng.next2D(), centerPoint, 1.0f, ref.position);
                 }
             }
 
@@ -255,7 +258,7 @@ namespace lightwave
 
             // For Uniform, only sampleArea is used; for cosine-weighted, sampleArea and sampledVector are used; and
             // for subtended cone, all parameters are used to calculate the PDF
-            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref);
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref, adjustUniform);
             return sampledArea;
         }
 

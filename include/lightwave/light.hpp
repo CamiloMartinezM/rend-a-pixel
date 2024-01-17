@@ -49,9 +49,9 @@ public:
      */
     virtual DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const = 0;
 
-    /// @brief The Importance Sampling counterpart to sampleDirect but with the Intersection event given as parameter 
+    /// @brief The Importance Sampling counterpart to sampleDirect but with a reference Surface Event given as parameter 
     /// for its use in Importance Sampling routines.  
-    virtual DirectLightSample sampleDirect(const Point &origin, Sampler &rng, const Intersection &ref) const 
+    virtual DirectLightSample sampleDirect(const Point &origin, Sampler &rng, const SurfaceEvent &ref) const 
     {
         return sampleDirect(origin, rng); // Default implementation does not use the provided reference
     }
