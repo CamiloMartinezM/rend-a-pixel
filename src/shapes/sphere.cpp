@@ -115,7 +115,7 @@ namespace lightwave
         /// subtended cone).
         inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod &usedSamplingMethod,
                               const Vector &sampledVector, const Point &projectedPoint, const SurfaceEvent &ref,
-                              const bool adjustUniform) const
+                              const bool &adjustUniform) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
             {
@@ -237,7 +237,7 @@ namespace lightwave
             {
                 // Sample uniformly on sphere if ref.position is inside it
                 Point pOrigin =
-                    OffsetRayOrigin(ref.position, ref.frame.normal, (centerPoint - ref.position).normalized());
+                    OffsetRayOrigin(ref.position, ref.frame.normal, (ref.position - centerPoint).normalized());
                 if ((pOrigin - centerPoint).lengthSquared() <= 1.0f)
                 {
                     importanceSampledVector = squareToUniformSphere(rng.next2D());

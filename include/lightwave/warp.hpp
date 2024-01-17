@@ -241,14 +241,14 @@ inline Vector subtendedConeSphereSampling4ed(const Point2 &sample, const Point &
 
     // Compute surface normal and sampled point on sphere
     Vector w = sphericalDirection4ed(sinAlpha, cosAlpha, phi);
-    Frame samplingFrame = Frame((refPoint - pCenter).normalized());
+    Frame samplingFrame = Frame((pCenter - refPoint).normalized());
 
     // If we wanted to project back on the sphere
     // Vector n(samplingFrame.toWorld(w));
     // Point p(pCenter + radius * Vector(n)); // Sampled point
     // return Point(Vector(p) * radius / (p - pCenter).length()); // Scale the point by the sphere’s radius
 
-    return samplingFrame.toWorld(w);
+    return samplingFrame.toWorld(-w);
 }
 
 /// @brief Returns the density of the @ref subtendedConeSphereSampling3ed and subtendedConeSphereSampling4ed warping.
