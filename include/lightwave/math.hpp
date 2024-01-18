@@ -102,7 +102,7 @@ const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  // R
 
 // Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling
 enum class ShapeSamplingMethod { Uniform, CosineWeighted, SubtendedCone }; 
-const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::CosineWeighted; // Sphere sampling routine
+const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform; // Sphere sampling routine
 
 // From: https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/math.h
 template <typename T>

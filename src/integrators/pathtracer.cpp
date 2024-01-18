@@ -26,27 +26,37 @@ namespace lightwave
                 // Evaluate direct emission from the hit point
                 L_di += its.evaluateEmission() * throughput;
 
-                // Compute the direct lighting using next-event estimation
-                if (iterRay.depth < maxDepth - 1)
+                // Use Next-Event Estimation to sample a light
+                if (nee)
                 {
-                    if (m_scene->hasLights())
+                    if (iterRay.depth < maxDepth - 1)
                     {
-                        LightSample lightSample = m_scene->sampleLight(rng);
-                        if (!lightSample.light->canBeIntersected())
+                        if (m_scene->hasLights())
                         {
-                            DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
-                            Ray shadowRay(its.position, directLightSample.wi);
-                            if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
+                            LightSample lightSample = m_scene->sampleLight(rng);
+                            if (!lightSample.light->canBeIntersected())
                             {
-                                Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                                float lightSampleProb = lightSample.probability;
-                                L_di += bsdfVal * directLightSample.weight / lightSampleProb * throughput;
+                                DirectLightSample directLightSample =
+                                    lightSample.light->sampleDirect(its.position, rng, its);
+                                Ray shadowRay(its.position, directLightSample.wi);
+                                if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
+                                {
+                                    // Evaluate the BSDF at the hit point for the light direction
+                                    Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
+
+                                    // Modulate the light's contribution
+                                    Color lightContribution = bsdfVal * directLightSample.weight;
+
+                                    // Final color contribution multiplying by the throughput and dividing by the light
+                                    // probability
+                                    L_di += lightContribution / lightSample.probability * throughput;
+                                }
                             }
                         }
                     }
+                    else
+                        continue;
                 }
-                else
-                    continue;
 
                 // Sample the BSDF to get the new direction and the weight
                 BsdfSample bsdfSample = its.sampleBsdf(rng);
@@ -129,11 +139,15 @@ namespace lightwave
         }
 
       public:
-        int maxDepth;
+        int maxDepth; // Maximum depth to explore with pathtracing
+        bool nee;     // Use Next-Event Estimation
+        bool mis;     // Use Multiple Importance Sampling
 
         PathTracer(const Properties &properties) : SamplingIntegrator(properties)
         {
             maxDepth = properties.get<int>("depth", 2);
+            nee = properties.get<bool>("nee", false);
+            mis = properties.get<bool>("mis", false);
         }
 
         /**

@@ -1,0 +1,161 @@
+<test type="image" id="veach-mis">
+    <integrator type="pathtracer" depth="5" nee="true" mis="true">
+        <scene id="scene">
+            <camera type="perspective" id="camera">
+                <float name="fov" value="25" />
+                <string name="fovAxis" value="x" />
+                <integer name="width" value="600" />
+                <integer name="height" value="400" />
+
+                <transform>
+                    <lookat origin="32,3.5,0" target="0,3.5,0" up="0,-1,0" />
+                </transform>
+            </camera>
+
+
+            <bsdf type="diffuse" id="Diffuse">
+                <texture name="albedo" type="constant" value="1" />
+            </bsdf>
+
+            <bsdf type="roughconductor" id="Smooth">
+                <texture type="constant" name="roughness" value="0.01" />
+                <texture type="constant" name="reflectance" value="0.2" />
+            </bsdf>
+
+            <bsdf type="roughconductor" id="Glossy">
+                <texture type="constant" name="roughness" value="0.05" />
+                <texture name="reflectance" type="constant" value="0.2" />
+            </bsdf>
+
+            <bsdf type="roughconductor" id="Rough">
+                <texture type="constant" name="roughness" value="0.1" />
+                <texture name="reflectance" type="constant" value="0.2" />
+            </bsdf>
+
+            <bsdf type="roughconductor" id="SuperRough">
+                <texture type="constant" name="roughness" value="0.25" />
+                <texture name="reflectance" type="constant" value="0.4" />
+            </bsdf>
+
+            <!-- <light type="envmap">
+        <texture type="constant" value="0.4"/>
+    </light> -->
+
+            <instance id="light_small">
+                <shape type="sphere" />
+                <emission type="lambertian">
+                    <texture name="emission" type="constant" value="40,25,20" />
+                </emission>
+                <transform>
+                    <scale value="0.05" />
+                    <translate x="-0.15" y="6.5" z="2.8" />
+                </transform>
+            </instance>
+
+            <light type="area">
+                <ref id="light_small" />
+            </light>
+
+            <instance id="light_medium">
+                <shape type="sphere" />
+                <emission type="lambertian">
+                    <texture name="emission" type="constant" value="2.5,7.5,12.5" />
+                </emission>
+                <transform>
+                    <scale value="0.5" />
+                    <translate x="-0.15" y="6.5" z="0.8" />
+                </transform>
+            </instance>
+
+            <light type="area">
+                <ref id="light_medium" />
+            </light>
+
+            <instance id="light_big">
+                <shape type="sphere" />
+                <emission type="lambertian">
+                    <texture name="emission" type="constant" value="6,1,4" />
+                </emission>
+                <transform>
+                    <scale value="1" />
+                    <translate x="-0.15" y="6.5" z="-2" />
+                </transform>
+            </instance>
+
+            <light type="area">
+                <ref id="light_big" />
+            </light>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="Diffuse" />
+                <transform>
+                    <rotate axis="1,0,0" angle="-90" />
+                    <scale x="19.8" y="19.8" z="47.52" />
+                    <translate x="4.9" y="0" z="0" />
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="Diffuse" />
+                <transform>
+                    <rotate axis="1,0,0" angle="90" />
+                    <rotate axis="0,0,1" angle="-90" />
+                    <scale x="19.8" y="19.8" z="47" />
+                    <translate x="-5" y="9.9" z="0" />
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="Smooth" />
+                <transform>
+                    <rotate axis="1,0,0" angle="90" />
+
+                    <scale x="1.5" y="0.3" z="4.01" />
+                    <rotate axis="0,0,1" angle="-40" />
+                    <translate x="0.264069" y="4.4" z="0" />
+
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="Glossy" />
+                <transform>
+                    <rotate axis="1,0,0" angle="90" />
+
+                    <scale x="1.5" y="0.3" z="4.1" />
+                    <rotate axis="0,0,1" angle="-24" />
+                    <translate x="3" y="2.72" z="0" />
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="Rough" />
+                <transform>
+                    <rotate axis="1,0,0" angle="90" />
+
+                    <scale x="1.5" y="0.3" z="4" />
+                    <rotate axis="0,0,1" angle="-14.5" />
+                    <translate x="7.09981" y="1.7" z="0" />
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="rectangle" />
+                <ref id="SuperRough" />
+                <transform>
+                    <rotate axis="1,0,0" angle="90" />
+
+                    <scale x="1.5" y="0.3" z="4" />
+                    <rotate axis="0,0,1" angle="-9" />
+                    <translate x="10.3" y="1.02" z="0" />
+                </transform>
+            </instance>
+        </scene>
+        <sampler type="independent" count="64" />
+    </integrator>
+</test>

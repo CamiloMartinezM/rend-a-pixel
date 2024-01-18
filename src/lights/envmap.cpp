@@ -1,21 +1,104 @@
 #include <lightwave.hpp>
 
-namespace lightwave {
-
-    class EnvironmentMap final : public BackgroundLight {
+namespace lightwave
+{
+    class EnvironmentMap final : public BackgroundLight
+    {
+      private:
         /// @brief The texture to use as background
         ref<Texture> m_texture;
 
         /// @brief An optional transform from local-to-world space
         ref<Transform> m_transform;
 
-        public:
-        EnvironmentMap(const Properties& properties) {
-            m_texture = properties.getChild<Texture>();
-            m_transform = properties.getOptionalChild<Transform>();
+        ref<Image> m_image;
+
+        struct Distribution2D
+        {
+            std::vector<float> func;
+            std::vector<float> cdf;
+            int count;
+        };
+
+        Distribution2D m_rowDistribution;
+        std::vector<Distribution2D> m_colDistributions;
+
+        void initializeDistributions()
+        {
+            int width = m_image->resolution().x();
+            int height = m_image->resolution().y();
+            std::vector<float> imageLuminance(width * height);
+
+            // Compute luminance for each pixel and row marginal CDF
+            m_rowDistribution.func.resize(height);
+            m_rowDistribution.cdf.resize(height + 1);
+            for (int y = 0; y < height; ++y)
+            {
+                float rowSum = 0;
+                for (int x = 0; x < width; ++x)
+                {
+                    Color color = m_image->operator()(Point2i(x, y));
+                    imageLuminance[y * width + x] = color.luminance();
+                    rowSum += color.luminance();
+                }
+                m_rowDistribution.func[y] = rowSum;
+            }
+            computeCumulativeDistribution(m_rowDistribution);
+
+            // Compute column CDFs for each row
+            m_colDistributions.resize(height);
+            for (int y = 0; y < height; ++y)
+            {
+                m_colDistributions[y].func.resize(width);
+                m_colDistributions[y].cdf.resize(width + 1);
+                for (int x = 0; x < width; ++x)
+                {
+                    m_colDistributions[y].func[x] = imageLuminance[y * width + x];
+                }
+                computeCumulativeDistribution(m_colDistributions[y]);
+            }
         }
 
-        BackgroundLightEval evaluate(const Vector& direction) const override {
+        void computeCumulativeDistribution(Distribution2D &dist)
+        {
+            dist.cdf[0] = 0;
+            for (size_t i = 1; i < dist.cdf.size(); ++i)
+            {
+                dist.cdf[i] = dist.cdf[i - 1] + dist.func[i - 1] / dist.func.size();
+            }
+        }
+
+        float sampleContinuousDistribution(const Distribution2D &dist, float sample, float &pdf) const
+        {
+            auto it = std::lower_bound(dist.cdf.begin(), dist.cdf.end(), sample);
+            int offset = std::max(0, static_cast<int>(it - dist.cdf.begin() - 1));
+            float du = sample - dist.cdf[offset];
+            if ((dist.cdf[offset + 1] - dist.cdf[offset]) > 0)
+            {
+                du /= (dist.cdf[offset + 1] - dist.cdf[offset]);
+            }
+            pdf = dist.func[offset] / (dist.func.size() * (dist.cdf.back() - dist.cdf.front()));
+            return (offset + du) / dist.func.size();
+        }
+
+      public:
+        EnvironmentMap(const Properties &properties)
+        {
+            if (properties.has("filename"))
+            {
+                m_image = std::make_shared<Image>(properties);
+            }
+            else
+            {
+                m_image = properties.getChild<Image>();
+            }
+            m_texture = properties.getChild<Texture>();
+            m_transform = properties.getOptionalChild<Transform>();
+            initializeDistributions();
+        }
+
+        BackgroundLightEval evaluate(const Vector &direction) const override
+        {
             // hints:
             // * if (m_transform) { transform direction vector from world to local
             // coordinates }
@@ -26,7 +109,7 @@ namespace lightwave {
             if (m_transform)
                 transformedDirection = m_transform->inverse(direction);
             transformedDirection = transformedDirection.normalized();
-        
+
             // Convert 3D Cartesian coordinates to spherical coordinates (θ, φ)
             float theta = std::acos(transformedDirection.y());                          // θ: polar angle
             float phi = std::atan2(transformedDirection.z(), transformedDirection.x()); // φ: azimuthal angle
@@ -35,30 +118,46 @@ namespace lightwave {
             float u = 0.5f - phi / (2 * Pi);
             float v = theta / Pi;
 
-            // Return the evaluated texture value at the mapped coordinates
+            // Return the evaluated texture value at the mapped UV coordinates
             Vector2 warped(u, v);
+            Color value = m_texture->evaluate(warped);
+
             return {
-                .value = m_texture->evaluate(warped),
+                .value = value,
             };
         }
 
-        DirectLightSample sampleDirect(const Point& origin,
-                                       Sampler& rng) const override {
-            Vector direction = squareToUniformSphere(rng.next2D());
-            auto E = evaluate(direction);
+        DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
+        {
+            float pdfRow, pdfCol;
+            float uRow = rng.next();
+            float uCol = rng.next();
 
-            // implement better importance sampling here, if you ever need it
-            // (useful for environment maps with bright tiny light sources, like the
-            // sun for example)
+            float rowSample = sampleContinuousDistribution(m_rowDistribution, uRow, pdfRow);
+            float colSample = sampleContinuousDistribution(
+                m_colDistributions[static_cast<int>(rowSample * m_image->resolution().y())], uCol, pdfCol);
+
+            float theta = rowSample * Pi;
+            float phi = colSample * 2 * Pi;
+            float sinTheta = sin(theta);
+
+            Vector direction(cos(phi) * sinTheta, cos(theta), sin(phi) * sinTheta);
+
+            if (sinTheta == 0)
+                pdfRow = 0;
+
+            float pdf = Inv2Pi * InvPi * pdfRow * pdfCol / sinTheta;
+            Color value = evaluate(direction).value;
 
             return {
                 .wi = direction,
-                .weight = E.value / Inv4Pi,
+                .weight = value / pdf,
                 .distance = Infinity,
             };
         }
 
-        std::string toString() const override {
+        std::string toString() const override
+        {
             return tfm::format("EnvironmentMap[\n"
                                "  texture = %s,\n"
                                "  transform = %s\n"
