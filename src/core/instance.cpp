@@ -5,7 +5,6 @@
 
 namespace lightwave
 {
-
     void Instance::transformFrame(SurfaceEvent &surf) const
     {
         // hints:

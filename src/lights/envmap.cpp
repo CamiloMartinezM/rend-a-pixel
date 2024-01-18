@@ -11,7 +11,11 @@ namespace lightwave
         /// @brief An optional transform from local-to-world space
         ref<Transform> m_transform;
 
+        /// @brief Raw image with the Environment Map
         ref<Image> m_image;
+
+        /// @brief Defines whether an Environment Map was provided. Defaults to false
+        bool providedEnvironmentMap = false;
 
         struct Distribution2D
         {
@@ -84,18 +88,15 @@ namespace lightwave
       public:
         EnvironmentMap(const Properties &properties)
         {
-            // if (properties.has("filename"))
-            // {
-            //     // m_image = std::make_shared<Image>(properties);
-            //     m_image = properties.getChild<Image>("image");
-            // }
-            // else
-            // {
-            //     m_image = properties.getChild<Image>("image");
-            // }
             m_texture = properties.getChild<Texture>();
             m_transform = properties.getOptionalChild<Transform>();
-            initializeDistributions();
+            auto imageTexture = dynamic_cast<ImageTexture *>(m_texture.get());
+            if (imageTexture)
+            {
+                m_image = imageTexture->m_image;
+                providedEnvironmentMap = true;
+                initializeDistributions();
+            }
         }
 
         BackgroundLightEval evaluate(const Vector &direction) const override
