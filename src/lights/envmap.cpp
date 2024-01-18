@@ -84,14 +84,15 @@ namespace lightwave
       public:
         EnvironmentMap(const Properties &properties)
         {
-            if (properties.has("filename"))
-            {
-                m_image = std::make_shared<Image>(properties);
-            }
-            else
-            {
-                m_image = properties.getChild<Image>();
-            }
+            // if (properties.has("filename"))
+            // {
+            //     // m_image = std::make_shared<Image>(properties);
+            //     m_image = properties.getChild<Image>("image");
+            // }
+            // else
+            // {
+            //     m_image = properties.getChild<Image>("image");
+            // }
             m_texture = properties.getChild<Texture>();
             m_transform = properties.getOptionalChild<Transform>();
             initializeDistributions();

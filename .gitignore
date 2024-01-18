@@ -5,7 +5,10 @@ __pycache__
 
 /.vs
 /out
-/scenes
+/scenes/*/meshes
+/scenes/*/textures
+/tests/*/meshes
+/tests/*/textures
 
 .DS_Store
 CMakeFiles/
