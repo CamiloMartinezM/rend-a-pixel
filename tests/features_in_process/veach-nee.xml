@@ -1,5 +1,5 @@
-<test type="image" id="veach-bsdf" me="5e-4">
-    <integrator type="pathtracer" depth="5" nee="false">
+<test type="image" id="veach-nee" me="3e-2" mae="3e-1">
+    <integrator type="pathtracer" depth="5" nee="true">
         <scene id="scene">
             <camera type="perspective" id="camera">
                 <float name="fov" value="25" />
@@ -37,9 +37,9 @@
                 <texture name="reflectance" type="constant" value="0.4" />
             </bsdf>
 
-            <light type="envmap">
+            <!-- <light type="envmap">
                 <texture type="constant" value="0.4"/>
-            </light>
+            </light> -->
 
             <instance id="light_small">
                 <shape type="sphere" />

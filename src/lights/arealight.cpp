@@ -47,6 +47,7 @@ namespace lightwave
         AreaLight(const Properties &properties)
         {
             m_shape = properties.getChild<Instance>("instance");
+            m_shape->setLight(this);
         }
 
         DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
@@ -59,6 +60,12 @@ namespace lightwave
         {
             const AreaSample sampledArea = m_shape->sampleArea(rng, ref);
             return computeDirectLightSample(origin, sampledArea);
+        }
+
+        DirectLightSample evaluateEmission(const Intersection &surf) const override
+        {
+            Color emission = m_shape->emission()->evaluate(surf.uv, surf.wo).value;
+            return DirectLightSample{.wi = Vector(0.f), .weight = emission, .distance = 0.f};
         }
 
         bool canBeIntersected() const override

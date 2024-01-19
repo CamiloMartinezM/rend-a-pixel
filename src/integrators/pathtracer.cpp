@@ -23,10 +23,26 @@ namespace lightwave
                     break;
                 }
 
-                // Evaluate direct emission from the hit point
-                L_di += its.evaluateEmission() * throughput;
-
-                // Use Next-Event Estimation to sample a light
+                // Evaluate direct emission from the hit point with the following rules:
+                // 1. If NEE is not active, evaluate the emission from the intersected surface regardless of what it is
+                // 2. If NEE is active and the current intersected surface is not an area light, also evaluate the
+                //    intersection emission. If it is an area light, skip emission from light sources
+                if (its.instance->light() == nullptr)
+                {
+                    L_di += its.evaluateEmission() * throughput;
+                }
+                else
+                {
+                    if (its.instance->light() != nullptr)
+                    {
+                        if (!nee || depth == 0)
+                        {
+                            L_di += its.evaluateEmission() * throughput;
+                        }
+                    }
+                }
+                
+                // Use Next-Event Estimation to sample a light if NEE is active
                 if (nee)
                 {
                     if (iterRay.depth < maxDepth - 1)
@@ -34,23 +50,20 @@ namespace lightwave
                         if (m_scene->hasLights())
                         {
                             LightSample lightSample = m_scene->sampleLight(rng);
-                            if (!lightSample.light->canBeIntersected())
+                            DirectLightSample directLightSample =
+                                lightSample.light->sampleDirect(its.position, rng, its);
+                            Ray shadowRay(its.position, directLightSample.wi);
+                            if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                             {
-                                DirectLightSample directLightSample =
-                                    lightSample.light->sampleDirect(its.position, rng, its);
-                                Ray shadowRay(its.position, directLightSample.wi);
-                                if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
-                                {
-                                    // Evaluate the BSDF at the hit point for the light direction
-                                    Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
+                                // Evaluate the BSDF at the hit point for the light direction
+                                Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
 
-                                    // Modulate the light's contribution
-                                    Color lightContribution = bsdfVal * directLightSample.weight;
+                                // Modulate the light's contribution
+                                Color lightContribution = bsdfVal * directLightSample.weight;
 
-                                    // Final color contribution multiplying by the throughput and dividing by the light
-                                    // probability
-                                    L_di += lightContribution / lightSample.probability * throughput;
-                                }
+                                // Final color contribution multiplying by the throughput and dividing by the light
+                                // probability
+                                L_di += lightContribution / lightSample.probability * throughput;
                             }
                         }
                     }
@@ -72,72 +85,6 @@ namespace lightwave
             return L_di;
         }
 
-        /**
-         * @brief Compute the contribution of a camera-sampled ray using recursive path tracing.
-         */
-        Color recursivePathTracing(const Ray &ray, Sampler &rng, Color throughput)
-        {
-            if (ray.depth >= maxDepth)
-            {
-                // If maximum depth is reached, terminate the path
-                return Color(0.0f);
-            }
-
-            Intersection its = m_scene->intersect(ray, rng);
-            if (!its)
-            {
-                // If the ray misses the scene, return the background color
-                return m_scene->evaluateBackground(ray.direction).value * throughput;
-            }
-
-            Color L_direct = Color(0.0f);
-
-            // Evaluate direct emission from the hit point
-            L_direct += its.evaluateEmission() * throughput;
-            Color L_indirect = Color(0.0f);
-
-            if (ray.depth < maxDepth - 1)
-            {
-                // Compute the direct lighting using next-event estimation
-                if (m_scene->hasLights())
-                {
-                    LightSample lightSample = m_scene->sampleLight(rng);
-                    if (!lightSample.light->canBeIntersected())
-                    {
-                        DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng);
-                        Ray shadowRay(its.position, directLightSample.wi);
-                        if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
-                        {
-                            Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                            L_direct += bsdfVal * directLightSample.weight / lightSample.probability * throughput;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return L_direct;
-            }
-
-            // Sample the BSDF to get the new direction and the weight
-            BsdfSample bsdfSample = its.sampleBsdf(rng);
-            if (bsdfSample.isInvalid())
-            {
-                // If the BSDF sampling is invalid, return the direct emission
-                return L_direct + L_indirect;
-            }
-
-            throughput *= bsdfSample.weight;
-
-            // Trace a secondary ray in the direction determined by the BSDF sample
-            Ray secondaryRay(its.position, bsdfSample.wi.normalized(), ray.depth + 1);
-
-            L_indirect += recursivePathTracing(secondaryRay, rng, throughput);
-
-            // Accumulate the direct and indirect lighting
-            return L_direct + L_indirect;
-        }
-
       public:
         int maxDepth; // Maximum depth to explore with pathtracing
         bool nee;     // Use Next-Event Estimation
@@ -155,10 +102,7 @@ namespace lightwave
          */
         Color Li(const Ray &ray, Sampler &rng) override
         {
-            if (UseRecursivePathTracer)
-                return recursivePathTracing(ray, rng, Color(1.0f));
-            else
-                return iterativePathTracing(ray, rng);
+            return iterativePathTracing(ray, rng);
         }
 
         /// @brief An optional textual representation of this class, useful for debugging.
