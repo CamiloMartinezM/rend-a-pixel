@@ -56,11 +56,6 @@ public:
         return sampleDirect(origin, rng); // Default implementation does not use the provided reference
     }
 
-    virtual DirectLightSample evaluateEmission(const Intersection &surf) const 
-    {
-        return DirectLightSample{.wi = Vector(0.f), .weight = Color(0.0f), .distance = 0.0f};
-    }
-
     /// @brief Returns whether this light source can be hit by rays (i.e., has an area that has been placed within the scene).
     virtual bool canBeIntersected() const { return false; }
 };

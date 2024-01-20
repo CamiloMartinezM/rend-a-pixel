@@ -62,12 +62,6 @@ namespace lightwave
             return computeDirectLightSample(origin, sampledArea);
         }
 
-        DirectLightSample evaluateEmission(const Intersection &surf) const override
-        {
-            Color emission = m_shape->emission()->evaluate(surf.uv, surf.wo).value;
-            return DirectLightSample{.wi = Vector(0.f), .weight = emission, .distance = 0.f};
-        }
-
         bool canBeIntersected() const override
         {
             return m_shape->isVisible();

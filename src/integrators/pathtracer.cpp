@@ -24,51 +24,36 @@ namespace lightwave
                 }
 
                 // Evaluate direct emission from the hit point with the following rules:
-                // 1. If NEE is not active, evaluate the emission from the intersected surface regardless of what it is
-                // 2. If NEE is active and the current intersected surface is not an area light, also evaluate the
-                //    intersection emission. If it is an area light, skip emission from light sources
-                if (its.instance->light() == nullptr)
+                // 1. If NEE is not active or if it is the initial iteration (depth == 0), evaluate the emission from
+                // the intersected surface regardless of what the intersected surface is;
+                // 2. Regardless of if NEE is active or not, always account for the intersection emission, if it is not
+                // an area light (that is, skip emission from light sources).
+                if (its.instance->light() == nullptr || (!nee || depth == 0))
                 {
                     L_di += its.evaluateEmission() * throughput;
                 }
-                else
-                {
-                    if (its.instance->light() != nullptr)
-                    {
-                        if (!nee || depth == 0)
-                        {
-                            L_di += its.evaluateEmission() * throughput;
-                        }
-                    }
-                }
-                
-                // Use Next-Event Estimation to sample a light if NEE is active
-                if (nee)
-                {
-                    if (iterRay.depth < maxDepth - 1)
-                    {
-                        if (m_scene->hasLights())
-                        {
-                            LightSample lightSample = m_scene->sampleLight(rng);
-                            DirectLightSample directLightSample =
-                                lightSample.light->sampleDirect(its.position, rng, its);
-                            Ray shadowRay(its.position, directLightSample.wi);
-                            if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
-                            {
-                                // Evaluate the BSDF at the hit point for the light direction
-                                Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
 
-                                // Modulate the light's contribution
-                                Color lightContribution = bsdfVal * directLightSample.weight;
+                // Use Next-Event Estimation to sample a light if:
+                // 1. NEE is active;
+                // 2. The loop has not reached the final depth (we don't do NEE in the last iteration);
+                // 3. The scene has lights.
+                if (nee && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
+                {
+                    LightSample lightSample = m_scene->sampleLight(rng);
+                    DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
+                    Ray shadowRay(its.position, directLightSample.wi);
+                    if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
+                    {
+                        // Evaluate the BSDF at the hit point for the light direction
+                        Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
 
-                                // Final color contribution multiplying by the throughput and dividing by the light
-                                // probability
-                                L_di += lightContribution / lightSample.probability * throughput;
-                            }
-                        }
+                        // Modulate the light's contribution
+                        Color lightContribution = bsdfVal * directLightSample.weight;
+
+                        // Final color contribution multiplying by the throughput and dividing by the light
+                        // probability
+                        L_di += lightContribution / lightSample.probability * throughput;
                     }
-                    else
-                        continue;
                 }
 
                 // Sample the BSDF to get the new direction and the weight
