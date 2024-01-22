@@ -26,9 +26,9 @@ namespace lightwave
             // Convert power to intensity (power per unit area)
             // Assuming isotropic point light, intensity falls off as the square of the distance
             // I = P / (4 * pi * r^2)
-            Color intensity = m_power / (4 * Pi * distanceSquared);
+            Color intensity = Inv4Pi * m_power / distanceSquared;
 
-            return DirectLightSample{.wi = direction, .weight = intensity, .distance = std::sqrt(distanceSquared)};
+            return {.wi = direction, .weight = intensity, .distance = sqrt(distanceSquared), .pdf = Inv4Pi};
         }
 
         bool canBeIntersected() const override

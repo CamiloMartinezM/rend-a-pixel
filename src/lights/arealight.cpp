@@ -40,7 +40,7 @@ namespace lightwave
             // the incoming ray angle with respect to the surface normal
             Color intensity = (emission * cosTheta) / (sampledArea.pdf * sqr(distance));
 
-            return DirectLightSample{.wi = wi, .weight = intensity, .distance = distance};
+            return {.wi = wi, .weight = intensity, .distance = distance, .pdf = sampledArea.pdf};
         }
 
       public:
@@ -60,6 +60,11 @@ namespace lightwave
         {
             const AreaSample sampledArea = m_shape->sampleArea(rng, ref);
             return computeDirectLightSample(origin, sampledArea);
+        }
+
+        inline float sampledDirectionPdf(const Vector &sampledVector) const override
+        {
+            return m_shape->sampledDirectionPdf(sampledVector);
         }
 
         bool canBeIntersected() const override

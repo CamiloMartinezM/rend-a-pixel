@@ -15,10 +15,13 @@ namespace lightwave {
 struct EmissionEval {
     /// @brief The color of the emission, not including any cosine term.
     Color value;
+    /// @brief The Pdf of evaluating the emission at a given texture coordinates and direction vector.
+    float pdf;
 
     static EmissionEval invalid() {
         return {
             .value = Color(0),
+            .pdf = 0.0f
         };
     }
 };

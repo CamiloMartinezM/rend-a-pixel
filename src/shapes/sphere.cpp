@@ -262,6 +262,17 @@ namespace lightwave
             return sampledArea;
         }
 
+        inline float sampledDirectionPdf(const Vector &sampledVector) const override
+        {
+            if (SphereSampling == ShapeSamplingMethod::Uniform)
+                return uniformHemispherePdf();
+            else if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
+                return cosineHemispherePdf(sampledVector);
+            else
+                // TODO: Subtended Cone PDF of having sampled a specific direction is not implemented
+                return uniformHemispherePdf();
+        }
+
         std::string toString() const override
         {
             return "Sphere[]";

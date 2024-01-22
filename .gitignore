@@ -9,6 +9,7 @@ __pycache__
 /scenes/*/textures
 /tests/*/meshes
 /tests/*/textures
+/codeparts_saved
 
 .DS_Store
 CMakeFiles/

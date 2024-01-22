@@ -156,6 +156,11 @@ namespace lightwave
         return sample;
     }
 
+    inline float Instance::sampledDirectionPdf(const Vector &sampledVector) const
+    {
+        return m_shape->sampledDirectionPdf(sampledVector);
+    }
+
 } // namespace lightwave
 
 REGISTER_CLASS(Instance, "instance", "default")

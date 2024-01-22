@@ -1,9 +1,11 @@
+#include "diffuse.hpp"
 #include <lightwave.hpp>
 
 namespace lightwave
 {
     class Diffuse : public Bsdf
     {
+      private:
         ref<Texture> m_albedo;
 
       public:
@@ -23,7 +25,8 @@ namespace lightwave
                 wiCorrected = Vector(wi.x(), wi.y(), -wi.z());
             }
 
-            return {m_albedo->evaluate(uv) * Frame::absCosTheta(wiCorrected) / Pi};
+            return {.value = m_albedo->evaluate(uv) * Frame::absCosTheta(wiCorrected) / Pi,
+                    .pdf = diffuse::pdf(wo, wiCorrected)};
         }
 
         BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
@@ -34,7 +37,7 @@ namespace lightwave
             // Check if wo is in the opposite direction of the surface normal
             // If it is, flip wi to the opposite hemisphere
             wi *= Vector(1.0f, 1.0f, wo.z() < 0 ? -1.0f : 1.0f);
-            return BsdfSample{wi, albedo};
+            return {.wi = wi, .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
         }
 
         std::string toString() const override

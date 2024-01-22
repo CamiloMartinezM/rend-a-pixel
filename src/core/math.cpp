@@ -154,6 +154,11 @@ Color Intersection::evaluateEmission() const {
     return instance->emission()->evaluate(uv, frame.toLocal(wo)).value;
 }
 
+float Intersection::evaluateEmissionPdf() const {
+    if (!instance->emission()) return 0.0f;
+    return instance->emission()->evaluate(uv, frame.toLocal(wo)).pdf;
+}
+
 BsdfSample Intersection::sampleBsdf(Sampler &rng) const {
     if (!instance->bsdf()) return BsdfSample::invalid();
     assert_normalized(wo, {});

@@ -22,6 +22,7 @@ static const int BINS = 16;                             // Number of bins to use
 static const bool UseHighestBBLengthAxis = true;        // Set to true if use axis with highest bounding box length in SAH
                                                         // Set to false it iterate over all axis (x, y, z) to pick splitAxis
 static constexpr float OneMinusEpsilon = 0x1.fffffep-1; // https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/float.h      
+static const float powerHeuristicExponent = 2.0f;       // Exponent used in the power heuristic function.
 static const int NumPrimes = 1000;                        
 static const int Primes[NumPrimes] = {                  // Subsequent prime numbers, taken from 
     2, 3, 5, 7, 11,                                     // https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/primes.cpp
@@ -879,6 +880,8 @@ struct Intersection : public SurfaceEvent {
 
     /// @brief Evaluates the emission of the underlying instance.
     Color evaluateEmission() const;
+    float evaluateEmissionPdf() const;
+    
     /// @brief Samples the Bsdf of the underlying surface.
     BsdfSample sampleBsdf(Sampler &rng) const;
     /// @brief Evaluates the Bsdf of the underlying surface.

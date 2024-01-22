@@ -19,6 +19,8 @@ struct DirectLightSample {
     Color weight;
     /// @brief The distance from the query point to the sampled point on the light source.
     float distance;
+    /// @brief The Pdf of sampling the light.
+    float pdf;
 
     /// @brief Return an invalid sample, used to denote that sampling has failed.
     static DirectLightSample invalid() {
@@ -26,6 +28,7 @@ struct DirectLightSample {
             .wi = Vector(),
             .weight = Color(),
             .distance = 0,
+            .pdf = 0.0f
         };
     }
 
@@ -55,6 +58,9 @@ public:
     {
         return sampleDirect(origin, rng); // Default implementation does not use the provided reference
     }
+
+    /// @brief Computes the PDF of having sampled the given direction inside the instance of the light.
+    virtual inline float sampledDirectionPdf(const Vector &sampledVector) const { return 1.0f; }
 
     /// @brief Returns whether this light source can be hit by rays (i.e., has an area that has been placed within the scene).
     virtual bool canBeIntersected() const { return false; }

@@ -49,12 +49,13 @@ public:
 
     /**
      * @brief Samples a random point on the surface of the shape with importance sampling, using a reference Surface Event.
+     *        Default implementation does not use the provided reference
      * @param ref Surface Event with which an importance sampling routine is used.
      */
-    virtual AreaSample sampleArea(Sampler &rng, const SurfaceEvent &ref) const 
-    { 
-        return sampleArea(rng); // Default implementation does not use the provided reference
-    }
+    virtual AreaSample sampleArea(Sampler &rng, const SurfaceEvent &ref) const { return sampleArea(rng); }
+
+    /// @brief Computes the PDF of having sampled the given direction.
+    virtual inline float sampledDirectionPdf(const Vector &sampledVector) const { return 1.0f; }
 
     /**
      * @brief Marks that the shape is part of the scene geometry, i.e., can be hit through @ref Scene::intersect .

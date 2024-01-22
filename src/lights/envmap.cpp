@@ -155,6 +155,7 @@ namespace lightwave
                 .wi = direction,
                 .weight = value / pdf,
                 .distance = Infinity,
+                .pdf = pdf
             };
         }
 

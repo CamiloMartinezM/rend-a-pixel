@@ -2,20 +2,23 @@
 #include "microfacet.hpp"
 #include <lightwave.hpp>
 
-namespace lightwave {
-
-    class RoughConductor : public Bsdf {
+namespace lightwave
+{
+    class RoughConductor : public Bsdf
+    {
+      private:
         ref<Texture> m_reflectance;
         ref<Texture> m_roughness;
 
-        public:
-        RoughConductor(const Properties& properties) {
+      public:
+        RoughConductor(const Properties &properties)
+        {
             m_reflectance = properties.get<Texture>("reflectance");
             m_roughness = properties.get<Texture>("roughness");
         }
 
-        BsdfEval evaluate(const Point2& uv, const Vector& wo,
-                          const Vector& wi) const override {
+        BsdfEval evaluate(const Point2 &uv, const Vector &wo, const Vector &wi) const override
+        {
             // Using the squared roughness parameter results in a more gradual
             // transition from specular to rough. For numerical stability, we avoid
             // extremely specular distributions (alpha values below 10^-3)
@@ -31,11 +34,12 @@ namespace lightwave {
 
             // Frame::absCosTheta(wi) cancels out from the denominator
             float denominator = 4 * Frame::absCosTheta(wo);
-            return BsdfEval(R * D * G1wi * G1wo / denominator);
+
+            return {.value = R * D * G1wi * G1wo / denominator, .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
         }
 
-        BsdfSample sample(const Point2& uv, const Vector& wo,
-                          Sampler& rng) const override {
+        BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
+        {
             const auto alpha = std::max(float(1e-3), sqr(m_roughness->scalar(uv)));
 
             // hints:
@@ -46,10 +50,11 @@ namespace lightwave {
             Vector wm = (wi + wo).normalized();
             float G1wi = microfacet::smithG1(alpha, wm, wi);
             Color weight = m_reflectance->evaluate(uv) * G1wi;
-            return BsdfSample(wi, weight);
+            return {.wi = wi, .weight = weight, .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
         }
 
-        std::string toString() const override {
+        std::string toString() const override
+        {
             return tfm::format("RoughConductor[\n"
                                "  reflectance = %s,\n"
                                "  roughness = %s\n"

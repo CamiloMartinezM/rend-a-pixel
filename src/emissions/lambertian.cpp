@@ -16,7 +16,10 @@ namespace lightwave {
             // - Check whether the sign of your cosine in the Lambertian emission evaluation is negative and 
             //   return zero in that case.
             Color emissionColor = (Frame::cosTheta(wo) < 0)? Color(0.0f) : m_emission->evaluate(uv);
-            return EmissionEval{ .value = emissionColor }; // Return the emission. No π factor needed
+            
+            // No π factor needed for the value.
+            // The PDF for a uniformly emitting Lambertian surface
+            return EmissionEval{ .value = emissionColor, .pdf = Inv2Pi }; 
         }
 
         std::string toString() const override {
