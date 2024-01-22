@@ -158,7 +158,7 @@ namespace lightwave
 
     inline float Instance::sampledDirectionPdf(const Vector &sampledVector) const
     {
-        return m_shape->sampledDirectionPdf(sampledVector);
+        return m_shape->sampledDirectionPdf(m_transform->inverse(sampledVector));
     }
 
 } // namespace lightwave

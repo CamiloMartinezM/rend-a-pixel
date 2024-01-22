@@ -17,7 +17,6 @@ namespace lightwave
             LightSample lightSample;
             BsdfEval bsdfVal;
             float p_bsdf = 1.0f;
-            bool lightWasSampled = false;
             for (int depth = 0; depth < maxDepth; depth++)
             {
                 Intersection its = m_scene->intersect(iterRay, rng);
@@ -27,7 +26,7 @@ namespace lightwave
                     Color Le = m_scene->evaluateBackground(iterRay.direction).value;
 
                     // TODO: Check if background light pdf is 1.0f
-                    float misWeight = (mis && depth > 0) ? powerHeuristic(1, p_bsdf, 1, 1.0f) : 1.0f;
+                    float misWeight = (mis && depth > 0) ? powerHeuristic(p_bsdf, 1.0f) : 1.0f;
 
                     // Incoporate the background contribution with MIS if depth > 0
                     L += Le * misWeight * throughput;
@@ -56,7 +55,7 @@ namespace lightwave
                         // ray direction that hit the area light.
                         float p_light =
                             its.instance->light()->sampledDirectionPdf(iterRay.direction) * lightSample.probability;
-                        float misWeight = powerHeuristic(1, p_bsdf, 1, p_light);
+                        float misWeight = powerHeuristic(p_bsdf, p_light);
                         L += its.evaluateEmission() * misWeight * throughput;
                     }
                 }
@@ -79,16 +78,12 @@ namespace lightwave
                         Color lightContribution = bsdfVal.value * directLightSample.weight;
 
                         // Calculate the MIS weight using the light's PDF and the BSDF's PDF if MIS is active
-                        float misWeight = (mis) ? powerHeuristic(1, directLightSample.pdf * lightSample.probability, 1,
-                                                                 p_bsdf * bsdfVal.pdf)
-                                                : 1.0f;
+                        float misWeight =
+                            (mis) ? powerHeuristic(directLightSample.pdf * lightSample.probability, bsdfVal.pdf) : 1.0f;
 
                         // Final color contribution calculated by multiplying by the throughput, the MIS weight and
                         // dividing by light choosing probability
-                        L += lightContribution * misWeight * throughput;
-
-                        // Permits knowing if a light was sampled using NEE, after passing all requirements
-                        lightWasSampled = true;
+                        L += lightContribution * misWeight * throughput / lightSample.probability;
                     }
                 }
 
@@ -101,7 +96,6 @@ namespace lightwave
                 p_bsdf = bsdfSample.pdf;
                 prevIts = its;
                 throughput *= bsdfSample.weight;
-                lightWasSampled = false;
 
                 // c) Trace a secondary ray in the direction determined by the BSDF sample.
                 iterRay = Ray(its.position, bsdfSample.wi.normalized(), iterRay.depth + 1);
@@ -111,19 +105,15 @@ namespace lightwave
         }
 
         /**
-         * @brief Compute the Multiple Importance Sampling weight using the power heuristic function.
-         * @param na n_i for technique A.
+         * @brief Compute the Multiple Importance Sampling weight using the power heuristic function (exponent = 2).
          * @param pdf_a Probability density function value of technique A.
-         * @param nb n_i for technique B.
          * @param pdf_b Probability density function value of technique B.
          * @return MIS weight for technique A.
          */
-        float powerHeuristic(int na, float pdf_a, int nb, float pdf_b)
+        float powerHeuristic(float pdf_a, float pdf_b)
         {
-            float a = na * pdf_a;
-            float b = nb * pdf_b;
-            float weight_a = pow(a, powerHeuristicExponent);
-            float weight_b = pow(b, powerHeuristicExponent);
+            float weight_a = sqr(pdf_a);
+            float weight_b = sqr(pdf_b);
             return weight_a / (weight_a + weight_b);
         }
 
