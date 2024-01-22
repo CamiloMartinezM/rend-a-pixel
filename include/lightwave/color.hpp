@@ -101,6 +101,11 @@ public:
     /// @brief Checks whether two colors are not exactly identical.
     bool operator!=(const Color &other) const { return m_data != other.m_data; }
 
+    /// @brief Returns the lowest component of the vector.
+    auto minComponent() const { return *std::min_element(m_data.begin(), m_data.end()); }
+    /// @brief Returns the highest component of the vector.
+    auto maxComponent() const { return *std::max_element(m_data.begin(), m_data.end()); }
+
     /// @brief Returns the luminance of this color.
     float luminance() const {
         return r() * 0.212671f + g() * 0.715160f + b() * 0.072169f;
