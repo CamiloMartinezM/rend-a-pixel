@@ -13,10 +13,7 @@ namespace lightwave
             Ray iterRay = ray;
             Intersection prevIts;
             Color L(0.0f), throughput(1.0f);
-            DirectLightSample directLightSample;
-            LightSample lightSample;
-            BsdfEval bsdfVal;
-            float p_bsdf = 1.0f;
+            float p_bsdf = Infinity;
             for (int depth = 0; depth < maxDepth; depth++)
             {
                 Intersection its = m_scene->intersect(iterRay, rng);
@@ -25,65 +22,61 @@ namespace lightwave
                     // The ray misses and hits the background
                     Color Le = m_scene->evaluateBackground(iterRay.direction).value;
 
-                    // TODO: Check if background light pdf is 1.0f
-                    float misWeight = (mis && depth > 0) ? powerHeuristic(p_bsdf, 1.0f) : 1.0f;
-
-                    // Incoporate the background contribution with MIS if depth > 0
-                    L += Le * misWeight * throughput;
+                    // Incoporate the background contribution
+                    L += Le * throughput;
                     break;
                 }
 
                 // Evaluate direct emission from the hit point with the following rules:
-                // 1. If NEE is not active or if it is the initial iteration (depth == 0), evaluate the emission from
-                // the intersected surface regardless of what the intersected surface is;
-                // 2. Regardless of if NEE is active or not, always account for the intersection emission, if it is not
-                // an area light (that is, skip emission from light sources).
-                // if ((its.instance->light() == nullptr) && (!nee || depth == 0))
-                if (its.instance->light() == nullptr)
-                {
+                // 1. If it is the first intersection (depth == 0), evaluate it regardless;
+                // 2. If NEE nor MIS are active (only do BSDF sampling), evaluate it regardless;
+                // 3. If NEE is active and MIS is not, evaluate the emission on the surface if it is not an area light;
+                // 4. If MIS is active and it is not an area light, weigh the emission contrib. by the Power Heuristic.
+                if (depth == 0 || (!nee && !mis))
                     L += its.evaluateEmission() * throughput;
-                }
-                else
+                else // At this point, it is not the first intersection, i.e, depth > 0 and we have either NEE or MIS
                 {
-                    if (!nee || depth == 0)
-                    {
+                    if (nee && !mis && its.instance->light() == nullptr)
                         L += its.evaluateEmission() * throughput;
-                    }
-                    else if (mis) // Compute MIS weight for area light if the intersected instance is an area light
+                    else if (mis)
                     {
-                        // Compute the PDF given by the instance associated with the area light of having sampled the
-                        // ray direction that hit the area light.
-                        float p_light =
-                            its.instance->light()->sampledDirectionPdf(iterRay.direction) * lightSample.probability;
+                        // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of
+                        // having sampled this direction with NEE (its.pdf)
+                        float p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo);
                         float misWeight = powerHeuristic(p_bsdf, p_light);
                         L += its.evaluateEmission() * misWeight * throughput;
                     }
                 }
 
                 // Use Next-Event Estimation to sample a light if:
-                // 1. NEE is active;
+                // 1. NEE is active or MIS is active;
                 // 2. The loop has not reached the final depth (we don't do NEE in the last iteration);
                 // 3. The scene has lights.
-                if (nee && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
+                if ((nee || mis) && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
                 {
-                    lightSample = m_scene->sampleLight(rng);
-                    directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
+                    LightSample lightSample = m_scene->sampleLight(rng);
+                    DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
                     Ray shadowRay(its.position, directLightSample.wi);
                     if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                     {
                         // Evaluate the BSDF at the hit point for the light direction
-                        bsdfVal = its.evaluateBsdf(directLightSample.wi);
+                        BsdfEval bsdfVal = its.evaluateBsdf(directLightSample.wi);
 
                         // Modulate the light's contribution
                         Color lightContribution = bsdfVal.value * directLightSample.weight;
 
-                        // Calculate the MIS weight using the light's PDF and the BSDF's PDF if MIS is active
-                        float misWeight =
-                            (mis) ? powerHeuristic(directLightSample.pdf * lightSample.probability, bsdfVal.pdf) : 1.0f;
-
-                        // Final color contribution calculated by multiplying by the throughput, the MIS weight and
-                        // dividing by light choosing probability
-                        L += lightContribution * misWeight * throughput / lightSample.probability;
+                        // Do MIS weighing of the NEE sample contribution based on its own PDF and the PDF of
+                        // having sampled this direction with BSDF (bsdfVal.pdf)
+                        if (mis)
+                        {
+                            float p_light = pdfToSolidAngleMeasure(directLightSample.pdf * lightSample.probability,
+                                                                   directLightSample.distance, its.frame.normal,
+                                                                   directLightSample.wi);
+                            float misWeight = powerHeuristic(p_light, bsdfVal.pdf);
+                            L += lightContribution * misWeight * throughput;
+                        }
+                        else
+                            L += lightContribution * throughput / lightSample.probability;
                     }
                 }
 
@@ -94,7 +87,6 @@ namespace lightwave
 
                 // Save and update variables for next iteration
                 p_bsdf = bsdfSample.pdf;
-                prevIts = its;
                 throughput *= bsdfSample.weight;
 
                 // Russian-Roulette to terminate small-contributing paths
@@ -126,9 +118,18 @@ namespace lightwave
          */
         float powerHeuristic(float pdf_a, float pdf_b)
         {
-            float weight_a = sqr(pdf_a);
-            float weight_b = sqr(pdf_b);
-            return weight_a / (weight_a + weight_b);
+            // The sample from technique A should be trusted the most
+            if (pdf_a == Infinity)
+                return 1.0f;
+            // The sample from technique B should be trusted, therefore it is 0.0f for technique A
+            else if (pdf_b == Infinity)
+                return 0.0f;
+            else
+            {
+                float weight_a = sqr(pdf_a);
+                float weight_b = sqr(pdf_b);
+                return weight_a / (weight_a + weight_b);
+            }
         }
 
       public:
