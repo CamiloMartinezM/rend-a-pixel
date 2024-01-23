@@ -1,4 +1,11 @@
-// Taken from: https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/hash.h
+/**
+ * @brief Hashing and Permutation Utilities
+ *
+ * This header contains a collection of functions for efficient hashing and permutation calculations, adapted from PBRT.
+ * From: https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/hash.h
+ *
+ * @file hash_utils.h
+ */
 
 #ifndef HASH_UTILS_H
 #define HASH_UTILS_H
@@ -49,16 +56,22 @@ inline uint64_t MurmurHash64A(const unsigned char *key, size_t len, uint64_t see
     {
     case 7:
         h ^= uint64_t(key[6]) << 48;
+        [[fallthrough]];
     case 6:
         h ^= uint64_t(key[5]) << 40;
+        [[fallthrough]];
     case 5:
         h ^= uint64_t(key[4]) << 32;
+        [[fallthrough]];
     case 4:
         h ^= uint64_t(key[3]) << 24;
+        [[fallthrough]];
     case 3:
         h ^= uint64_t(key[2]) << 16;
+        [[fallthrough]];
     case 2:
         h ^= uint64_t(key[1]) << 8;
+        [[fallthrough]];
     case 1:
         h ^= uint64_t(key[0]);
         h *= m;

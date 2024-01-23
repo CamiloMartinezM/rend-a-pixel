@@ -7,6 +7,7 @@
 
 #include <lightwave/core.hpp>
 #include <lightwave/logger.hpp>
+#include <lightwave/special_math.hpp>
 
 #include <cmath>
 #include <algorithm>
@@ -17,7 +18,8 @@ namespace lightwave {
 
 // MARK: - Added constants (Dipplin)
 static const bool UseRecursivePathTracer = false;       // Set to false if one wants to use the iterative method for path-tracing
-static const bool UseRussianRoulette = false;           // Defines if the Pathtracer integrator should use Russian-Roulette
+static const bool UseRussianRoulette = true;            // Defines if the Pathtracer integrator should use Russian-Roulette
+static const bool UseImprovedEnvSampling = true;        // Defines if Improved Environment Sampling routine should be used
 static const int SAHMethod = 1;                         // 0: SAH without binning, 1: SAH with binning
 static const int BINS = 16;                             // Number of bins to use if SAHMethod = 1
 static const bool UseHighestBBLengthAxis = true;        // Set to true if use axis with highest bounding box length in SAH
@@ -104,13 +106,6 @@ const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  // R
 // Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling
 enum class ShapeSamplingMethod { Uniform, CosineWeighted, SubtendedCone }; 
 const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform; // Sphere sampling routine
-
-// From: https://github.com/mmp/pbrt-v4/blob/master/src/pbrt/util/math.h
-template <typename T>
-inline T Mod(T a, T b) {
-    T result = a - (a / b) * b;
-    return (T)((result < 0) ? result + b : result);
-}
 
 // MARK: - useful constants
 

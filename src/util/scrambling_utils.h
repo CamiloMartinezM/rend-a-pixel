@@ -1,4 +1,13 @@
-// From: https://www.pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler#RadicalInverse
+/**
+ * @brief Scrambling and Radical Inverse Functions for Quasi-Random Number Generation
+ *
+ * This header defines a set of functions for computing the radical inverse and its scrambled variants, crucial in
+ * generating low-discrepancy sequences for quasi-random number generation.
+ *
+ * From: https://www.pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler#RadicalInverse
+ *
+ * @file scrambling_utils.h
+ */
 
 #ifndef SCRAMBLING_UTILS_H
 #define SCRAMBLING_UTILS_H

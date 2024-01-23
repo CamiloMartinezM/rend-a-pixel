@@ -1,4 +1,14 @@
-// From: https://www.pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler#RadicalInverse
+/**
+ * @brief Permutation Utilities for Quasi-Random Number Generation
+ *
+ * This header defines utilities for generating and managing digit permutations used in scrambling radical inverses for
+ * quasi-random number generation. It includes the 'DigitPermutation' class for creating and handling individual
+ * permutations and a utility function to generate permutations for each prime number up to a specified maximum.
+ *
+ * From: https://www.pbr-book.org/4ed/Sampling_and_Reconstruction/Halton_Sampler#RadicalInverse
+ *
+ * @file permutation_utils.h
+ */
 
 #ifndef PERMUTATION_UTILS_H
 #define PERMUTATION_UTILS_H

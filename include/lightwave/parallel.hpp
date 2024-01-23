@@ -19,6 +19,10 @@
 
 namespace lightwave {
 
+extern thread_local int ThreadIndex;
+
+extern thread_local int MaxThreads;
+
 /// @brief Invokes @c f for each element of the iterator, parallelized across
 /// all available cores.
 template <class ForwardIt, class UnaryFunction>
@@ -37,6 +41,7 @@ void for_each_parallel(ForwardIt first, ForwardIt last, UnaryFunction f) {
     // build a thread pool
     for (int i = 0; i < numThreads; i++) {
         m_threads.emplace_back([&]() {
+            ThreadIndex = i; // Set the thread-local index (**Added to support indexed threads**)
             while (true) {
                 m_lock.lock();
                 if (!(first != last)) {

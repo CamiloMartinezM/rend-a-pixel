@@ -683,7 +683,7 @@ namespace pstd
 #endif
             }
             monotonic_buffer_resource(size_t block_size, memory_resource *upstream)
-                : block_size(block_size), upstream(upstream)
+                : upstream(upstream), block_size(block_size) // Originally: block_size(block_size), upstream(upstream)
             {
 #ifndef NDEBUG
                 constructTID = std::this_thread::get_id();
@@ -1106,7 +1106,7 @@ namespace pstd
                 return;
 
             T *ra = alloc.template allocate_object<T>(n);
-            for (int i = 0; i < nStored; ++i)
+            for (size_t i = 0; i < nStored; ++i) // Originally: for (int i = 0; i < nStored; ++i)
             {
                 alloc.template construct<T>(ra + i, std::move(begin()[i]));
                 alloc.destroy(begin() + i);

@@ -101,10 +101,19 @@ public:
     /// @brief Checks whether two colors are not exactly identical.
     bool operator!=(const Color &other) const { return m_data != other.m_data; }
 
-    /// @brief Returns the lowest component of the vector.
+    /// @brief Returns the lowest component of the Color, treating it as a vector.
     auto minComponent() const { return *std::min_element(m_data.begin(), m_data.end()); }
-    /// @brief Returns the highest component of the vector.
+    /// @brief Returns the highest component of the Color, treating it as a vector.
     auto maxComponent() const { return *std::max_element(m_data.begin(), m_data.end()); }
+
+    /// @brief Clamp each color component to be within the range [low, high].
+    auto clamp(float low = 0.0f, float high = 1.0f) const {
+        Color clampedColor;
+        for (int i = 0; i < NumComponents; ++i) {
+            clampedColor[i] = SpecialMath::Clamp(m_data[i], low, high);
+        }
+        return clampedColor;
+    }
 
     /// @brief Returns the luminance of this color.
     float luminance() const {

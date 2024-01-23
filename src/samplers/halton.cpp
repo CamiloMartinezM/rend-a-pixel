@@ -50,7 +50,7 @@ namespace lightwave
         {
             int64_t x, y;
             extendedGCD(a, n, &x, &y);
-            return Mod(x, n);
+            return SpecialMath::Mod(x, n);
         }
 
         /**
@@ -95,7 +95,7 @@ namespace lightwave
             int sampleStride = baseScales[0] * baseScales[1];
             if (sampleStride > 1)
             {
-                Point2i pm(Mod(p[0], MaxHaltonResolution), Mod(p[1], MaxHaltonResolution));
+                Point2i pm(SpecialMath::Mod(p[0], MaxHaltonResolution), SpecialMath::Mod(p[1], MaxHaltonResolution));
                 for (int i = 0; i < 2; ++i)
                 {
                     uint64_t dimOffset = (i == 0) ? InverseRadicalInverse(pm[i], 2, baseExponents[i])
