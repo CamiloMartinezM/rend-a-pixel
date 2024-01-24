@@ -58,10 +58,7 @@ public:
     {
         return sampleDirect(origin, rng); // Default implementation does not use the provided reference
     }
-
-    /// @brief Computes the PDF of having sampled the given direction inside the instance of the light.
-    virtual inline float sampledDirectionPdf(const Vector &sampledVector) const { return 1.0f; }
-
+    
     /// @brief Returns whether this light source can be hit by rays (i.e., has an area that has been placed within the scene).
     virtual bool canBeIntersected() const { return false; }
 };

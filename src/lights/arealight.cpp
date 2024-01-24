@@ -26,7 +26,7 @@ namespace lightwave
             Vector wi = (-sampledAreaWo).normalized();
             float distance = sampledAreaWo.length();
 
-            // Vector on the local coordinate system
+            // Vector on the local coordinate system (from the light source towards the origin)
             Vector localSampledAreaWo = sampledArea.frame.toLocal(sampledAreaWo).normalized();
 
             // Evaluate emission at the sampled point on the shape's surface UV coordinates
@@ -40,7 +40,12 @@ namespace lightwave
             // the incoming ray angle with respect to the surface normal
             Color intensity = (emission * cosTheta) / (sampledArea.pdf * sqr(distance));
 
-            return {.wi = wi, .weight = intensity, .distance = distance, .pdf = sampledArea.pdf};
+            // Inplace conversion of the pdf to solid angle measure
+            return {.wi = wi,
+                    .weight = intensity,
+                    .distance = distance,
+                    .pdf = pdfToSolidAngleMeasure(sampledArea.pdf, sampledArea.frame.toLocal(sampledAreaWo).length(),
+                                                  sampledArea.frame.normal, localSampledAreaWo)};
         }
 
       public:
@@ -60,11 +65,6 @@ namespace lightwave
         {
             const AreaSample sampledArea = m_shape->sampleArea(rng, ref);
             return computeDirectLightSample(origin, sampledArea);
-        }
-
-        inline float sampledDirectionPdf(const Vector &sampledVector) const override
-        {
-            return m_shape->sampledDirectionPdf(sampledVector);
         }
 
         bool canBeIntersected() const override

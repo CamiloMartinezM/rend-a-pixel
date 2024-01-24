@@ -99,10 +99,7 @@ public:
     /// @brief The Importance Sampling counterpart to sampleArea but with the Intersection event given as parameter 
     /// for its use in Importance Sampling routines.
     AreaSample sampleArea(Sampler &rng, const SurfaceEvent &ref) const override;
-
-    /// @brief Computes the PDF of having sampled the given direction inside the m_shape.
-    float sampledDirectionPdf(const Vector &sampledVector) const override;
-
+    
     /// @brief Returns a textual representation of this image.
     std::string toString() const override {
         return tfm::format(

@@ -131,7 +131,7 @@ namespace lightwave
     inline float pdfToSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
-        return pdf * distance * distance / abs(n.dot(-wiNormalized));
+        return pdf * sqr(distance) / abs(n.dot(-wiNormalized));
     }
 
     /**

@@ -114,21 +114,10 @@ namespace lightwave
         /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted,
         /// subtended cone).
         inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod &usedSamplingMethod,
-                              const Vector &sampledVector, const Point &projectedPoint, const SurfaceEvent &ref,
-                              const bool &adjustUniform) const
+                              const Vector &sampledVector, const Point &projectedPoint, const SurfaceEvent &ref) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
-            {
                 updatePdfUniform(surf);
-                if (adjustUniform) // Convert area sampling PDF in ss to solid angle measure
-                {
-                    Vector n = Vector(projectedPoint).normalized();
-                    Vector wi = (projectedPoint - ref.position).normalized();
-                    surf.pdf /= abs(n.dot(-wi)) / (ref.position - projectedPoint).lengthSquared();
-                    if (std::isinf(surf.pdf))
-                        surf.pdf = 0;
-                }
-            }
             else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
                 surf.pdf = cosineHemispherePdf(sampledVector);
             else
@@ -216,7 +205,6 @@ namespace lightwave
             Vector sampledVector, importanceSampledVector;
             ShapeSamplingMethod usedSamplingMethod;
             Point projectedPoint;
-            bool adjustUniform = false;
             if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
             {
                 // Otherwise, sample sphere with cosine-weighted sampling
@@ -242,7 +230,6 @@ namespace lightwave
                 {
                     importanceSampledVector = squareToUniformSphere(rng.next2D());
                     usedSamplingMethod = ShapeSamplingMethod::Uniform;
-                    adjustUniform = true;
                 }
                 else // Otherwise, sample sphere inside subtended cone
                 {
@@ -258,19 +245,8 @@ namespace lightwave
 
             // For Uniform, only sampleArea is used; for cosine-weighted, sampleArea and sampledVector are used; and
             // for subtended cone, all parameters are used to calculate the PDF
-            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref, adjustUniform);
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref);
             return sampledArea;
-        }
-
-        inline float sampledDirectionPdf(const Vector &sampledVector) const override
-        {
-            if (SphereSampling == ShapeSamplingMethod::Uniform)
-                return uniformHemispherePdf();
-            else if (SphereSampling == ShapeSamplingMethod::CosineWeighted)
-                return cosineHemispherePdf(sampledVector);
-            else
-                // TODO: Subtended Cone PDF of having sampled a specific direction is not implemented
-                return uniformHemispherePdf();
         }
 
         std::string toString() const override

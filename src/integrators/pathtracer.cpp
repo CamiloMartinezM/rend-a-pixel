@@ -13,7 +13,8 @@ namespace lightwave
             Ray iterRay = ray;
             Intersection prevIts;
             Color L(0.0f), throughput(1.0f);
-            float p_bsdf = Infinity;
+            float p_bsdf = Infinity, p_light = 0.0f, misWeight;
+            float lightSelectionProb = m_scene->lightSelectionProbability(nullptr);
             for (int depth = 0; depth < maxDepth; depth++)
             {
                 Intersection its = m_scene->intersect(iterRay, rng);
@@ -40,9 +41,9 @@ namespace lightwave
                         L += its.evaluateEmission() * throughput;
                     else if (mis)
                     {
-                        // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of
-                        // having sampled this direction with NEE (its.pdf)
-                        float p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo);
+                        // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of having
+                        // sampled this direction with NEE (its.pdf)
+                        p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo);
                         float misWeight = powerHeuristic(p_bsdf, p_light);
                         L += its.evaluateEmission() * misWeight * throughput;
                     }
@@ -69,14 +70,12 @@ namespace lightwave
                         // having sampled this direction with BSDF (bsdfVal.pdf)
                         if (mis)
                         {
-                            float p_light = pdfToSolidAngleMeasure(directLightSample.pdf * lightSample.probability,
-                                                                   directLightSample.distance, its.frame.normal,
-                                                                   directLightSample.wi);
-                            float misWeight = powerHeuristic(p_light, bsdfVal.pdf);
+                            p_light = directLightSample.pdf * lightSelectionProb;
+                            misWeight = powerHeuristic(p_light, bsdfVal.pdf);
                             L += lightContribution * misWeight * throughput;
                         }
                         else
-                            L += lightContribution * throughput / lightSample.probability;
+                            L += lightContribution * throughput / lightSelectionProb;
                     }
                 }
 
