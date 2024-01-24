@@ -43,7 +43,7 @@ namespace lightwave
                     {
                         // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of having
                         // sampled this direction with NEE (its.pdf)
-                        p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo);
+                        p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo) * lightSelectionProb;
                         float misWeight = powerHeuristic(p_bsdf, p_light);
                         L += its.evaluateEmission() * misWeight * throughput;
                     }

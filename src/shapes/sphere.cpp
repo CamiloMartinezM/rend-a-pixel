@@ -80,7 +80,7 @@ namespace lightwave
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
 
             // Uniform area pdf. updatePdf() overwrites this if it is called after this method
-            surf.pdf = Inv4Pi;
+            updatePdf(surf, SphereSampling, position - centerPoint, surf);
         }
 
       private:
@@ -114,7 +114,7 @@ namespace lightwave
         /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted,
         /// subtended cone).
         inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod &usedSamplingMethod,
-                              const Vector &sampledVector, const Point &projectedPoint, const SurfaceEvent &ref) const
+                              const Vector &sampledVector, const SurfaceEvent &ref) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
                 updatePdfUniform(surf);
@@ -245,7 +245,7 @@ namespace lightwave
 
             // For Uniform, only sampleArea is used; for cosine-weighted, sampleArea and sampledVector are used; and
             // for subtended cone, all parameters are used to calculate the PDF
-            updatePdf(sampledArea, usedSamplingMethod, sampledVector, projectedPoint, ref);
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, ref);
             return sampledArea;
         }
 
