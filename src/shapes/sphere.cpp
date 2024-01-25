@@ -28,7 +28,7 @@ namespace lightwave
     class Sphere : public Shape
     {
         /// @brief Sphere sampling routine
-        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform; 
+        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::SubtendedCone;
 
         /**
          * @brief Constructs a surface event for a given position, used by @ref
@@ -121,7 +121,9 @@ namespace lightwave
             else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
                 surf.pdf = cosineHemispherePdf(sampledVector);
             else
-                surf.pdf = subtendedConePdf(centerPoint, 1.0f, refPoint);
+                surf.pdf = pdfFromSolidAngleMeasure(subtendedConePdf(centerPoint, 1.0f, refPoint),
+                                                    (surf.position - refPoint).length(), surf.frame.normal,
+                                                    surf.position - refPoint);
         }
 
       public:
@@ -171,7 +173,7 @@ namespace lightwave
 
             // update the pdf of the intersection based on the sphere sampling
             updatePdf(its, SphereSampling, ray.origin - hit_position, hit_position);
-            
+
             return true;
         }
 

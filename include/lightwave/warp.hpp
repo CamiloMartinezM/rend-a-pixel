@@ -123,15 +123,28 @@ namespace lightwave
 
     /**
      * @brief Returns the Pdf value in solid angle measure, from a value in spatial units.
-     * @param pdf Spatial probability density function.
-     * @param distance Distance between the shading point and the light source.
+     * @param pdf Spatial Pdf.
+     * @param distance Distance between the shading point and the reference point.
      * @param n Surface normal.
-     * @param wi The direction towards the light source.
+     * @param wi The direction towards the reference point (e.g, a light source). It does not have to be normalized.
      */
     inline float pdfToSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
         return pdf * sqr(distance) / abs(n.dot(-wiNormalized));
+    }
+
+    /**
+     * @brief Returns the Pdf value in spatial units, from a value in solid angle measure.
+     * @param pdf Pdf in solid angle measure.
+     * @param distance Distance between the shading point and the reference point.
+     * @param n Surface normal.
+     * @param wi The direction towards the reference point (e.g, a light source). It does not have to be normalized.
+     */
+    inline float pdfFromSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
+    {
+        Vector wiNormalized = wi.normalized();
+        return pdf * abs(n.dot(-wiNormalized)) / sqr(distance);
     }
 
     /**
