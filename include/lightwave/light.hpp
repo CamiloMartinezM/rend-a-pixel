@@ -11,6 +11,9 @@
 
 namespace lightwave {
 
+/// @brief Names of the implemented lights
+enum class LightType { Directional, Point, Envmap, AreaLight };              
+
 /// @brief The result of sampling a light from a given query point using @ref Light::sampleDirect .
 struct DirectLightSample {
     /// @brief The direction vector, pointing from the query point towards the light.
@@ -61,6 +64,9 @@ public:
     
     /// @brief Returns whether this light source can be hit by rays (i.e., has an area that has been placed within the scene).
     virtual bool canBeIntersected() const { return false; }
+
+    /// @brief Returns the type of light source 
+    virtual LightType getLightType() const = 0;
 };
 
 /// @brief The result of evaluating a @ref BackgroundLight for a incident direction.

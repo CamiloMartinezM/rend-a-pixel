@@ -52,13 +52,15 @@ namespace lightwave
             // * you do not need to query textures
             //   * the reflectance is given by `color'
             //   * the variable `alpha' is already provided for you
+            Vector nWo = wo.normalized();
+            Vector nWi = wi.normalized();
             Vector wm = (wi + wo).normalized();
             float D = microfacet::evaluateGGX(alpha, wm);
-            float G1wi = microfacet::smithG1(alpha, wm, wi);
-            float G1wo = microfacet::smithG1(alpha, wm, wo);
-            float denominator = 4 * Frame::absCosTheta(wi) * Frame::absCosTheta(wo);
-            return {.value = color * D * G1wi * G1wo / denominator * Frame::absCosTheta(wi),
-                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
+            float G1wi = microfacet::smithG1(alpha, wm, nWi);
+            float G1wo = microfacet::smithG1(alpha, wm, nWo);
+            float denominator = 4 * Frame::absCosTheta(nWi) * Frame::absCosTheta(nWo);
+            return {.value = color * D * G1wi * G1wo / denominator * Frame::absCosTheta(nWi),
+                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
         }
 
         BsdfSample sample(const Vector &wo, Sampler &rng) const
@@ -68,11 +70,12 @@ namespace lightwave
             // * you do not need to query textures
             //   * the reflectance is given by `color'
             //   * the variable `alpha' is already provided for you
-            Vector m = microfacet::sampleGGXVNDF(alpha, wo, rng.next2D()); // Sample microfacet normal m
-            Vector wi = reflect(wo, m); // Reflect wo about m to get outgoing direction wi
+            Vector nWo = wo.normalized();
+            Vector m = microfacet::sampleGGXVNDF(alpha, nWo, rng.next2D()); // Sample microfacet normal m
+            Vector wi = reflect(wo, m).normalized(); // Reflect wo about m to get outgoing direction wi
             Vector wm = (wi + wo).normalized();
             float G1wi = microfacet::smithG1(alpha, wm, wi);
-            return {.wi = wi, .weight = color * G1wi, .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
+            return {.wi = wi, .weight = color * G1wi, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
         }
     };
 

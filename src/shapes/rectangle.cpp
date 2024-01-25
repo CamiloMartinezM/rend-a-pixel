@@ -89,12 +89,6 @@ namespace lightwave
             return sample;
         }
 
-        inline float sampledDirectionPdf(const Vector &sampledVector) const override
-        {
-            // since we sample the area uniformly, the pdf is given by 1/surfaceArea
-            return 1.0f / 4;
-        }
-
         std::string toString() const override
         {
             return "Rectangle[]";

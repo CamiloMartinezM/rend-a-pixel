@@ -26,16 +26,18 @@ namespace lightwave
 
             // hints:
             // * the microfacet normal can be computed from `wi' and `wo'
+            Vector nWi = wi.normalized();
+            Vector nWo = wo.normalized();
             Vector wm = (wi + wo).normalized();
             float D = microfacet::evaluateGGX(alpha, wm);
-            float G1wi = microfacet::smithG1(alpha, wm, wi);
-            float G1wo = microfacet::smithG1(alpha, wm, wo);
+            float G1wi = microfacet::smithG1(alpha, wm, nWi);
+            float G1wo = microfacet::smithG1(alpha, wm, nWo);
             Color R = m_reflectance->evaluate(uv);
 
             // Frame::absCosTheta(wi) cancels out from the denominator
-            float denominator = 4 * Frame::absCosTheta(wo);
+            float denominator = 4 * Frame::absCosTheta(nWo);
 
-            return {.value = R * D * G1wi * G1wo / denominator, .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
+            return {.value = R * D * G1wi * G1wo / denominator, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
         }
 
         BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
@@ -45,12 +47,13 @@ namespace lightwave
             // hints:
             // * do not forget to cancel out as many terms from your equations as possible!
             //   (the resulting sample weight is only a product of two factors)
-            Vector m = microfacet::sampleGGXVNDF(alpha, wo, rng.next2D()); // Sample microfacet normal m
-            Vector wi = reflect(wo, m); // Reflect wo about m to get outgoing direction wi
+            Vector nWo = wo.normalized();
+            Vector m = microfacet::sampleGGXVNDF(alpha, nWo, rng.next2D()); // Sample microfacet normal m
+            Vector wi = reflect(wo, m).normalized(); // Reflect wo about m to get outgoing direction wi
             Vector wm = (wi + wo).normalized();
             float G1wi = microfacet::smithG1(alpha, wm, wi);
             Color weight = m_reflectance->evaluate(uv) * G1wi;
-            return {.wi = wi, .weight = weight, .pdf = microfacet::pdfGGXVNDF(alpha, wm, wo)};
+            return {.wi = wi, .weight = weight, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
         }
 
         std::string toString() const override

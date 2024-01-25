@@ -6,6 +6,9 @@ namespace lightwave
     class Halton : public Sampler
     {
       private:
+        // Randomization strategy to use
+        const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  
+
         // Stores digit permutations for each dimension used to scramble the Halton sequence,
         // enhancing the randomness and reducing correlation between samples.
         pstd::vector<DigitPermutation> *digitPermutations = nullptr;

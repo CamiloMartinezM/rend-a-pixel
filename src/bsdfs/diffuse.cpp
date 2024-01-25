@@ -16,17 +16,9 @@ namespace lightwave
 
         BsdfEval evaluate(const Point2 &uv, const Vector &wo, const Vector &wi) const override
         {
-            Vector wiCorrected = wi;
-
-            // Check if wo and wi are in different hemispheres
-            if (!Frame::sameHemisphere(wo, wi))
-            {
-                // Flip the incoming direction wi to the same hemisphere as wo
-                wiCorrected = Vector(wi.x(), wi.y(), -wi.z());
-            }
-
-            return {.value = m_albedo->evaluate(uv) * Frame::absCosTheta(wiCorrected) / Pi,
-                    .pdf = diffuse::pdf(wo, wiCorrected)};
+            Vector nWi = wi.normalized();
+            float cosTheta = Frame::sameHemisphere(wo, wi) ? Frame::absCosTheta(nWi) : max(0.0f, Frame::cosTheta(nWi));
+            return {.value = m_albedo->evaluate(uv) * cosTheta * InvPi, .pdf = diffuse::pdf(wo, nWi)};
         }
 
         BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
@@ -34,9 +26,11 @@ namespace lightwave
             Color albedo = m_albedo->evaluate(uv);
             Vector wi = squareToCosineHemisphere(rng.next2D());
 
-            // Check if wo is in the opposite direction of the surface normal
-            // If it is, flip wi to the opposite hemisphere
-            wi *= Vector(1.0f, 1.0f, wo.z() < 0 ? -1.0f : 1.0f);
+            // Check if wo is in the opposite direction of the surface normal. If it is, flip wi to the opposite 
+            // hemisphere, i.e, to make it the same as wo
+            if (!Frame::sameHemisphere(wo, wi))
+                wi *= Vector(1.0f, 1.0f, -1.0f);
+            
             return {.wi = wi, .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
         }
 

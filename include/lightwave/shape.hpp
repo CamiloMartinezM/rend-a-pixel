@@ -17,6 +17,9 @@
 
 namespace lightwave {
 
+// Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling
+enum class ShapeSamplingMethod { Uniform, CosineWeighted, SubtendedCone }; 
+
 /// @brief The result of sampling a random point on a shape's surface via @ref Shape::sampleArea .
 struct AreaSample : public SurfaceEvent {
     /// @brief Creates an area sample with zero pdf to report that sampling has failed. 
@@ -53,9 +56,6 @@ public:
      * @param ref Surface Event with which an importance sampling routine is used.
      */
     virtual AreaSample sampleArea(Sampler &rng, const SurfaceEvent &ref) const { return sampleArea(rng); }
-
-    /// @brief Computes the PDF of having sampled the given direction.
-    virtual inline float sampledDirectionPdf(const Vector &sampledVector) const { return 1.0f; }
 
     /**
      * @brief Marks that the shape is part of the scene geometry, i.e., can be hit through @ref Scene::intersect .

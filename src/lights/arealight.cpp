@@ -72,6 +72,11 @@ namespace lightwave
             return m_shape->isVisible();
         }
 
+        LightType getLightType() const override
+        {
+            return LightType::AreaLight;
+        }
+
         std::string toString() const override
         {
             return tfm::format("AreaLight[\n"

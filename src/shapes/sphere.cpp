@@ -27,6 +27,9 @@ namespace lightwave
     /// @brief A sqhere in the R3-plane with center (0, 0, 0) and radius = 1
     class Sphere : public Shape
     {
+        /// @brief Sphere sampling routine
+        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform; 
+
         /**
          * @brief Constructs a surface event for a given position, used by @ref
          * intersect to populate the @ref Intersection and by @ref sampleArea to
@@ -78,9 +81,6 @@ namespace lightwave
             surf.frame.tangent = Vector(0.f, 1.f, 0.f).cross(surf.frame.normal).normalized();
             // The bitangent is perpendicular to both the normal and the tangent
             surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
-
-            // Uniform area pdf. updatePdf() overwrites this if it is called after this method
-            updatePdf(surf, SphereSampling, position - centerPoint, surf);
         }
 
       private:
@@ -114,14 +114,14 @@ namespace lightwave
         /// @brief Updates the PDF of the sphere based on the sampling method used (uniform, cosine-weighted,
         /// subtended cone).
         inline void updatePdf(SurfaceEvent &surf, const ShapeSamplingMethod &usedSamplingMethod,
-                              const Vector &sampledVector, const SurfaceEvent &ref) const
+                              const Vector &sampledVector, const Point &refPoint) const
         {
             if (usedSamplingMethod == ShapeSamplingMethod::Uniform)
                 updatePdfUniform(surf);
             else if (usedSamplingMethod == ShapeSamplingMethod::CosineWeighted)
                 surf.pdf = cosineHemispherePdf(sampledVector);
             else
-                surf.pdf = subtendedConePdf(centerPoint, 1.0f, ref.position);
+                surf.pdf = subtendedConePdf(centerPoint, 1.0f, refPoint);
         }
 
       public:
@@ -167,8 +167,11 @@ namespace lightwave
             // we have determined there was an intersection!
             // we are now free to change the intersection object and return true.
             its.t = t0;
-            populate(its,
-                     hit_position); // compute the shading frame, texture coordinates and area pdf (same as sampleArea)
+            populate(its, hit_position); // compute the shading frame and texture coordinates
+
+            // update the pdf of the intersection based on the sphere sampling
+            updatePdf(its, SphereSampling, ray.origin - hit_position, hit_position);
+            
             return true;
         }
 
@@ -245,7 +248,7 @@ namespace lightwave
 
             // For Uniform, only sampleArea is used; for cosine-weighted, sampleArea and sampledVector are used; and
             // for subtended cone, all parameters are used to calculate the PDF
-            updatePdf(sampledArea, usedSamplingMethod, sampledVector, ref);
+            updatePdf(sampledArea, usedSamplingMethod, sampledVector, ref.position);
             return sampledArea;
         }
 

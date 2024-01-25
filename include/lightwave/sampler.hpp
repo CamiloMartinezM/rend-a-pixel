@@ -12,6 +12,11 @@
 
 namespace lightwave
 {
+    /// @brief Names of the implemented samplers
+    enum class AvailableSampler { Unnamed, HaltonSampler, IndependentSampler }; 
+
+    /// @brief Available randomize strategies to scramble samples
+    enum class RandomizeStrategy { None, PermuteDigits, Owen }; 
 
     /**
      * @brief Samplers are pseudo-random number generators that steer sampling decisions.

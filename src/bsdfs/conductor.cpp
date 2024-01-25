@@ -22,12 +22,12 @@ namespace lightwave
 
         BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
         {
-            Vector wi = reflect(wo, Vector(0.0f, 0.0f, 1.0f));    // Reflect wo about the normal to get wi
+            Vector wi = reflect(wo, Vector(0.0f, 0.0f, 1.0f)).normalized(); // Reflect wo about the normal to get wi
             Color reflectanceValue = m_reflectance->evaluate(uv); // Compute the BSDF reflectance value
 
             // There is no randomness in the conductor reflection, so the pdf is a delta function and
             // the weight is the reflectance value itself
-            return {.wi = wi, .weight = reflectanceValue, .pdf = 1.0f};
+            return {.wi = wi, .weight = reflectanceValue, .pdf = Infinity};
         }
 
         std::string toString() const override

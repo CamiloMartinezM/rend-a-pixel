@@ -97,15 +97,6 @@ static const int Primes[NumPrimes] = {                  // Subsequent prime numb
     7577, 7583, 7589, 7591, 7603, 7607, 7621, 7639, 7643, 7649, 7669, 7673, 7681, 7687,
     7691, 7699, 7703, 7717, 7723, 7727, 7741, 7753, 7757, 7759, 7789, 7793, 7817, 7823,
     7829, 7841, 7853, 7867, 7873, 7877, 7879, 7883, 7901, 7907, 7919};
-enum class AvailableSampler { Unnamed, HaltonSampler, IndependentSampler }; // Names of the implemented samplers
-
-// For the Halton Sampler, this enumeration encodes the randomization strategies available
-enum class RandomizeStrategy { None, PermuteDigits, Owen }; 
-const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  // Randomization strategy to use in Halton
-
-// Available sampling routines for shapes. CosineWeighted and SubtendedCone correspond to Improved Area Light Sampling
-enum class ShapeSamplingMethod { Uniform, CosineWeighted, SubtendedCone }; 
-const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform; // Sphere sampling routine
 
 // MARK: - useful constants
 

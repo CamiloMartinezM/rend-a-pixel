@@ -11,9 +11,8 @@ namespace lightwave
         Color iterativePathTracing(const Ray &ray, Sampler &rng)
         {
             Ray iterRay = ray;
-            Intersection prevIts;
             Color L(0.0f), throughput(1.0f);
-            float p_bsdf = Infinity, p_light = 0.0f, misWeight;
+            float p_bsdf = Infinity, p_light = 0.0f;
             float lightSelectionProb = m_scene->lightSelectionProbability(nullptr);
             for (int depth = 0; depth < maxDepth; depth++)
             {
@@ -33,49 +32,50 @@ namespace lightwave
                 // 2. If NEE nor MIS are active (only do BSDF sampling), evaluate it regardless;
                 // 3. If NEE is active and MIS is not, evaluate the emission on the surface if it is not an area light;
                 // 4. If MIS is active and it is not an area light, weigh the emission contrib. by the Power Heuristic.
-                if (depth == 0 || (!nee && !mis))
+                if (depth == 0 || !nee)
                     L += its.evaluateEmission() * throughput;
-                else // At this point, it is not the first intersection, i.e, depth > 0 and we have either NEE or MIS
+                else if (nee && !mis && its.instance->light() == nullptr)
+                    L += its.evaluateEmission() * throughput;
+                else if (mis)
                 {
-                    if (nee && !mis && its.instance->light() == nullptr)
-                        L += its.evaluateEmission() * throughput;
-                    else if (mis)
-                    {
-                        // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of having
-                        // sampled this direction with NEE (its.pdf)
-                        p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo) * lightSelectionProb;
-                        float misWeight = powerHeuristic(p_bsdf, p_light);
-                        L += its.evaluateEmission() * misWeight * throughput;
-                    }
+                    // Do MIS weighing of the BSDF sample contribution based on its own PDF and the PDF of having
+                    // sampled this direction with NEE (its.pdf)
+                    p_light = pdfToSolidAngleMeasure(its.pdf, its.t, its.frame.normal, its.wo) * lightSelectionProb;
+                    float misWeight = powerHeuristic(p_bsdf, p_light);
+                    L += its.evaluateEmission() * misWeight * throughput;
                 }
 
                 // Use Next-Event Estimation to sample a light if:
                 // 1. NEE is active or MIS is active;
                 // 2. The loop has not reached the final depth (we don't do NEE in the last iteration);
                 // 3. The scene has lights.
-                if ((nee || mis) && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
+                if (nee && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
                 {
                     LightSample lightSample = m_scene->sampleLight(rng);
-                    DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
-                    Ray shadowRay(its.position, directLightSample.wi);
-                    if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
+                    if (mis || (nee && (!lightSample.light->canBeIntersected() ||
+                                        lightSample.light->getLightType() == LightType::AreaLight)))
                     {
-                        // Evaluate the BSDF at the hit point for the light direction
-                        BsdfEval bsdfVal = its.evaluateBsdf(directLightSample.wi);
-
-                        // Modulate the light's contribution
-                        Color lightContribution = bsdfVal.value * directLightSample.weight;
-
-                        // Do MIS weighing of the NEE sample contribution based on its own PDF and the PDF of
-                        // having sampled this direction with BSDF (bsdfVal.pdf)
-                        if (mis)
+                        DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
+                        Ray shadowRay(its.position, directLightSample.wi);
+                        if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                         {
-                            p_light = directLightSample.pdf * lightSelectionProb;
-                            misWeight = powerHeuristic(p_light, bsdfVal.pdf);
-                            L += lightContribution * misWeight * throughput;
+                            // Evaluate the BSDF at the hit point for the light direction
+                            BsdfEval bsdfVal = its.evaluateBsdf(directLightSample.wi);
+
+                            // Modulate the light's contribution
+                            Color lightContribution = bsdfVal.value * directLightSample.weight;
+
+                            // Do MIS weighing of the NEE sample contribution based on its own PDF and the PDF of
+                            // having sampled this direction with BSDF (bsdfVal.pdf)
+                            if (mis)
+                            {
+                                p_light = directLightSample.pdf * lightSelectionProb;
+                                float misWeight = powerHeuristic(p_light, bsdfVal.pdf);
+                                L += lightContribution * misWeight * throughput;
+                            }
+                            else
+                                L += lightContribution * throughput / lightSample.probability;
                         }
-                        else
-                            L += lightContribution * throughput / lightSelectionProb;
                     }
                 }
 

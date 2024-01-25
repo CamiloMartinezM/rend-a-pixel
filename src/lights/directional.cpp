@@ -31,6 +31,11 @@ namespace lightwave
             return false;
         }
 
+        LightType getLightType() const override
+        {
+            return LightType::Directional;
+        }
+
         std::string toString() const override
         {
             return tfm::format("DirectionalLight[\n"

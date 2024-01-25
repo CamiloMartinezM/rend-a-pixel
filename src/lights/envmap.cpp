@@ -120,16 +120,12 @@ namespace lightwave
             float phi = atan2(transformedDirection.z(), transformedDirection.x()); // φ: azimuthal angle
 
             // Normalize θ and φ to [0, 1] range for texture coordinates
-            float u = 0.5f - phi / (2 * Pi);
-            float v = theta / Pi;
+            float u = Inv2Pi * (Pi - phi);
+            float v = theta * InvPi;
 
             // Return the evaluated texture value at the mapped UV coordinates
             Vector2 warped(u, v);
-            Color value = m_texture->evaluate(warped);
-
-            return {
-                .value = value,
-            };
+            return {.value = m_texture->evaluate(warped)};
         }
 
         DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
@@ -153,6 +149,11 @@ namespace lightwave
             auto [direction, pdf] = uvToDirection(uv, mapPdf, true);
             auto E = evaluate(direction);
             return {.wi = direction, .weight = E.value / pdf, .distance = Infinity, .pdf = pdf};
+        }
+
+        LightType getLightType() const override
+        {
+            return LightType::Envmap;
         }
 
         std::string toString() const override

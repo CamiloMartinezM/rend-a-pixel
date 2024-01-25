@@ -35,21 +35,21 @@ namespace lightwave
 
             if (rng.next() < F)
             {
-                Vector wi = reflect(wo, normal);
+                Vector wi = reflect(wo, normal).normalized();
                 Color reflectance = m_reflectance->evaluate(uv);
                 return {.wi = wi, .weight = reflectance, .pdf = F};
             }
             else
             {
-                Vector wi = refract(wo, normal, eta);
+                Vector wi = refract(wo, normal, eta).normalized();
                 if (!wi.isZero())
                 {
-                    Color transmittance = m_transmittance->evaluate(uv) * 1 / (eta * eta);
+                    Color transmittance = m_transmittance->evaluate(uv) * 1 / sqr(eta);
                     return {.wi = wi, .weight = transmittance, .pdf = 1.0f - F};
                 }
 
                 // Handle total internal reflection
-                return {.wi = reflect(wo, normal), .weight = m_reflectance->evaluate(uv), .pdf = 1.0f};
+                return {.wi = reflect(wo, normal).normalized(), .weight = m_reflectance->evaluate(uv), .pdf = 1.0f};
             }
         }
 
