@@ -44,8 +44,8 @@ namespace lightwave
             return {.wi = wi,
                     .weight = intensity,
                     .distance = distance,
-                    .pdf = pdfToSolidAngleMeasure(sampledArea.pdf, sampledArea.frame.toLocal(sampledAreaWo).length(),
-                                                  sampledArea.frame.normal, localSampledAreaWo)};
+                    .pdf = pdfToSolidAngleMeasure(sampledArea.pdf, sampledAreaWo.length(), sampledArea.frame.normal,
+                                                  sampledAreaWo)};
         }
 
       public:

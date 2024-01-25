@@ -32,9 +32,7 @@ namespace lightwave
                 // 2. If NEE nor MIS are active (only do BSDF sampling), evaluate it regardless;
                 // 3. If NEE is active and MIS is not, evaluate the emission on the surface if it is not an area light;
                 // 4. If MIS is active and it is not an area light, weigh the emission contrib. by the Power Heuristic.
-                if (depth == 0 || !nee)
-                    L += its.evaluateEmission() * throughput;
-                else if (nee && !mis && its.instance->light() == nullptr)
+                if (depth == 0 || !nee || its.instance->light() == nullptr)
                     L += its.evaluateEmission() * throughput;
                 else if (mis)
                 {
@@ -45,11 +43,13 @@ namespace lightwave
                     L += its.evaluateEmission() * misWeight * throughput;
                 }
 
+                if (iterRay.depth >= maxDepth - 1) break;
+
                 // Use Next-Event Estimation to sample a light if:
                 // 1. NEE is active or MIS is active;
                 // 2. The loop has not reached the final depth (we don't do NEE in the last iteration);
                 // 3. The scene has lights.
-                if (nee && iterRay.depth < maxDepth - 1 && m_scene->hasLights())
+                if (nee && m_scene->hasLights())
                 {
                     LightSample lightSample = m_scene->sampleLight(rng);
                     if (mis || (nee && (!lightSample.light->canBeIntersected() ||
@@ -71,10 +71,10 @@ namespace lightwave
                             {
                                 p_light = directLightSample.pdf * lightSelectionProb;
                                 float misWeight = powerHeuristic(p_light, bsdfVal.pdf);
-                                L += lightContribution * misWeight * throughput;
+                                L += lightContribution * misWeight * throughput / lightSelectionProb;
                             }
                             else
-                                L += lightContribution * throughput / lightSample.probability;
+                                L += lightContribution * throughput / lightSelectionProb;
                         }
                     }
                 }
@@ -103,7 +103,7 @@ namespace lightwave
                 }
 
                 // c) Trace a secondary ray in the direction determined by the BSDF sample.
-                iterRay = Ray(its.position, bsdfSample.wi.normalized(), iterRay.depth + 1);
+                iterRay = Ray(its.position, bsdfSample.wi, iterRay.depth + 1);
             }
 
             return L;
