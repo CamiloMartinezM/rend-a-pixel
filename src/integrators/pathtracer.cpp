@@ -89,17 +89,20 @@ namespace lightwave
                 throughput *= bsdfSample.weight;
 
                 // Russian-Roulette to terminate small-contributing paths
-                if (UseRussianRoulette && throughput.maxComponent() < 1 && depth > 1)
+                if (UseRussianRoulette && depth > RussianRouletteMinDepth && throughput.maxComponent() < 1)
                 {
                     // Calculate the termination probability as 1 - the maximum component of the throughput
                     float q = max(0.0f, 1.0f - throughput.maxComponent());
 
                     // Randomly decide whether to terminate the path
-                    if (rng.next() > q)
+                    if (rng.next() < q)
                         break;
 
+                    // Prevent division by zero or very small numbers
+                    if (q > 1.0f - Epsilon) q = 1.0f - Epsilon;
+
                     // If the path continues, scale the throughput to account for the survival probability
-                    throughput /= 1 - q;
+                    throughput /= (1 - q);
                 }
 
                 // c) Trace a secondary ray in the direction determined by the BSDF sample.

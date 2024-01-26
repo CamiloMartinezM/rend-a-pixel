@@ -44,11 +44,11 @@ namespace lightwave
 
             for (int v = 0; v < height; ++v)
             {
-                float vp = static_cast<float>(v) / height;
-                float sinTheta = sin(Pi * static_cast<float>(v + 0.5f) / height);
+                float vp = (float) v / (float) height;
+                float sinTheta = sin(Pi * static_cast<float>(v + 0.5f) / (float) height);
                 for (int u = 0; u < width; ++u)
                 {
-                    float up = static_cast<float>(u) / width;
+                    float up = (float) u / (float) width;
                     img[u + v * width] = Lmap->Lookup(Point2(up, vp), filter).luminance();
                     img[u + v * width] *= sinTheta;
                 }
@@ -59,14 +59,14 @@ namespace lightwave
         }
 
         /// @brief Convert (u, v) to an (x, y, z) direction vector (optionally in world coordinates).
-        inline std::pair<Vector, float> uvToDirection(const Point2 &uv, float mapPdf, bool toWorldTransform) const
+        inline std::pair<Vector, float> uvToDirection(const Point2 &uv, float mapPdf) const
         {
             float theta = uv.y() * Pi;
             float phi = uv.x() * 2 * Pi;
             float sinTheta = sin(theta);
             float x = sinTheta * cos(phi);
-            float y = cos(theta);
-            float z = sinTheta * sin(phi);
+            float y = sinTheta * sin(phi);
+            float z = cos(theta);
 
             Vector direction(x, y, z);
             float pdf = (sinTheta == 0) ? 0.0f : InvPi * Inv2Pi * mapPdf / sinTheta;
@@ -146,7 +146,7 @@ namespace lightwave
                 return {.wi = Vector(), .weight = Color::black(), .distance = Infinity, .pdf = 0.0f};
 
             // Convert the sampled UV to a direction and compute the PDF for spherical mapping
-            auto [direction, pdf] = uvToDirection(uv, mapPdf, true);
+            auto [direction, pdf] = uvToDirection(uv, mapPdf);
             auto E = evaluate(direction);
             return {.wi = direction, .weight = E.value / pdf, .distance = Infinity, .pdf = pdf};
         }

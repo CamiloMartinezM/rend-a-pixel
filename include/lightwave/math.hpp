@@ -17,9 +17,6 @@
 namespace lightwave {
 
 // MARK: - Added constants (Dipplin)
-static const bool UseRecursivePathTracer = false;       // Set to false if one wants to use the iterative method for path-tracing
-static const bool UseRussianRoulette = false;            // Defines if the Pathtracer integrator should use Russian-Roulette
-static const bool UseImprovedEnvSampling = false;        // Defines if Improved Environment Sampling routine should be used
 static const int SAHMethod = 1;                         // 0: SAH without binning, 1: SAH with binning
 static const int BINS = 16;                             // Number of bins to use if SAHMethod = 1
 static const bool UseHighestBBLengthAxis = true;        // Set to true if use axis with highest bounding box length in SAH

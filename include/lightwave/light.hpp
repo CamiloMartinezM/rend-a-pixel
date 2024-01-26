@@ -14,6 +14,9 @@ namespace lightwave {
 /// @brief Names of the implemented lights
 enum class LightType { Directional, Point, Envmap, AreaLight };              
 
+/// @brief Defines if Improved Environment Sampling routine should be used
+static const bool UseImprovedEnvSampling = true;  
+
 /// @brief The result of sampling a light from a given query point using @ref Light::sampleDirect .
 struct DirectLightSample {
     /// @brief The direction vector, pointing from the query point towards the light.
@@ -79,7 +82,8 @@ struct BackgroundLightEval {
  * @brief Provides a background color when a ray escapes the scene (e.g., by using an environment map).
  * Conceptually, a background light is an emissive sphere of infinite radius.
  */
-class BackgroundLight : public Light {
+class BackgroundLight : public Light {      
+
 public:
     /**
      * @brief Queries the background emission for a given direction pointing away from the scene.

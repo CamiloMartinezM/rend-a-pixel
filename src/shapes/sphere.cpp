@@ -28,7 +28,7 @@ namespace lightwave
     class Sphere : public Shape
     {
         /// @brief Sphere sampling routine
-        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::SubtendedCone;
+        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform;
 
         /**
          * @brief Constructs a surface event for a given position, used by @ref

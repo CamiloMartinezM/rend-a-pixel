@@ -30,6 +30,7 @@ public:
  * @brief A sampling integrator uses random numbers to solve the integration problem, e.g., by using Monte Carlo integration.
  */
 class SamplingIntegrator : public Integrator {
+
 protected:
     /// @brief The random number generator used to steer sampling decisions.
     ref<Sampler> m_sampler;
@@ -39,6 +40,12 @@ protected:
     ref<Scene> m_scene;
 
 public:
+    /// @brief Defines if the sampling integrators should use Russian-Roulette
+    static const bool UseRussianRoulette = true;
+
+    /// @brief Defines the minimum number of bounces the integrator has to do, before applying Russian-Roulette
+    static const int RussianRouletteMinDepth = 3;
+
     SamplingIntegrator(const Properties &properties)
     : Integrator(properties) {
         m_sampler = properties.getChild<Sampler>();
