@@ -20,7 +20,7 @@ namespace lightwave
             // By convention, vectors point out of the surface
             Vector sampledAreaWo = origin - sampledArea.position;
 
-            if (sampledArea.pdf == 0 || sampledAreaWo.lengthSquared() == 0)
+            if (sampledArea.pdf == 0.0f || sampledAreaWo.lengthSquared() == 0.0f)
                 return DirectLightSample::invalid();
 
             Vector wi = (-sampledAreaWo).normalized();

@@ -28,7 +28,7 @@ namespace lightwave
     class Sphere : public Shape
     {
         /// @brief Sphere sampling routine
-        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::Uniform;
+        const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::SubtendedCone;
 
         /**
          * @brief Constructs a surface event for a given position, used by @ref
@@ -93,8 +93,10 @@ namespace lightwave
          */
         inline Point projectBackOnSphere(const Vector &v) const
         {
-            Point pObj = centerPoint + v;                               // radius * v, but radius=1
-            return Point(Vector(pObj) / (pObj - centerPoint).length()); // Scale pObj by the sphere’s radius=1
+            // Point pObj = centerPoint + v;
+            // return Point(Vector(pObj) * radius / (pObj - centerPoint).length());
+            // Result is the following after simplification, because radius = 1, centerPoint = (0, 0, 0)
+            return v.normalized();
         }
 
         /// @brief Populates an AreaSample with the given position.
@@ -172,8 +174,7 @@ namespace lightwave
             populate(its, hit_position); // compute the shading frame and texture coordinates
 
             // update the pdf of the intersection based on the sphere sampling
-            updatePdf(its, SphereSampling, ray.origin - hit_position, hit_position);
-
+            updatePdf(its, SphereSampling, (hit_position - centerPoint).normalized(), ray.origin);
             return true;
         }
 
@@ -230,8 +231,8 @@ namespace lightwave
             {
                 // Sample uniformly on sphere if ref.position is inside it
                 Point pOrigin =
-                    OffsetRayOrigin(ref.position, ref.frame.normal, (ref.position - centerPoint).normalized());
-                if ((pOrigin - centerPoint).lengthSquared() <= 1.0f)
+                    offsetRayOrigin(ref.position, ref.frame.normal, (ref.position - centerPoint).normalized());
+                if ((pOrigin - centerPoint).lengthSquared() <= sqr(1.0f + Epsilon))
                 {
                     importanceSampledVector = squareToUniformSphere(rng.next2D());
                     usedSamplingMethod = ShapeSamplingMethod::Uniform;

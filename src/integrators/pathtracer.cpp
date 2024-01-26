@@ -120,6 +120,10 @@ namespace lightwave
          */
         float powerHeuristic(float pdf_a, float pdf_b)
         {
+            // Clamp the Pdfs to avoid floating point innacuracies
+            pdf_a = clamp(pdf_a, MachineEpsilon, Infinity); 
+            pdf_b = clamp(pdf_b, MachineEpsilon, Infinity); 
+            
             // The sample from technique A should be trusted the most
             if (pdf_a == Infinity)
                 return 1.0f;

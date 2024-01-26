@@ -131,7 +131,8 @@ namespace lightwave
     inline float pdfToSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
-        return pdf * sqr(distance) / abs(n.dot(-wiNormalized));
+        float result = pdf * sqr(distance) / abs(n.dot(-wiNormalized));
+        return clamp(result, MachineEpsilon, Infinity); 
     }
 
     /**
@@ -144,7 +145,9 @@ namespace lightwave
     inline float pdfFromSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
-        return pdf * abs(n.dot(-wiNormalized)) / sqr(distance);
+        float result = pdf * abs(n.dot(-wiNormalized)) / sqr(distance);
+        // Clamp the resulting pdf between the machine epsilon and infinity
+        return clamp(result, MachineEpsilon, Infinity); 
     }
 
     /**
@@ -322,7 +325,7 @@ namespace lightwave
      * @return The offset point, slightly away from the surface along the normal direction if the
      *         ray is leaving the surface, or slightly into the surface if the ray is entering.
      */
-    inline Point OffsetRayOrigin(const Point &p, const Vector &n, const Vector &w)
+    inline Point offsetRayOrigin(const Point &p, const Vector &n, const Vector &w)
     {
         const Vector pError = Vector(Epsilon);
         float d = Vector(abs(n.x()), abs(n.y()), abs(n.z())).dot(pError);

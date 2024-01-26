@@ -130,6 +130,9 @@ static constexpr float Epsilon = 1e-4f;
 /// @brief Infinity
 static constexpr float Infinity = std::numeric_limits<float>::infinity();
 
+/// @brief MachineEpsilon
+static constexpr float MachineEpsilon = std::numeric_limits<float>::epsilon() * 0.5;
+
 // MARK: - utility functions
 
 /// @brief Square root function.
