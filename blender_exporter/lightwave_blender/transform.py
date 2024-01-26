@@ -24,25 +24,25 @@ def _extract_vector(registry: SceneRegistry, input: RMInput):
 
 def _export_sca(v):
     if any((c != 1 for c in v[0:3])):
-        return [XMLNode("scale", value=str_flat_array(v[0:3]))]
+        return [XMLNode("scale", value=str_flat_array([ 1/x for x in v[0:3] ]))]
     else:
         return []
 
 
 def _export_rot(v):
     res = []
-    if v[0] != 0:
-        res += [XMLNode("rotate", axis="1,0,0", angle=v[0])]
-    if v[1] != 0:
-        res += [XMLNode("rotate", axis="0,1,0", angle=v[1])]
     if v[2] != 0:
-        res += [XMLNode("rotate", axis="0,0,1", angle=v[2])]
+        res += [XMLNode("rotate", axis="0,0,1", angle=-v[2])]
+    if v[1] != 0:
+        res += [XMLNode("rotate", axis="0,1,0", angle=-v[1])]
+    if v[0] != 0:
+        res += [XMLNode("rotate", axis="1,0,0", angle=-v[0])]
     return res
 
 
 def _export_tra(v):
     if any((c != 0 for c in v[0:3])):
-        return [XMLNode("translate", value=str_flat_array(v[0:3]))]
+        return [XMLNode("translate", value=str_flat_array([ -x for x in v[0:3] ]))]
     else:
         return []
 
@@ -59,21 +59,21 @@ def _export_vector_mapping(registry: SceneRegistry, node: RMNode):
     transforms = export_transform_node(registry, node.input("Vector"))
 
     if node.bl_node.vector_type == 'POINT':
-        transforms += _export_sca(sca)
-        transforms += _export_rot(rot)
         transforms += _export_tra(loc)
+        transforms += _export_rot(rot)
+        transforms += _export_sca(sca)
     elif node.bl_node.vector_type == 'TEXTURE':
-        transforms += _export_tra([-v for v in loc])
-        transforms += list(reversed(_export_rot([-v for v in rot])))
         transforms += _export_sca([1.0/v for v in sca])
+        transforms += list(reversed(_export_rot([-v for v in rot])))
+        transforms += _export_tra([-v for v in loc])
     elif node.bl_node.vector_type == 'NORMAL':
         # No idea why like this
-        transforms += _export_sca([1.0/v for v in sca])
         transforms += _export_rot(rot)
+        transforms += _export_sca([1.0/v for v in sca])
         # Usually the output has to be normalized here
     elif node.bl_node.vector_type == 'VECTOR':
-        transforms += _export_sca(sca)
         transforms += _export_rot(rot)
+        transforms += _export_sca(sca)
     else:
         registry.error(
             f"Material {node.node_graph.name} has a mapping of type {node.bl_node.vector_type} which is not supported")
@@ -109,13 +109,13 @@ def _export_vector_rotate(registry: SceneRegistry, node: RMNode):
         if node.bl_node.rotation_type == "AXIS_ANGLE":
             axis = _extract_vector(registry, node.input("Axis"))
             transforms += [XMLNode("rotate",
-                                   axis=str_flat_array(axis), angle=angle)]
+                                   axis=str_flat_array(axis), angle=-angle)]
         elif node.bl_node.rotation_type == "X_AXIS":
-            transforms += [XMLNode("rotate", axis="1,0,0", angle=angle)]
+            transforms += [XMLNode("rotate", axis="1,0,0", angle=-angle)]
         elif node.bl_node.rotation_type == "Y_AXIS":
-            transforms += [XMLNode("rotate", axis="0,1,0", angle=angle)]
+            transforms += [XMLNode("rotate", axis="0,1,0", angle=-angle)]
         elif node.bl_node.rotation_type == "Z_AXIS":
-            transforms += [XMLNode("rotate", axis="0,0,1", angle=angle)]
+            transforms += [XMLNode("rotate", axis="0,0,1", angle=-angle)]
 
     transforms += _export_tra(center)
     return transforms

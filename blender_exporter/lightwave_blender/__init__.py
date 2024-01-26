@@ -4,7 +4,7 @@ bl_info = {
     "name": "Lightwave Scene",
     "author": "Ömercan Yazici, Alexander Rath",
     "description": "Export scene to Lightwave",
-    "version": (0, 2, 4),
+    "version": (0, 2, 5),
     "blender": (3, 0, 0),
     "location": "File > Import-Export",
     "category": "Import-Export",

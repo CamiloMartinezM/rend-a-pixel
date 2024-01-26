@@ -61,8 +61,8 @@ def _export_background(registry: SceneRegistry, bsdf_node: RMNode):
         registry, color, exposure=emission_scale))
 
     transforms = []
-    transforms += export_transform_node(registry, color)
     transforms += [XMLNode("matrix", value=str_flat_matrix(ENVIRONMENT_MAP_TRANSFORM))]
+    transforms += export_transform_node(registry, color)
 
     bg.add("transform").add_children(transforms)
     return [bg]
@@ -92,8 +92,8 @@ def _export_world(registry: SceneRegistry, input: RMInput):
     else:
         # treat as background
         transforms = []
-        transforms += export_transform_node(registry, input)
         transforms += [XMLNode("matrix", value=str_flat_matrix(ENVIRONMENT_MAP_TRANSFORM))]
+        transforms += export_transform_node(registry, input)
 
         bg = XMLNode("light", type="envmap")
         bg.add_child(export_node(registry, input))
