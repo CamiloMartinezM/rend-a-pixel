@@ -1,0 +1,71 @@
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="1920"/>
+    <integer name="height" value="1920"/>
+    <float name="fov" value="22.62"/>
+    <string name="fovAxis" value="y"/>
+    <transform>
+      <!-- matrix value="1,0,0,0,  0,0,1,-121.13,  0,-1,0,28.233,  0,0,0,1"/-->
+      <matrix value="1,0,0,0,  0,0,1,-100.13,  0,-1,0,5,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.15913,0.24169,0.17018"/>
+      <texture name="roughness" type="constant" value="0.4"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Cube-wc.ply"/>
+    <transform>
+      <matrix value="19.321,0,0,0,  0,19.321,0,-0.81114,  0,0,19.321,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="sphere"/>
+      <transform>
+        <scale value="0.1"/>
+        <translate x="-14.036" y="16.467" z="17.86"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="2.533e+05,2.533e+05,2.533e+05"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.69984,0.78189,1"/>
+      <texture name="roughness" type="constant" value="0.1"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Plane-wc.ply"/>
+    <transform>
+      <matrix value="0.80934,0,0,0,  0,0.80934,0,0,  0,0,0.80934,5.8551,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="1,0.39733,0.13825"/>
+      <texture name="roughness" type="constant" value="0.2"/>
+      <texture name="metallic" type="constant" value="1"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Suzanne-wc.ply"/>
+    <transform>
+      <matrix value="3.259,-2.6182,-2.3635,-5.145,  3.5245,2.2899,2.3232,10.723,  -0.13959,-3.3112,3.4755,-16.616,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <shape type="mesh" filename="meshes/Cube.002-wc.ply"/>
+    <transform>
+      <matrix value="17.816,0,0,0,  0,22.431,0,-6.2454,  0,0,22.431,-26.333,  0,0,0,1"/>
+    </transform>
+  </instance>
+</scene>
+<integrator type="pathtracer" depth="2" nee="true" mis="true">
+  <ref id="scene"/>
+  <image id="water_caustics"/>
+  <sampler type="independent" count="10"/>
+</integrator>
