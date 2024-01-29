@@ -1,68 +1,60 @@
-<test type="image" id="terracota_dragon">
-    <integrator type="pathtracer" depth="12" nee="true" mis="true">
-        <scene id="scene">
-            <camera type="perspective">
-                <integer name="width" value="1920" />
-                <integer name="height" value="1080" />
-                <float name="fov" value="102.09" />
-                <string name="fovAxis" value="x" />
-                <transform>
-                    <matrix
-                        value="-0.87054,0.14362,-0.47068,6.9914,  0.49192,0.22775,-0.84032,10.027,  -0.013485,-0.96307,-0.26891,7.2043,  0,0,0,1" />
-                </transform>
-            </camera>
-            <light type="area">
-                <instance>
-                    <shape type="sphere" />
-                    <transform>
-                        <scale value="0.1" />
-                        <translate x="4.0762" y="1.0055" z="5.9039" />
-                    </transform>
-                    <emission type="lambertian">
-                        <texture name="emission" type="constant" value="2533,2533,2533" />
-                    </emission>
-                </instance>
-            </light>
-            <instance>
-                <bsdf type="principled">
-                    <texture name="baseColor" type="image"
-                        filename="textures/wood_table_001_diff_1k.jpg" />
-                    <texture name="roughness" type="image"
-                        filename="textures/wood_table_001_rough_1k.jpg" />
-                    <texture name="metallic" type="constant" value="0" />
-                    <texture name="specular" type="constant" value="0.5" />
-                </bsdf>
-                <texture name="normal" type="image"
-                    filename="textures/wood_table_001_nor_gl_16k.png.exr.exr" linear="true" />
-                <shape type="mesh" filename="meshes/xyzrgb_dragon.ply" />
-                <transform>
-                    <matrix value="0.1,0,0,0,  0,-4.3711e-09,-0.1,0,  0,0.1,-4.3711e-09,4,  0,0,0,1" />
-                </transform>
-            </instance>
-            <instance>
-                <bsdf type="principled">
-                    <texture name="baseColor" type="image"
-                        filename="textures/beige_wall_001_diff_1k.jpg" />
-                    <texture name="roughness" type="image"
-                        filename="textures/beige_wall_001_rough_1k.jpg" />
-                    <texture name="metallic" type="constant" value="0" />
-                    <texture name="specular" type="constant" value="0.5" />
-                </bsdf>
-                <texture name="normal" type="image"
-                    filename="textures/beige_wall_001_nor_gl_16k.png.exr.exr" linear="true" />
-                <shape type="mesh" filename="meshes/Plane.ply" />
-                <transform>
-                    <matrix value="1000,0,0,0,  0,1000,0,0,  0,0,1,0,  0,0,0,1" />
-                </transform>
-            </instance>
-            <light type="envmap">
-                <texture type="image" filename="textures/rustig_koppie_puresky_1k.hdr.exr.exr"
-                    border="clamp" linear="true" />
-                <transform>
-                    <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1" />
-                </transform>
-            </light>
-        </scene>
-        <sampler type="independent" count="64" />
-    </integrator>
-</test>
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="1920"/>
+    <integer name="height" value="1080"/>
+    <float name="fov" value="102.09"/>
+    <string name="fovAxis" value="x"/>
+    <transform>
+      <matrix value="-0.87054,0.14362,-0.47068,6.9914,  0.49192,0.22775,-0.84032,10.027,  -0.013485,-0.96307,-0.26891,7.2043,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <light type="area">
+    <instance>
+      <shape type="sphere"/>
+      <transform>
+        <scale value="0.1"/>
+        <translate x="4.0762" y="1.0055" z="5.9039"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="2533,2533,2533"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/wood_table_001_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wood_table_001_rough_1k.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/wood_table_001_nor_gl_16k.png.exr.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/xyzrgb_dragon.ply"/>
+    <transform>
+      <matrix value="0.1,0,0,0,  0,-4.3711e-09,-0.1,0,  0,0.1,-4.3711e-09,4,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/beige_wall_001_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/beige_wall_001_rough_1k.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/beige_wall_001_nor_gl_16k.png.exr.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Plane.ply"/>
+    <transform>
+      <matrix value="1000,0,0,0,  0,1000,0,0,  0,0,1,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="envmap">
+    <texture type="image" filename="textures/rustig_koppie_puresky_1k.hdr.exr.exr" border="clamp" linear="true"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+    </transform>
+  </light>
+</scene>
+<integrator type="pathtracer" depth="12" nee="true" mis="true">
+  <ref id="scene"/>
+  <image id="terracota_dragon"/>
+  <sampler type="independent" count="64"/>
+</integrator>
