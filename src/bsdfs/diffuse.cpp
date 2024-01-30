@@ -36,7 +36,7 @@ namespace lightwave
             if (!Frame::sameHemisphere(wo, wi))
                 wi *= -1;
 
-            return {.wi = wi, .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
+            return {.wi = wi.normalized(), .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
         }
 
         std::string toString() const override

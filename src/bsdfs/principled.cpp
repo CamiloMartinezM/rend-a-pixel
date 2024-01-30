@@ -37,7 +37,7 @@ namespace lightwave
             // Check if wo is in the opposite direction of the surface normal
             // If it is, flip wi to the opposite hemisphere
             wi *= Vector(1.0f, 1.0f, wo.z() < 0 ? -1.0f : 1.0f);
-            return {.wi = wi, .weight = color, .pdf = diffuse::pdf(wo, wi)};
+            return {.wi = wi.normalized(), .weight = color, .pdf = diffuse::pdf(wo, wi)};
         }
     };
     struct MetallicLobe

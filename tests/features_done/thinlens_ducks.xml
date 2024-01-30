@@ -215,8 +215,10 @@
         </transform>
     </instance>
 </scene>
-<integrator type="pathtracer" depth="3">
-    <ref id="scene"/>
-    <image id="thinlens_ducks"/>
-    <sampler type="independent" count="64"/>
-</integrator>
+<test type="image" id="thinlens_ducks" me="5e-4">
+    <integrator type="pathtracer" depth="2">
+        <ref id="scene"/>
+        <image id="thinlens_ducks"/>
+        <sampler type="independent" count="64"/>
+    </integrator>
+</test>
