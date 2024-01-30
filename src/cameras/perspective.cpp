@@ -13,8 +13,8 @@ namespace lightwave
     class Perspective : public Camera
     {
       private:
-        float fov, tan_fov, aspect_ratio;
-        std::string fov_axis;
+        float fov, tanFov, aspectRatio;
+        std::string fovAxis;
 
       public:
         Perspective(const Properties &properties) : Camera(properties)
@@ -22,32 +22,25 @@ namespace lightwave
             // hints:
             // * precompute any expensive operations here (most importantly trigonometric functions)
             // * use m_resolution to find the aspect ratio of the image
-            fov_axis = properties.get<std::string>("fovAxis");
-            aspect_ratio = static_cast<float>(m_resolution.x()) / static_cast<float>(m_resolution.y());
+            fovAxis = properties.get<std::string>("fovAxis");
+            aspectRatio = static_cast<float>(m_resolution.x()) / static_cast<float>(m_resolution.y());
             fov = (properties.get<float>("fov") * Pi) / 180.0f; // fov converted to radians
-            tan_fov = tan(fov / 2.0f);
+            tanFov = tan(fov / 2.0f);
         }
 
         CameraSample sample(const Point2 &normalized, Sampler &rng) const override
         {
-            // first transforming the normalized coordinates to the local camera coordinate
-            float lc_coord_x = normalized.x() * tan_fov;
-            float lc_coord_y = normalized.y() * tan_fov;
+            // Compute the position on the film plane in camera space, based on the normalized coordinates
+            float filmX = normalized.x() * tanFov * (fovAxis == "x" ? 1.0f : aspectRatio);
+            float filmY = normalized.y() * tanFov * (fovAxis == "x" ? 1.0f / aspectRatio : 1.0f);
 
-            if (fov_axis == "x")
-                lc_coord_y /= aspect_ratio;
-            else // fov_axis == "y"
-                lc_coord_x *= aspect_ratio;
+            Vector rayDirection = Vector(filmX, filmY, 1.0f);
 
-            Vector lc_coord_point = Vector(lc_coord_x, lc_coord_y, 1.0f);
+            // Transforming the rays to world coordinates via the camera transform specified in the scene description
+            // file (stored in m_transform, apply does local to world.
+            Ray worldRay = m_transform->apply(Ray(Vector(0.0f), rayDirection)).normalized();
 
-            // then transforming the rays to world coordinates via the camera transform specified in
-            // the scene description file (stored in m_transform).
-            // hints:
-            // * use m_transform to transform the local camera coordinate system into the world coordinate system
-            Ray world_coord_ray = m_transform->apply(Ray(Vector(0.f, 0.f, 0.f), lc_coord_point)).normalized();
-
-            return CameraSample{.ray = world_coord_ray, .weight = Color(1.0f)};
+            return CameraSample{.ray = worldRay, .weight = Color(1.0f)};
         }
 
         std::string toString() const override
