@@ -1,7 +1,7 @@
 <scene id="scene">
     <camera type="perspective">
-        <integer name="width" value="1920"/>
-        <integer name="height" value="1080"/>
+        <integer name="width" value="480"/>
+        <integer name="height" value="270"/>
         <float name="fov" value="54.432"/>
         <string name="fovAxis" value="x"/>
 
