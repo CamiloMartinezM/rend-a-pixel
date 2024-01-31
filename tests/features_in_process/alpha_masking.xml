@@ -1,0 +1,58 @@
+<scene id="scene">
+    <camera type="perspective">
+        <integer name="width" value="720"/>
+        <integer name="height" value="468"/>
+        <float name="fov" value="39.598"/>
+        <string name="fovAxis" value="x"/>
+        <transform>
+            <matrix value="-0.67272,0.24481,-0.69822,7.0684,  0.73976,0.20471,-0.64097,5.9973,  -0.013987,-0.94771,-0.31881,3.1374,  0,0,0,1"/>
+        </transform>
+    </camera>
+    <instance>
+        <bsdf type="principled">
+            <texture name="baseColor" type="image" filename="textures/LeafSet013_1K-JPG_Color.jpg"/>
+            <texture name="roughness" type="image" filename="textures/LeafSet013_1K-JPG_Roughness.jpg"/>
+            <texture name="metallic" type="constant" value="0"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <texture name="normal" type="image" filename="textures/LeafSet013_1K-JPG_NormalGL.jpg"/>
+        <texture name="alpha" type="image" filename="textures/LeafSet013_1K-JPG_Opacity.jpg"/>
+        <shape type="mesh" filename="meshes/Cube-alpha-masking.ply"/>
+        <transform>
+            <matrix value="1.132,0,0,0,  0,1.132,0,0,  0,0,1.132,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <light type="area">
+        <instance>
+            <shape type="rectangle"/>
+            <transform>
+                <matrix value="-0.39907,-0.67701,-0.56639,5.62,  1.3105,-0.17549,-0.21839,-0.06,  -0.075721,0.53076,-0.79467,3.56,  0,0,0,1"/>
+            </transform>
+            <emission type="lambertian">
+                <texture name="emission" type="constant" value="129.71,129.71,129.71"/>
+            </emission>
+        </instance>
+    </light>
+    <light type="area">
+        <instance>
+            <shape type="rectangle"/>
+            <transform>
+                <matrix value="-0.014543,-0.038555,-0.56639,-3.4438,  0.047759,-0.0099942,-0.21839,4.8955,  -0.0027595,0.030226,-0.79467,4.8339,  0,0,0,1"/>
+            </transform>
+            <emission type="lambertian">
+                <texture name="emission" type="constant" value="1.25e+05,1.25e+05,1.25e+05"/>
+            </emission>
+        </instance>
+    </light>
+    <light type="envmap">
+        <texture type="constant" value="0.050876,0.050876,0.050876"/>
+        <transform>
+            <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+        </transform>
+    </light>
+</scene>
+<integrator type="pathtracer" depth="12" nee="true" mis="true">
+    <ref id="scene"/>
+    <image id="noisy"/>
+    <sampler type="independent" count="4096"/>
+</integrator>
