@@ -92,10 +92,10 @@ namespace lightwave
          * @brief Samples a point on the lens and biases it according to the bokeh configuration.
          *
          * @param sample A point sampled from the unit square.
-         * @param pFilm The position on the film plane corresponding to the sample, used for vignetting effects.
+         * @param pRaster The position in raster space corresponding to the sample, used for vignetting effects.
          * @param weight Reference that will be updated with the weight of the sample based on bokeh characteristics.
          * @return A Point2 representing the biased sample on the lens.
-         * 
+         *
          * Credits: https://knork.org/realistic-bokeh.html
          *
          * The function operates in three main modes:
@@ -116,7 +116,7 @@ namespace lightwave
          * weights across the aperture, and the strength of this weighting, given by weightStrength. The final weight is
          * adjusted to ensure light conservation based on the cached integral.
          */
-        inline Point2 biasSampleOnBokeh(const Point2 &sample, const Point2 &pFilm, float &weight) const
+        inline Point2 biasSampleOnBokeh(const Point2 &sample, const Point2 &pRaster, float &weight) const
         {
             Point2 biasedSample = sample;
             float edge = 0.0f;
@@ -147,28 +147,29 @@ namespace lightwave
                 // Convert the sample to disk coordinates, accounting for vignetting
                 float rateOfChange = bokehConfig.rateOfChange, radius = bokehConfig.innerRadius;
                 Point2 s = squareToUniformDiskConcentric(sample);
+                Point2 ndc = rasterToNDC(pRaster);
+
+                // Circularity of the initial sample
                 float c1 = sqr(s.x()) + sqr(s.y());
 
-                // Convert to [-1, 1], adjusting the sample based on its position on the film plane
-                s.setX(s.x() - rateOfChange * pFilm.x());
-                s.setY(s.y() - rateOfChange * pFilm.y());
+                Point2 adjustedS(s.x() - rateOfChange * ndc.x(), s.y() - rateOfChange * ndc.y());
 
-                // Calculate the "circularity" of the adjusted sample
-                float c2 = sqr(s.x()) + sqr(s.y());
+                // Circularity of the adjusted sample
+                float c2 = sqr(adjustedS.x()) + sqr(adjustedS.y());
                 c2 *= radius; // Adjust based on the inner radius of the vignetting effect
 
-                // If the sample is outside the valid range, we reject it by setting its weight to 0.0f
+                // If the sample is outside the valid range, we reject it
                 if (c2 > 1)
                     weight = 0.0f;
 
-                biasedSample = s;
+                biasedSample = adjustedS;
                 edge = max(c1, c2);
             }
             else // Default Circular Aperture
             {
                 // Do the same as the normal thinlens camera model without Bokeh
                 biasedSample = squareToUniformDiskConcentric(sample);
-                edge = Vector2(biasedSample).length();
+                return biasedSample;
             }
 
             // Calculate the sample weight based on the edge distance and the bokeh weighting configuration
@@ -186,7 +187,7 @@ namespace lightwave
 
             // Calculate the final weight based on the power function, ensuring it is positive
             float w = power * pow(edge, distr) + 1 - intg;
-            if (w > 0)
+            if (weight > 0.0f && w > 0.0f)
                 weight = w;
 
             return biasedSample;
@@ -204,6 +205,24 @@ namespace lightwave
         const Vector2i &resolution() const
         {
             return m_resolution;
+        }
+
+        /// @brief Converts a [-1, 1] normalized coordinate to raster space, i.e, x in [0, width] and y in [0, height].
+        const Point2 normalizedToRaster(const Point2 &normalized) const
+        {
+            float rasterX = (normalized.x() + 1.0f) * m_resolution.x() * 0.5f;
+            float rasterY = (1.0f - normalized.y()) * m_resolution.y() * 0.5f;
+            return Point2(rasterX, rasterY);
+        }
+
+        /// @brief Converts a coordinate in raster space, i.e, [0, width], [0, height], to NDC.
+        const Point2 rasterToNDC(const Point2 &pRaster) const
+        {
+            float res = max(m_resolution.x(), m_resolution.y());
+            float y = m_resolution.y() - pRaster.y();
+            y -= m_resolution.y() / 2;
+            float x = pRaster.x() - m_resolution.x() / 2;
+            return Point2(2 * x / res, 2 * y / res);
         }
 
         /**

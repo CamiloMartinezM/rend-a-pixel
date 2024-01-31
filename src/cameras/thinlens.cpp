@@ -34,10 +34,10 @@ namespace lightwave
                 // Generate the shapes for the bokeh effect based on the number of blades
                 buildBokehShapes(bokehConfig);
 
-                bokehConfig.innerRadius = properties.get<float>("innerRadius", 1.0);
+                bokehConfig.innerRadius = properties.get<float>("innerRadius", 1.0f);
                 bokehConfig.rateOfChange = properties.get<float>("rateOfChange", 0.0f);
-                bokehConfig.weightDistr = properties.get<float>("weightDistr", 2.0);
-                bokehConfig.weightStrength = properties.get<float>("weightStrength", 0.0);
+                bokehConfig.weightDistr = properties.get<float>("weightDistr", 0.0f);
+                bokehConfig.weightStrength = properties.get<float>("weightStrength", 0.0f);
 
                 // Validate the weight strength to ensure light conservation
                 if (bokehConfig.weightStrength < 0 || bokehConfig.weightStrength > 1)
@@ -61,6 +61,7 @@ namespace lightwave
             // Compute the position on the film plane in camera space, based on the normalized coordinates
             float filmX = normalized.x() * tanFov * (fovAxis == "x" ? 1.0f : aspectRatio);
             float filmY = normalized.y() * tanFov * (fovAxis == "x" ? 1.0f / aspectRatio : 1.0f);
+
             Point2 pFilm(filmX, filmY);
 
             // Create the ray starting at the camera origin and passing through the film plane position
@@ -74,7 +75,10 @@ namespace lightwave
                 // Sample a point on the lens, calling the appropiate function depending on it Bokeh effects are on
                 Point2 pLens;
                 if (UseBokehEffects)
-                    pLens = radius * biasSampleOnBokeh(rng.next2D(), pFilm, weight);
+                {
+                    Point2 pRaster = normalizedToRaster(normalized);
+                    pLens = radius * biasSampleOnBokeh(rng.next2D(), pRaster, weight);
+                }
                 else
                     pLens = radius * squareToUniformDiskConcentric(rng.next2D());
 

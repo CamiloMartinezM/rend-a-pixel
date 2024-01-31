@@ -1,12 +1,17 @@
 <scene id="scene">
-    <camera type="perspective">
-        <integer name="width" value="480"/>
-        <integer name="height" value="270"/>
+    <camera type="thinlens" id="camera">
+        <integer name="width" value="1920"/>
+        <integer name="height" value="1080"/>
         <float name="fov" value="54.432"/>
         <string name="fovAxis" value="x"/>
 
-        <!-- float name="radius" value="0"/-->
-        <!-- float name="focalDistance" value="1000"/-->
+        <float name="radius" value="0.1"/>
+        <float name="focalDistance" value="6"/>
+        <integer name="lenselements" value="3"/>
+        <float name="innerRadius" value="0.5"/>
+        <float name="rateOfChange" value="0.2"/>
+        <float name="weightDistr" value="4.0"/>
+        <float name="weightStrength" value="0.8"/>
 
         <transform>
             <matrix value="-0.0021106,-0.14227,-0.98983,2.4438,  0.99996,-0.0087022,-0.00088134,0.03925,  -0.0084882,-0.98979,0.14229,0.94802,  0,0,0,1"/>
@@ -59,7 +64,7 @@
         </transform>
     </instance>
 </scene>
-<test type="image" id="custom_bokeh_shapes" me="5e-4">
+<test type="image" id="custom_bokeh_shapes_with_bokeh" me="5e-4">
     <integrator type="pathtracer" depth="12" nee="true" mis="true">
         <ref id="scene"/>
         <image id="custom_bokeh_shapes"/>
