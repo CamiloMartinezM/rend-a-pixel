@@ -171,6 +171,14 @@ public:
         return m_transform.submatrix<3, 3>(0, 0).determinant();
     }
 
+    /// @brief Transforms normals using the matrix adjoint (i.e., transpose of inverse).
+    Vector applyNormal(const Vector &normal) const
+    {
+        Matrix4x4 adjoint = m_inverse.transpose();
+        const Vector4 result = adjoint * Vector4(normal, 0);
+        return Vector(result.x(), result.y(), result.z());
+    }
+
     std::string toString() const override {
         return tfm::format(
             "Transform[\n"

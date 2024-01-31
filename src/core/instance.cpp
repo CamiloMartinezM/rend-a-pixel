@@ -23,10 +23,27 @@ namespace lightwave
         // If m_flipNormal is true, flip the direction of the bitangent
         transformedBitangent *= m_flipNormal ? -1 : 1;
 
-        // Normalize the tangent and bitangent to ensure the frame remains orthonormal
-        surf.frame.tangent = transformedTangent.normalized();
-        surf.frame.bitangent = transformedBitangent.normalized();
-        surf.frame.normal = surf.frame.tangent.cross(surf.frame.bitangent).normalized();
+        // Apply Normal Mapping feature, if it was provided for the instance
+        if (m_normal)
+        {
+            // Evaluate the uv coordinates to get the Color and convert it to a normal Vector
+            Color localColor = m_normal->evaluate(surf.uv);
+            Vector localNormal = Vector(localColor.r(), localColor.g(), localColor.b());
+
+            // Map into [-1,1]  
+            localNormal = 2.f * localNormal - Vector(1.f);
+            Vector worldNormal = m_transform->applyNormal(localNormal.normalized());
+
+            // Build an orthonormal frame with the new normal
+            Frame newFrame(worldNormal);
+            surf.frame = newFrame;
+        }
+        else
+        {
+            surf.frame.tangent = transformedTangent.normalized();
+            surf.frame.bitangent = transformedBitangent.normalized();
+            surf.frame.normal = surf.frame.tangent.cross(surf.frame.bitangent).normalized();
+        }
 
         // Adjust PDF for transformed area, measured by the cross product, to account for the transforms which can
         // affect the sampling density
@@ -149,7 +166,7 @@ namespace lightwave
 
     AreaSample Instance::sampleArea(Sampler &rng, const SurfaceEvent &ref) const
     {
-        SurfaceEvent localRef = ref; 
+        SurfaceEvent localRef = ref;
         // inverseTransformFrame(localRef);
         localRef.position = m_transform->inverse(localRef.position);
         AreaSample sample = m_shape->sampleArea(rng, localRef);
