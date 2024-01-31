@@ -84,6 +84,14 @@ public:
      */
     virtual BsdfSample sample(const Point2 &uv, const Vector &wo,
                               Sampler &rng) const = 0;
+    /**
+     * @brief Querys the albedo of the material at the given coordinates.
+     * @param uv The texture coordinates of the surface.
+     */
+    virtual Color getAlbedo(const Point2 &uv) const
+    {
+        return Color::white(); // Default implementation returns white
+    }
 };
 
 } // namespace lightwave

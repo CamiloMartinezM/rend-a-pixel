@@ -56,6 +56,12 @@ namespace lightwave
             return {.wi = wi, .weight = weight, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
         }
 
+        Color getAlbedo(const Point2 &uv) const override
+        {
+            // For the RoughConductor BSDF, return the reflectance evaluated at the UV coordinates
+            return m_reflectance->evaluate(uv);
+        }
+
         std::string toString() const override
         {
             return tfm::format("RoughConductor[\n"

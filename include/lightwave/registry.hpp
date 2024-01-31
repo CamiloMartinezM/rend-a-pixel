@@ -63,3 +63,4 @@ private:
 #define REGISTER_GROUP(     Class, Name) REGISTER_CLASS(Class, "group"     , Name)
 #define REGISTER_LIGHT(     Class, Name) REGISTER_CLASS(Class, "light"     , Name)
 #define REGISTER_TEST(      Class, Name) REGISTER_CLASS(Class, "test"      , Name)
+#define REGISTER_POSTPROCESS(Class, Name) REGISTER_CLASS(Class, "postprocess", Name)

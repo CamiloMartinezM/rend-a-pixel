@@ -2,10 +2,7 @@
 
 namespace lightwave
 {
-
-    /**
-     * @brief Direct lighting integrator simulating a single bounce of light in the scene.
-     */
+    /// @brief Direct lighting integrator simulating a single bounce of light in the scene.
     class DirectIntegrator : public SamplingIntegrator
     {
       public:
@@ -13,9 +10,7 @@ namespace lightwave
         {
         }
 
-        /**
-         * @brief Compute the contribution of a camera-sampled ray using direct lighting.
-         */
+        /// @brief Compute the contribution of a camera-sampled ray using direct lighting.
         Color Li(const Ray &ray, Sampler &rng) override
         {
             Color accumulatedWeight = Color(1.0f);
@@ -43,8 +38,8 @@ namespace lightwave
                     {
                         // Evaluate the BSDF at the hit point for the light direction
                         Color bsdfVal = its.evaluateBsdf(directLightSample.wi).value;
-                        
-                        // Modulate the light's contribution 
+
+                        // Modulate the light's contribution
                         Color lightContribution = bsdfVal * directLightSample.weight;
 
                         // Final color contribution multiplying by the throughput and dividing by the light probability

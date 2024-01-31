@@ -5,9 +5,8 @@ namespace lightwave
     class PathTracer : public SamplingIntegrator
     {
       private:
-        /**
-         * @brief Compute the contribution of a camera-sampled ray using iterative path tracing.
-         */
+        
+        /// @brief Compute the contribution of a camera-sampled ray using iterative path tracing.
         Color iterativePathTracing(const Ray &ray, Sampler &rng)
         {
             Ray iterRay = ray;

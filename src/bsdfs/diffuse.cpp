@@ -39,6 +39,11 @@ namespace lightwave
             return {.wi = wi.normalized(), .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
         }
 
+        Color getAlbedo(const Point2 &uv) const override
+        {
+            return m_albedo->evaluate(uv);
+        }
+
         std::string toString() const override
         {
             return tfm::format("Diffuse[\n"

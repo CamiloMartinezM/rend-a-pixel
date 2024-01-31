@@ -166,6 +166,12 @@ namespace lightwave
             }
         }
 
+        Color getAlbedo(const Point2 &uv) const override
+        {
+            // For the Principled BSDF, return the base color evaluated at the given UV coordinates
+            return m_baseColor->evaluate(uv);
+        }
+
         std::string toString() const override
         {
             return tfm::format("Principled[\n"

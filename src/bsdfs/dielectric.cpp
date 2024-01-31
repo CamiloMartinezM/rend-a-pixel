@@ -53,6 +53,16 @@ namespace lightwave
             }
         }
 
+        Color getAlbedo(const Point2 &uv) const override
+        {
+            // Using a weighted average based on Fresnel reflectance at normal incidence
+            float ior = m_ior->scalar(uv);
+            float F = fresnelDielectric(1.0f, ior); // This assumes normal incidence
+            Color reflectance = m_reflectance->evaluate(uv);
+            Color transmittance = m_transmittance->evaluate(uv);
+            return reflectance * F + transmittance * (1.0f - F);
+        }
+
         std::string toString() const override
         {
             return tfm::format("Dielectric[\n"
