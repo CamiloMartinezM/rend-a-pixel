@@ -63,8 +63,8 @@ namespace lightwave
             surf.frame.normal = p_o;
 
             // Calculate spherical coordinates
-            float theta = std::acos(p_o.y());         // inclination
-            float phi = std::atan2(p_o.x(), p_o.z()); // azimuth
+            float theta = acos(p_o.y());         // inclination
+            float phi = atan2(p_o.x(), p_o.z()); // azimuth
 
             // Map the spherical coordinates to UV coordinates
             // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
@@ -73,14 +73,12 @@ namespace lightwave
             surf.uv.y() = theta * InvPi;
 
             // Adjust phi to be in the range [0, 2*PI]
-            if (surf.uv.x() < 0)
+            if (surf.uv.x() < 0.0f)
                 surf.uv.x() += 1.0f;
 
             // Construct the shading frame
             // The tangent is perpendicular to the normal and the up vector (0, 1, 0)
-            surf.frame.tangent = Vector(0.f, 1.f, 0.f).cross(surf.frame.normal).normalized();
-            // The bitangent is perpendicular to both the normal and the tangent
-            surf.frame.bitangent = surf.frame.normal.cross(surf.frame.tangent);
+            surf.frame = Frame(surf.frame.normal);
         }
 
       private:
@@ -131,7 +129,7 @@ namespace lightwave
       public:
         Sphere(const Properties &properties)
         {
-            centerPoint = Point(0.f, 0.f, 0.f);
+            centerPoint = Point(0.0f);
         }
 
         bool intersect(const Ray &ray, Intersection &its, Sampler &rng) const override
@@ -180,7 +178,7 @@ namespace lightwave
 
         Bounds getBoundingBox() const override
         {
-            return Bounds(Point{-1.0f, -1.0f, -1.0f}, Point{+1.0f, +1.0f, +1.0f});
+            return Bounds(Point(-1.0f), Point(+1.0f));
         }
 
         Point getCentroid() const override

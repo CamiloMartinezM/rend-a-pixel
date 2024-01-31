@@ -15,19 +15,23 @@ namespace lightwave
       public:
         Thinlens(const Properties &properties) : Camera(properties)
         {
+            // Perspective variables
             fovAxis = properties.get<std::string>("fovAxis");
-            radius = properties.get<float>("radius");
-            focalDistance = properties.get<float>("focalDistance");
-
             aspectRatio = static_cast<float>(m_resolution.x()) / static_cast<float>(m_resolution.y());
             fov = (properties.get<float>("fov") * Pi) / 180.0f; // fov converted to radians
             tanFov = tan(fov / 2.0f);
 
+            // Depth of Field variables
+            focalDistance = properties.get<float>("focalDistance");
+            radius = properties.get<float>("radius");
+
+            // Initialize Bokeh effect-related variables from properties, if it is activated by the global variable
             if (UseBokehEffects)
             {
                 int edges = properties.get<int>("lenselements", 0);
                 bokehConfig.blades = edges;
 
+                // Generate the shapes for the bokeh effect based on the number of blades
                 buildBokehShapes(bokehConfig);
 
                 bokehConfig.innerRadius = properties.get<float>("innerRadius", 1.0);
@@ -35,6 +39,7 @@ namespace lightwave
                 bokehConfig.weightDistr = properties.get<float>("weightDistr", 2.0);
                 bokehConfig.weightStrength = properties.get<float>("weightStrength", 0.0);
 
+                // Validate the weight strength to ensure light conservation
                 if (bokehConfig.weightStrength < 0 || bokehConfig.weightStrength > 1)
                 {
                     logger(EError, "For weightStrength values above 1 or below 0 light conservation is violated, using "
@@ -42,6 +47,7 @@ namespace lightwave
                     bokehConfig.weightStrength = 1.0f;
                 }
 
+                // Adjust weight strength based on the distribution
                 bokehConfig.weightStrength = bokehConfig.weightStrength * (bokehConfig.weightDistr + 1);
 
                 // This variable accounts for the modifications introduced by the weightDistr and weightStrength
@@ -65,10 +71,12 @@ namespace lightwave
             // If the lens radius is greater than zero, modify the ray for depth of field
             if (radius > 0)
             {
-                // Sample a point on the lens
-                Point2 pLens = radius * biasSampleOnBokeh(rng.next2D(), pFilm, radius, weight);
-                // Point2 p = squareToUniformDiskConcentric(rng.next2D());
-                // Point2 pLens = Point2(radius * p.x(), radius * p.y());
+                // Sample a point on the lens, calling the appropiate function depending on it Bokeh effects are on
+                Point2 pLens;
+                if (UseBokehEffects)
+                    pLens = radius * biasSampleOnBokeh(rng.next2D(), pFilm, weight);
+                else
+                    pLens = radius * squareToUniformDiskConcentric(rng.next2D());
 
                 // Compute the focal plane intersection point
                 float ft = focalDistance / rayDirection.z();

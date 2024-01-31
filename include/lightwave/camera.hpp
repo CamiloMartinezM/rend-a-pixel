@@ -16,7 +16,7 @@ namespace lightwave
 {
     /// @brief Defines whether Bokeh effects should be enforced on the scene. If it is true, then the required variables
     /// for the Bokeh bokehConfig will be looked for inside <camera type="thinlens"> .
-    static const bool UseBokehEffects = true; 
+    static const bool UseBokehEffects = true;
 
     /// @brief Stores the configuration to generate Bokeh shapes on a scene.
     struct Bokeh
@@ -93,7 +93,6 @@ namespace lightwave
          *
          * @param sample A point sampled from the unit square.
          * @param pFilm The position on the film plane corresponding to the sample, used for vignetting effects.
-         * @param radius The radius of the lens, used to scale the sampled point.
          * @param weight Reference that will be updated with the weight of the sample based on bokeh characteristics.
          * @return A Point2 representing the biased sample on the lens.
          *
@@ -115,8 +114,7 @@ namespace lightwave
          * weights across the aperture, and the strength of this weighting, given by weightStrength. The final weight is
          * adjusted to ensure light conservation based on the cached integral.
          */
-        inline Point2 biasSampleOnBokeh(const Point2 &sample, const Point2 &pFilm, const float &radius,
-                                        float &weight) const
+        inline Point2 biasSampleOnBokeh(const Point2 &sample, const Point2 &pFilm, float &weight) const
         {
             Point2 biasedSample = sample;
             float edge = 0.0f;
