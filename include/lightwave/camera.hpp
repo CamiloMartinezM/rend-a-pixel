@@ -95,6 +95,8 @@ namespace lightwave
          * @param pFilm The position on the film plane corresponding to the sample, used for vignetting effects.
          * @param weight Reference that will be updated with the weight of the sample based on bokeh characteristics.
          * @return A Point2 representing the biased sample on the lens.
+         * 
+         * Credits: https://knork.org/realistic-bokeh.html
          *
          * The function operates in three main modes:
          *
