@@ -14,5 +14,3 @@ __pycache__
 .DS_Store
 CMakeFiles/
 CMakeCache.txt
-
-.clang-format

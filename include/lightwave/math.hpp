@@ -215,6 +215,21 @@ public:
     /// @brief Access a component of this point that can be modified, with an index ranging from @c 0 to @code Dimension - 1 @endcode .
     Type &operator[](int i) { return m_data[i]; }
 
+    /// @brief Performs element-wise multiplication by a scalar and returns the result.
+    TPoint operator*(const Type &scalar) const
+    {
+        TPoint result;
+        for (int i = 0; i < Dimension; ++i) result[i] = m_data[i] * scalar;
+        return result;
+    }
+
+    /// @brief Performs element-wise multiplication by a scalar with the in-place multiplication (*= operator).
+    TPoint &operator*=(const Type &scalar) 
+    {
+        for (int i = 0; i < Dimension; ++i) m_data[i] *= scalar;
+        return *this;
+    }
+
     const Type &x() const { static_assert(Dimension >= 1); return m_data[0]; }
     const Type &y() const { static_assert(Dimension >= 2); return m_data[1]; }
     const Type &z() const { static_assert(Dimension >= 3); return m_data[2]; }
@@ -224,6 +239,11 @@ public:
     Type &y() { static_assert(Dimension >= 2); return m_data[1]; }
     Type &z() { static_assert(Dimension >= 3); return m_data[2]; }
     Type &w() { static_assert(Dimension >= 4); return m_data[3]; }
+
+    void setX(const Type &newX) { static_assert(Dimension >= 1); m_data[0] = newX; }
+    void setY(const Type &newY) { static_assert(Dimension >= 2); m_data[1] = newY; }
+    void setZ(const Type &newZ) { static_assert(Dimension >= 3); m_data[2] = newZ; }
+    void setW(const Type &newW) { static_assert(Dimension >= 4); m_data[3] = newW; }
 
     /// @brief Returns the elementwise minimum of two points.
     friend auto elementwiseMin(const TPoint &a, const TPoint &b) { TPoint BUILD1(std::min(a[i], b[i])) }
@@ -351,6 +371,26 @@ auto operator-=(TPoint<Type, Dimension> &a, const TVector<Type, Dimension> &b) {
 template<typename Type, int Dimension>
 auto operator-(const TPoint<Type, Dimension> &a, const TPoint<Type, Dimension> &b) {
     TVector<Type, Dimension> BUILD1(a[i] - b[i])
+}
+
+/// @brief Defines element-wise multiplication by a scalar, e.g, Point A = 2.0f * Point(B).
+template<typename T, int D>
+TPoint<T, D> operator*(const T &scalar, const TPoint<T, D> &point) {
+    TPoint<T, D> result;
+    for (int i = 0; i < D; ++i) {
+        result[i] = scalar * point[i];
+    }
+    return result;
+}
+
+/// @brief Defines element-wise sum of 2 Points.
+template<typename T, int D>
+TPoint<T, D> operator+(const TPoint<T, D> &a, const TPoint<T, D> &b) {
+    TPoint<T, D> result;
+    for (int i = 0; i < D; ++i) {
+        result[i] = a[i] + b[i];
+    }
+    return result;
 }
 
 #define BUILD2(expr) \
