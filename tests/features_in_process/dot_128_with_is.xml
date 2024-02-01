@@ -1,0 +1,45 @@
+<test type="image" id="dot_128_with_is" me="5e-4">
+    <integrator type="pathtracer" depth="5">
+        <scene id="scene">
+            <camera type="perspective" id="camera">
+                <integer name="width" value="512"/>
+                <integer name="height" value="512"/>
+                <string name="fovAxis" value="x"/>
+                <float name="fov" value="40"/>
+                <transform>
+                    <rotate axis="1,0,0" angle="0"/>
+                    <translate z="-4"/>
+                    <rotate axis="0,1,0" angle="90"/>
+                </transform>
+            </camera>
+
+            <light type="envmap">
+                <texture type="image" filename="textures/hdri_dot.png" exposure="2.0"/>
+            </light>
+
+            <instance id="floor">
+                <shape type="rectangle"/>
+                <bsdf type="diffuse">
+                    <texture name="albedo" type="constant" value="0.9"/>
+                </bsdf>
+                <transform>
+                    <rotate axis="1,0,0" angle="90"/>
+                    <translate y="1"/>
+                </transform>
+            </instance>
+
+            <instance>
+                <shape type="sphere"/>
+                <bsdf type="diffuse">
+                    <texture name="albedo" type="constant" value="0.7,0.9,0.8"/>
+                </bsdf>
+                <transform>
+                    <scale value="0.5"/>
+                    <translate x="0.0" y="0.5"/>
+                </transform>
+            </instance>
+        </scene>
+        <image id="dot_128_with_is"/>
+        <sampler type="independent" count="128"/>
+    </integrator>
+</test>
