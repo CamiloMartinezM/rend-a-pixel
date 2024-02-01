@@ -18,49 +18,6 @@ namespace lightwave::SpecialMath
     /// @brief Acceptable deviation from 0 for Sinc function
     static constexpr float SM_Epsilon = 1e-5f;
 
-    template <typename T> class Vector2D
-    {
-        std::vector<T> data;
-        int uRes, vRes;
-
-      public:
-        /// @brief Constructor to initialize empty array given the parameters that determine the size.
-        Vector2D(int uRes, int vRes) : uRes(uRes), vRes(vRes)
-        {
-            data.resize(uRes * vRes);
-        }
-
-        /// @brief Constructor to initialize from an existing array
-        Vector2D(int uRes, int vRes, const T *d) : uRes(uRes), vRes(vRes)
-        {
-            data.resize(uRes * vRes); // Allocate space for the data
-            if (d)                    // Assign data one element at a time
-                for (int v = 0; v < vRes; ++v)
-                    for (int u = 0; u < uRes; ++u)
-                        (*this)(u, v) = d[v * uRes + u];
-        }
-
-        int uSize() const
-        {
-            return uRes;
-        }
-        int vSize() const
-        {
-            return vRes;
-        }
-
-        // Accessor that mimics 2D array access
-        T &operator()(int u, int v)
-        {
-            return data[v * uRes + u];
-        }
-
-        const T &operator()(int u, int v) const
-        {
-            return data[v * uRes + u];
-        }
-    };
-
     /**
      * @brief Computes the modulus of two values.
      *

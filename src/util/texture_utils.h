@@ -103,7 +103,7 @@ namespace lightwave
         const float maxAnisotropy;
         const ImageWrap wrapMode;
         Point2i resolution;
-        std::vector<std::unique_ptr<SpecialMath::Vector2D<T>>> pyramid;
+        std::vector<std::unique_ptr<Vector2D<T>>> pyramid;
         static constexpr int WeightLUTSize = 128;
         static float weightLut[WeightLUTSize];
     };
@@ -190,13 +190,13 @@ namespace lightwave
 
         // Initialize most detailed level of MIPMap
         pyramid[0].reset(
-            new SpecialMath::Vector2D<T>(resolution[0], resolution[1], resampledImage ? resampledImage.get() : img));
+            new Vector2D<T>(resolution[0], resolution[1], resampledImage ? resampledImage.get() : img));
         for (int i = 1; i < nLevels; ++i)
         {
             // Initialize i-th MIPMap level from (i-1) level
             int sRes = max(1, pyramid[i - 1]->uSize() / 2);
             int tRes = max(1, pyramid[i - 1]->vSize() / 2);
-            pyramid[i].reset(new SpecialMath::Vector2D<T>(sRes, tRes));
+            pyramid[i].reset(new Vector2D<T>(sRes, tRes));
 
             // Create a range of integers for 't'
             std::vector<int> tRange(tRes);
@@ -224,7 +224,7 @@ namespace lightwave
 
     template <typename T> const T &MIPMap<T>::Texel(int level, int s, int t) const
     {
-        const SpecialMath::Vector2D<T> &l = *pyramid[level];
+        const Vector2D<T> &l = *pyramid[level];
         // Compute texel (s,t) accounting for boundary conditions
         switch (wrapMode)
         {
