@@ -884,6 +884,8 @@ struct Intersection : public SurfaceEvent {
     Vector wo;
     /// @brief The intersection distance, which can also be used to specify a maximum distance when querying intersections.
     float t;
+    /// @brief Holds an optional alpha texture for alpha masking feature.
+    Texture *alphaMask = nullptr;
 
     /// @brief Statistics recorded while traversing acceleration structures.
     struct {

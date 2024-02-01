@@ -83,10 +83,23 @@ namespace lightwave
                 return false;
 
             Vector2 bary{u, v};
+            Vertex baryInterp = Vertex::interpolate(bary, v0, v1, v2);
+
+            // perform the alpha masking test
+            if (its.alphaMask)
+            {
+                // convert hit position to UV coordinates
+                Point2 uv = baryInterp.texcoords;
+                float alphaValue = its.alphaMask->scalar(uv);
+
+                // stochastically dismiss the intersection based on alpha value
+                if (alphaValue < rng.next())
+                    return false;
+            }
 
             // If m_smoothNormals is true, interpolate the normals
             if (m_smoothNormals)
-                its.frame.normal = Vertex::interpolate(bary, v0, v1, v2).normal.normalized();
+                its.frame.normal = baryInterp.normal.normalized();
             else
             {
                 // Compute plane's normal. If the dot product of normal and ray direction is positive,
@@ -96,7 +109,7 @@ namespace lightwave
 
             // Compute hit position and update intersection record
             its.t = t;
-            its.uv = Vertex::interpolate(bary, v0, v1, v2).texcoords;
+            its.uv = baryInterp.texcoords;
             populate(its, ray(t));
             return true;
         }

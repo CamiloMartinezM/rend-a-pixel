@@ -5,18 +5,18 @@
         <float name="fov" value="39.598"/>
         <string name="fovAxis" value="x"/>
         <transform>
-            <matrix value="-0.67272,0.24481,-0.69822,7.0684,  0.73976,0.20471,-0.64097,5.9973,  -0.013987,-0.94771,-0.31881,3.1374,  0,0,0,1"/>
+            <matrix value="-0.67272,0.24481,-0.69822,11.78,  0.73976,0.20471,-0.64097,7.1358,  -0.013987,-0.94771,-0.31881,4.8958,  0,0,0,1"/>
         </transform>
     </camera>
     <instance>
-        <bsdf type="principled">
+        <bsdf id="blue_floor_tiles_01" type="principled">
             <texture name="baseColor" type="image" filename="textures/LeafSet013_1K-JPG_Color.jpg"/>
             <texture name="roughness" type="image" filename="textures/LeafSet013_1K-JPG_Roughness.jpg"/>
             <texture name="metallic" type="constant" value="0"/>
             <texture name="specular" type="constant" value="0.5"/>
         </bsdf>
-        <texture name="normal" type="image" filename="textures/LeafSet013_1K-JPG_NormalGL.jpg"/>
-        <texture name="alpha" type="image" filename="textures/LeafSet013_1K-JPG_Opacity.jpg"/>
+        <texture name="normal" id="blue_floor_tiles_01.000" type="image" filename="textures/LeafSet013_1K-JPG_NormalGL.jpg"/>
+        <texture name="alpha" id="blue_floor_tiles_01.001" type="image" filename="textures/LeafSet013_1K-JPG_Opacity.jpg"/>
         <shape type="mesh" filename="meshes/Cube-alpha-masking.ply"/>
         <transform>
             <matrix value="1.132,0,0,0,  0,1.132,0,0,  0,0,1.132,0,  0,0,0,1"/>
@@ -44,6 +44,15 @@
             </emission>
         </instance>
     </light>
+    <instance>
+        <ref id="blue_floor_tiles_01"/>
+        <ref name="normal" id="blue_floor_tiles_01.000"/>
+        <ref name="alpha" id="blue_floor_tiles_01.001"/>
+        <shape type="mesh" filename="meshes/Sphere-alpha-masking.ply"/>
+        <transform>
+            <matrix value="1.6089,0,0,3.1119,  0,1.6089,0,-3.2503,  0,0,1.6089,-0.28061,  0,0,0,1"/>
+        </transform>
+    </instance>
     <light type="envmap">
         <texture type="constant" value="0.050876,0.050876,0.050876"/>
         <transform>
@@ -51,8 +60,10 @@
         </transform>
     </light>
 </scene>
-<integrator type="pathtracer" depth="12" nee="true" mis="true">
-    <ref id="scene"/>
-    <image id="noisy"/>
-    <sampler type="independent" count="4096"/>
-</integrator>
+<test type="image" id="alpha_masking" me="5e-4">
+    <integrator type="direct" depth="12" nee="true" mis="true">
+        <ref id="scene"/>
+        <image id="alpha_masking"/>
+        <sampler type="independent" count="128"/>
+    </integrator>
+</test>

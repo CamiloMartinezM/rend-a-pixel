@@ -30,6 +30,20 @@ namespace lightwave
         /// @brief Sphere sampling routine
         const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::SubtendedCone;
 
+        /// @brief Converts a position to a uv coordinate.
+        /// @param position The normalized hitpoint as a Vector from the center of the sphere. 
+        inline Point2 sphereToUV(const Vector &position) const
+        {
+            // Calculate spherical coordinates
+            float theta = acos(position.y());         // inclination
+            float phi = atan2(position.x(), position.z()); // azimuth
+
+            // Map the spherical coordinates to UV coordinates
+            // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
+            // V coordinate: theta mapped from [0, PI] to [0, 1]
+            return Point2(phi * Inv2Pi, theta * InvPi);
+        }
+
         /**
          * @brief Constructs a surface event for a given position, used by @ref
          * intersect to populate the @ref Intersection and by @ref sampleArea to
@@ -59,18 +73,10 @@ namespace lightwave
             Vector p_o = (position - centerPoint).normalized();
 
             surf.position = Point(p_o); // Hit point is normalized
-
             surf.frame.normal = p_o;
 
-            // Calculate spherical coordinates
-            float theta = acos(p_o.y());         // inclination
-            float phi = atan2(p_o.x(), p_o.z()); // azimuth
-
-            // Map the spherical coordinates to UV coordinates
-            // U coordinate: phi mapped from [0, 2*PI] to [0, 1]
-            // V coordinate: theta mapped from [0, PI] to [0, 1]
-            surf.uv.x() = phi * Inv2Pi;
-            surf.uv.y() = theta * InvPi;
+            // Calculate the uv coordinates based on the hit position
+            surf.uv = sphereToUV(p_o);
 
             // Adjust phi to be in the range [0, 2*PI]
             if (surf.uv.x() < 0.0f)
@@ -164,15 +170,27 @@ namespace lightwave
                 return false;
 
             // compute the hitpoint
-            const Point hit_position = ray(t0);
+            const Point hitPosition = ray(t0);
+
+            // perform the alpha masking test
+            if (its.alphaMask)
+            {
+                // convert hit position to UV coordinates
+                Point2 uv = sphereToUV((hitPosition - centerPoint).normalized());             
+                float alphaValue = its.alphaMask->scalar(uv);
+
+                // stochastically dismiss the intersection based on alpha value
+                if (alphaValue < rng.next())
+                    return false; 
+            }
 
             // we have determined there was an intersection!
             // we are now free to change the intersection object and return true.
             its.t = t0;
-            populate(its, hit_position); // compute the shading frame and texture coordinates
+            populate(its, hitPosition); // compute the shading frame and texture coordinates
 
             // update the pdf of the intersection based on the sphere sampling
-            updatePdf(its, SphereSampling, (hit_position - centerPoint).normalized(), ray.origin);
+            updatePdf(its, SphereSampling, (hitPosition - centerPoint).normalized(), ray.origin);
             return true;
         }
 

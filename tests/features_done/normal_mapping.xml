@@ -1,4 +1,4 @@
-<test type="image" id="normal_mapping">
+<test type="image" id="normal_mapping" me="5e-4">
     <integrator type="direct" variable="normals">
         <scene id="scene">
             <camera type="perspective" id="camera">

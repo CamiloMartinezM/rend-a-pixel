@@ -20,9 +20,6 @@ namespace lightwave
         // change in surface area, which can affect the sampling density
         Vector crossProduct = transformedTangent.cross(transformedBitangent);
 
-        // If m_flipNormal is true, flip the direction of the bitangent
-        transformedBitangent *= m_flipNormal ? -1 : 1;
-
         // Define a new world normal out of which a new frame will be built
         Vector worldNormal;
         if (m_normal) // Apply Normal Mapping feature, if it was provided for the instance
@@ -31,12 +28,16 @@ namespace lightwave
             Color localColor = m_normal->evaluate(surf.uv);
             Vector localNormal = Vector(localColor.r(), localColor.g(), localColor.b());
 
-            // Map into [-1,1]  
+            // Map into [-1, 1]
             localNormal = 2.0f * localNormal - Vector(1.0f);
             worldNormal = m_transform->applyNormal(localNormal.normalized());
         }
         else
+        {
+            // If m_flipNormal is true, flip the direction of the bitangent
+            transformedBitangent *= m_flipNormal ? -1 : 1;
             worldNormal = transformedTangent.cross(transformedBitangent);
+        }
 
         // Build an orthonormal frame with the new normal
         surf.frame = Frame(worldNormal.normalized());
@@ -52,8 +53,8 @@ namespace lightwave
         Vector transformedTangent = m_transform->inverse(surf.frame.tangent);
         Vector transformedBitangent = m_transform->inverse(surf.frame.bitangent);
 
-        // The length of the cross product gives us the area spanned by tangent and bitangent, which is a measure of the
-        // change in surface area, which can affect the sampling density
+        // The length of the cross product gives us the area spanned by tangent and bitangent, which is a measure of
+        // the change in surface area, which can affect the sampling density
         Vector crossProduct = transformedTangent.cross(transformedBitangent);
 
         // If m_flipNormal is true, flip the direction of the bitangent
@@ -71,6 +72,11 @@ namespace lightwave
 
     bool Instance::intersect(const Ray &worldRay, Intersection &its, Sampler &rng) const
     {
+        // Give the alpha mask property to the intersection object, so that the primitives can use it in their
+        // intersect methods, i.e, Sphere::intersect, TriangleMesh::intersect, etc.
+        if (m_alpha)
+            its.alphaMask = m_alpha.get();
+
         if (!m_transform)
         {
             // fast path, if no transform is needed

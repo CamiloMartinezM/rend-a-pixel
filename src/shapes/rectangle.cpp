@@ -5,6 +5,14 @@ namespace lightwave
     /// @brief A rectangle in the xy-plane, spanning from [-1,-1,0] to [+1,+1,0].
     class Rectangle : public Shape
     {
+        /// @brief Converts a position to a uv coordinate.
+        /// @param position The normalized hitpoint as a Point on the rectangle.
+        inline Point2 rectangleToUV(const Point &position) const
+        {
+            // map the position from [-1,-1,0]..[+1,+1,0] to [0,0]..[1,1] by discarding the z component and rescaling
+            return Point2((position.x() + 1) / 2, (position.y() + 1) / 2);
+        }
+
         /**
          * @brief Constructs a surface event for a given position, used by @ref intersect to populate the @ref
          * Intersection and by @ref sampleArea to populate the @ref AreaSample .
@@ -14,10 +22,7 @@ namespace lightwave
         inline void populate(SurfaceEvent &surf, const Point &position) const
         {
             surf.position = position;
-
-            // map the position from [-1,-1,0]..[+1,+1,0] to [0,0]..[1,1] by discarding the z component and rescaling
-            surf.uv.x() = (position.x() + 1) / 2;
-            surf.uv.y() = (position.y() + 1) / 2;
+            surf.uv = rectangleToUV(position);
 
             // the tangent always points in positive x direction
             surf.frame.tangent = Vector(1, 0, 0);
@@ -59,6 +64,18 @@ namespace lightwave
             // domain.
             if (std::abs(position.x()) > 1 || std::abs(position.y()) > 1)
                 return false;
+
+            // perform the alpha masking test
+            if (its.alphaMask)
+            {
+                // convert hit position to UV coordinates
+                Point2 uv = rectangleToUV(position);
+                float alphaValue = its.alphaMask->scalar(uv);
+
+                // stochastically dismiss the intersection based on alpha value
+                if (alphaValue < rng.next())
+                    return false;
+            }
 
             // we have determined there was an intersection! we are now free to change the intersection object and
             // return true.
