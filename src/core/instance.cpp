@@ -30,7 +30,7 @@ namespace lightwave
 
             // Map into [-1, 1]
             localNormal = 2.0f * localNormal - Vector(1.0f);
-            worldNormal = m_transform->applyNormal(localNormal.normalized());
+            worldNormal = m_transform->applyNormal(surf.frame.toWorld(localNormal));
         }
         else
         {
