@@ -18,18 +18,22 @@ namespace lightwave
                 if (!its)
                 {
                     // The ray misses and hits the background
-                    BackgroundLightEval bEval = m_scene->evaluateBackground(iterRay.direction);
-
-                    // Incoporate the background contribution
-                    L += bEval.value * throughput;
+                    // Add background contribution for first bounce
+                    if (depth == 0)
+                    {
+                        BackgroundLightEval bEval = m_scene->evaluateBackground(iterRay.direction);
+                        L += bEval.value * throughput;
+                    }
                     break;
                 }
 
                 // Evaluate direct emission from the hit point with the following rules:
                 // 1. If it is the first intersection (depth == 0), evaluate it regardless;
                 // 2. If NEE nor MIS are active (only do BSDF sampling), evaluate it regardless;
-                // 3. If NEE is active and MIS is not, evaluate the emission on the surface if it is not an area light;
-                // 4. If MIS is active and it is not an area light, weigh the emission contrib. by the Power Heuristic.
+                // 3. If NEE is active and MIS is not, evaluate the emission on the surface if it is not an area
+                // light;
+                // 4. If MIS is active and it is not an area light, weigh the emission contrib. by the Power
+                // Heuristic.
                 if (depth == 0 || !nee || its.instance->light() == nullptr)
                     L += its.evaluateEmission() * throughput;
                 else if (mis)
@@ -56,6 +60,8 @@ namespace lightwave
                     {
                         DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
                         Ray shadowRay(its.position, directLightSample.wi);
+
+                        // Check for occlusion only if the sampled light is not an environment map
                         if (!m_scene->intersect(shadowRay, directLightSample.distance, rng))
                         {
                             // Evaluate the BSDF at the hit point for the light direction
@@ -66,14 +72,14 @@ namespace lightwave
 
                             // Do MIS weighing of the NEE sample contribution based on its own PDF and the PDF of
                             // having sampled this direction with BSDF (bsdfVal.pdf)
+                            float misWeight = 1.0f;
                             if (mis)
                             {
                                 p_light = directLightSample.pdf * lightSelectionProb;
-                                float misWeight = powerHeuristic(p_light, bsdfVal.pdf);
-                                L += lightContribution * misWeight * throughput / lightSelectionProb;
+                                misWeight = powerHeuristic(p_light, bsdfVal.pdf);
                             }
-                            else
-                                L += lightContribution * throughput / lightSelectionProb;
+
+                            L += lightContribution * misWeight * throughput / lightSelectionProb;
                         }
                     }
                 }
