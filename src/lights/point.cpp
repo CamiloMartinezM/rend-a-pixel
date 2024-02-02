@@ -28,7 +28,7 @@ namespace lightwave
             // I = P / (4 * pi * r^2)
             Color intensity = Inv4Pi * m_power / distanceSquared;
 
-            return {.wi = direction, .weight = intensity, .distance = sqrt(distanceSquared), .pdf = Inv4Pi};
+            return {.wi = direction, .weight = intensity, .distance = sqrt(distanceSquared), .pdf = Infinity};
         }
 
         bool canBeIntersected() const override

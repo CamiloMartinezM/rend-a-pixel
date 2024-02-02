@@ -22,7 +22,7 @@ namespace lightwave
                 .wi = m_direction,     // No need to reverse the direction for incoming light
                 .weight = m_intensity, // Intensity of the light remains constant
                 .distance = Infinity,  // Distance is infinity for a directional light
-                .pdf = 1.0f            // Delta function for the directional light, represented as 1.0
+                .pdf = Infinity        // Delta function for the directional light, represented as Infinity
             };
         }
 

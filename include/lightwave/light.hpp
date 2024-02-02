@@ -76,6 +76,8 @@ public:
 struct BackgroundLightEval {
     /// @brief The emission strength of the background light in the queried direction.
     Color value;
+    /// @brief Probability of sampling the queried direction.
+    float pdf;
 };
 
 /**
@@ -97,7 +99,7 @@ public:
         return DirectLightSample::invalid();
     }
 
-    bool canBeIntersected() const override { return true; }
+    bool canBeIntersected() const override { return false; }
 };
 
 }
