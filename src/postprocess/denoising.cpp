@@ -1,3 +1,4 @@
+#ifdef LW_WITH_OIDN
 #include <OpenImageDenoise/oidn.hpp>
 #include <lightwave.hpp>
 
@@ -85,3 +86,4 @@ namespace lightwave
 
 // Register the Denoising class for the "denoising" postprocess type.
 REGISTER_POSTPROCESS(Denoising, "denoising")
+#endif
