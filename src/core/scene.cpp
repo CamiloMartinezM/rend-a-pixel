@@ -47,6 +47,7 @@ bool Scene::intersect(const Ray &ray, float tMax, Sampler &rng) const {
 BackgroundLightEval Scene::evaluateBackground(const Vector &direction) const {
     if (!m_background) return {
         .value = Color(0),
+        .pdf = 0.0f // Added after implementing Improved Environment Sampling
     };
     return m_background->evaluate(direction);
 }

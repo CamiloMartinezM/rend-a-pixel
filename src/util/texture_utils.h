@@ -4,9 +4,9 @@
  * This header defines the MIPMap class and associated utilities. It includes the implementation of mipmapping for
  * efficient texture sampling at various resolutions, supporting operations like EWA (Elliptical Weighted Averaging)
  * filtering, trilinear filtering, and texture lookup optimizations.
- * 
+ *
  * From: https://pbr-book.org/3ed-2018/Texture/Image_Texture#MIPMap
- * 
+ *
  * @file texture_utils.h
  */
 
@@ -18,7 +18,7 @@
 
 namespace lightwave
 {
-    // MIPMap Helper Declarations
+    /// @brief Defines the behavior for texture lookup outside the [0, 1] range.
     enum class ImageWrap
     {
         Repeat,
@@ -26,42 +26,89 @@ namespace lightwave
         Clamp
     };
 
+    /// @brief Stores weights for resampling a texture.
     struct ResampleWeight
     {
-        int firstTexel;
-        float weight[4];
+        int firstTexel;  // Index of the first texel to be considered in the resampling process.
+        float weight[4]; // Array of weights for resampling, corresponding to four adjacent texels.
     };
 
-    // MIPMap Declarations
+    /// @brief A MIPMap class
+    /// @tparam T The type of data to store inside the MIPMap, usually textures.
     template <typename T> class MIPMap
     {
       public:
-        // MIPMap Public Methods
-        MIPMap(const Point2i &resolution, const T *data, bool doTri = false, float maxAniso = 8.f,
+        /**
+         * @brief Constructs a MIPMap (pyramid of downsampled images)
+         * @tparam T The type of the texel data stored in the MIPMap.
+         * @param resolution The dimensions of the highest resolution level of the MIPMap.
+         * @param data Pointer to the initial texel data for the highest resolution level.
+         * @param doTri Flag to enable trilinear filtering.
+         * @param maxAniso Maximum allowed anisotropy for anisotropic filtering.
+         * @param wrapMode Specifies how texture lookups outside the [0, 1] range are handled.
+         */
+        MIPMap(const Point2i &resolution, const T *data, bool doTri = true, float maxAniso = 8.0f,
                ImageWrap wrapMode = ImageWrap::Repeat);
 
+        /// @brief Returns the width of the initial texture.
         int Width() const
         {
             return resolution[0];
         }
 
+        /// @brief Returns the height of the initial texture.
         int Height() const
         {
             return resolution[1];
         }
 
+        /// @brief Returns the total number of levels stored in the MIPMap.
         int Levels() const
         {
             return pyramid.size();
         }
 
+        /**
+         * @brief Retrieves a texel from a specified level of the MIPMap.
+         * @tparam T The type of the texel data stored in the MIPMap.
+         * @param level The MIPMap level from which to retrieve the texel.
+         * @param s The horizontal texel coordinate within the specified level.
+         * @param t The vertical texel coordinate within the specified level.
+         */
         const T &Texel(int level, int s, int t) const;
+
+        /**
+         * @brief Performs a texture lookup at the specified UV coordinates with isotropic filtering.
+         * @tparam T The type of the texel data stored in the MIPMap.
+         * @param st The UV coordinates for the texture lookup.
+         * @param width Optional width of the filter kernel for isotropic filtering (defaults to 0).
+         */
         T Lookup(const Point2 &st, float width = 0.f) const;
+
+        /**
+         * @brief Performs a texture lookup with anisotropic filtering.
+         * @tparam T The type of the texel data stored in the MIPMap.
+         * @param st The UV coordinates for the texture lookup.
+         * @param dstdx The derivative of the texture coordinates with respect to the x-axis.
+         * @param dstdy The derivative of the texture coordinates with respect to the y-axis.
+         */
         T Lookup(const Point2 &st, Vector2 dstdx, Vector2 dstdy) const;
 
       private:
-        // MIPMap Private Methods
-        std::unique_ptr<ResampleWeight[]> resampleWeights(int oldRes, int newRes)
+        /**
+         * @brief Generates an array of ResampleWeight structures for resampling from one resolution to another.
+         *
+         * This function computes the resampling weights based on the Lanczos filter, which is applied to
+         * calculate the contribution of original texels to the resampled texels. The weights are normalized
+         * to ensure the sum of weights for each new texel equals 1.
+         *
+         * @param oldRes The original resolution of the image or texture.
+         * @param newRes The target resolution for resampling.
+         * @return A unique pointer to an array of ResampleWeight, each containing the weights for a texel in the
+         * resampled image.
+         */
+        std::unique_ptr<ResampleWeight[]>
+        resampleWeights(int oldRes, int newRes)
         {
             // newRes >= oldRes
             std::unique_ptr<ResampleWeight[]> wt(new ResampleWeight[newRes]);
@@ -95,7 +142,20 @@ namespace lightwave
             return v.clamp(0.f, Infinity);
         }
 
+        /**
+         * @brief Performs trilinear filtering to obtain a texel value on the MIPMap at a specified level and texture.
+         * @param level The MIPMap level to sample from.
+         * @param st The texture coordinates at which to sample.
+         */
         T triangle(int level, const Point2 &st) const;
+
+        /**
+         * @brief Performs Elliptical Weighted Average filtering on the MIPMap (anisotropic filtering).
+         * @param level The MIPMap level to sample from.
+         * @param st The texture coordinates at which to sample.
+         * @param dst0 The first derivative of texture coordinates.
+         * @param dst1 The second derivative of texture coordinates.
+         */
         T EWA(int level, Point2 st, Vector2 dst0, Vector2 dst1) const;
 
         // MIPMap Private Data
@@ -103,9 +163,9 @@ namespace lightwave
         const float maxAnisotropy;
         const ImageWrap wrapMode;
         Point2i resolution;
-        std::vector<std::unique_ptr<Vector2D<T>>> pyramid;
-        static constexpr int WeightLUTSize = 128;
-        static float weightLut[WeightLUTSize];
+        std::vector<std::unique_ptr<Vector2D<T>>> pyramid; // The MIPMap levels, stored as a pyramid of textures.
+        static constexpr int WeightLUTSize = 128;          // Size of the precomputed weight lookup table.
+        static float weightLut[WeightLUTSize];             // Precomputed weight lookup table for filtering.
     };
 
     // MIPMap Method Definitions
@@ -123,11 +183,12 @@ namespace lightwave
             std::unique_ptr<ResampleWeight[]> sWeights = resampleWeights(resolution[0], resPow2[0]);
             resampledImage.reset(new T[resPow2[0] * resPow2[1]]);
 
-            // Create a range of integers from 0 to resolution[1] - 1
+            // Apply sWeights to zoom in s direction
+            // (Parallel version)
             std::vector<int> tRange(resolution[1]);
             std::iota(tRange.begin(), tRange.end(), 0);
 
-            // Apply sWeights to zoom in s direction
+            // Create a range of integers from 0 to resolution[1] - 1
             lightwave::for_each_parallel(tRange.begin(), tRange.end(), [&](int t) {
                 for (int s = 0; s < resPow2[0]; ++s)
                 {
@@ -147,7 +208,27 @@ namespace lightwave
                 }
             });
 
+            // (One-threaded version)
+            // for (int t = 0; t < resolution[1]; ++t)
+            //     for (int s = 0; s < resPow2[0]; ++s)
+            //     {
+            //         // Compute texel (s,t) in s-zoomed image
+            //         resampledImage[t * resPow2[0] + s] = T::black();
+            //         for (int j = 0; j < 4; ++j)
+            //         {
+            //             int origS = sWeights[s].firstTexel + j;
+            //             if (wrapMode == ImageWrap::Repeat)
+            //                 origS = SpecialMath::Mod(origS, resolution[0]);
+            //             else if (wrapMode == ImageWrap::Clamp)
+            //                 origS = SpecialMath::Clamp(origS, 0, resolution[0] - 1);
+            //             if (origS >= 0 && origS < (int)resolution[0])
+            //                 resampledImage[t * resPow2[0] + s] +=
+            //                     sWeights[s].weight[j] * img[t * resolution[0] + origS];
+            //         }
+            //     }
+
             // Resample image in t direction
+            // (Parallel version)
             std::unique_ptr<ResampleWeight[]> tWeights = resampleWeights(resolution[1], resPow2[1]);
             std::vector<T *> resampleBufs;
             int nThreads = lightwave::MaxThreads;
@@ -160,7 +241,7 @@ namespace lightwave
 
             // Iterate over the range of 's'
             lightwave::for_each_parallel(sRange.begin(), sRange.end(), [&](int s) {
-                T *workData = resampleBufs[ThreadIndex]; // Assuming ThreadIndex can be determined
+                T *workData = resampleBufs[ThreadIndex];
                 for (int t = 0; t < resPow2[1]; ++t)
                 {
                     workData[t] = T::black();
@@ -178,9 +259,31 @@ namespace lightwave
                 for (int t = 0; t < resPow2[1]; ++t)
                     resampledImage[t * resPow2[0] + s] = clamp(workData[t]);
             });
-
             for (auto ptr : resampleBufs)
                 delete[] ptr;
+
+            // Iterate over each 's' in the s direction
+            // (One-threaded version)
+            // std::vector<T> workData(resPow2[1]);  // Temporary buffer for resampling, one for each 't'
+            // for (int s = 0; s < resPow2[0]; ++s)
+            // {
+            //     for (int t = 0; t < resPow2[1]; ++t)
+            //     {
+            //         workData[t] = T::black();
+            //         for (int j = 0; j < 4; ++j)
+            //         {
+            //             int offset = tWeights[t].firstTexel + j;
+            //             if (wrapMode == ImageWrap::Repeat)
+            //                 offset = SpecialMath::Mod(offset, resolution[1]);
+            //             else if (wrapMode == ImageWrap::Clamp)
+            //                 offset = SpecialMath::Clamp(offset, 0, (int)resolution[1] - 1);
+            //             if (offset >= 0 && offset < (int)resolution[1])
+            //                 workData[t] += tWeights[t].weight[j] * resampledImage[offset * resPow2[0] + s];
+            //         }
+            //     }
+            //     for (int t = 0; t < resPow2[1]; ++t)
+            //         resampledImage[t * resPow2[0] + s] = clamp(workData[t]);
+            // }
 
             resolution = resPow2;
         }
@@ -189,8 +292,7 @@ namespace lightwave
         pyramid.resize(nLevels);
 
         // Initialize most detailed level of MIPMap
-        pyramid[0].reset(
-            new Vector2D<T>(resolution[0], resolution[1], resampledImage ? resampledImage.get() : img));
+        pyramid[0].reset(new Vector2D<T>(resolution[0], resolution[1], resampledImage ? resampledImage.get() : img));
         for (int i = 1; i < nLevels; ++i)
         {
             // Initialize i-th MIPMap level from (i-1) level
@@ -198,26 +300,34 @@ namespace lightwave
             int tRes = max(1, pyramid[i - 1]->vSize() / 2);
             pyramid[i].reset(new Vector2D<T>(sRes, tRes));
 
+            // Filter four texels from finer level of pyramid
+            // (Parallel version)
             // Create a range of integers for 't'
             std::vector<int> tRange(tRes);
             std::iota(tRange.begin(), tRange.end(), 0);
 
-            // Filter four texels from finer level of pyramid
             lightwave::for_each_parallel(tRange.begin(), tRange.end(), [&](int t) {
                 for (int s = 0; s < sRes; ++s)
                     (*pyramid[i])(s, t) = .25f * (Texel(i - 1, 2 * s, 2 * t) + Texel(i - 1, 2 * s + 1, 2 * t) +
                                                   Texel(i - 1, 2 * s, 2 * t + 1) + Texel(i - 1, 2 * s + 1, 2 * t + 1));
             });
-        }
 
-        // Initialize EWA filter weights if needed
-        if (weightLut[0] == 0.)
-        {
-            for (int i = 0; i < WeightLUTSize; ++i)
+            // (One-threaded version)
+            // for (int t = 0; t < tRes; ++t)
+            //     for (int s = 0; s < sRes; ++s)
+            //         (*pyramid[i])(s, t) = .25f * (Texel(i - 1, 2 * s, 2 * t) + Texel(i - 1, 2 * s + 1, 2 * t) +
+            //                                       Texel(i - 1, 2 * s, 2 * t + 1) + Texel(i - 1, 2 * s + 1, 2 * t +
+            //                                       1));
+
+            // Initialize EWA filter weights if needed
+            if (weightLut[0] == 0.)
             {
-                float alpha = 2;
-                float r2 = float(i) / float(WeightLUTSize - 1);
-                weightLut[i] = exp(-alpha * r2) - exp(-alpha);
+                for (int i = 0; i < WeightLUTSize; ++i)
+                {
+                    float alpha = 2;
+                    float r2 = float(i) / float(WeightLUTSize - 1);
+                    weightLut[i] = exp(-alpha * r2) - exp(-alpha);
+                }
             }
         }
     }
@@ -283,6 +393,7 @@ namespace lightwave
                                    std::max(std::abs(dst1[0]), std::abs(dst1[1])));
             return Lookup(st, width);
         }
+        
         // Compute ellipse minor and major axes
         if (dst0.lengthSquared() < dst1.lengthSquared())
             std::swap(dst0, dst1);

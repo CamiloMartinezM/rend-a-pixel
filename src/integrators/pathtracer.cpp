@@ -5,7 +5,6 @@ namespace lightwave
     class PathTracer : public SamplingIntegrator
     {
       private:
-        
         /// @brief Compute the contribution of a camera-sampled ray using iterative path tracing.
         Color iterativePathTracing(const Ray &ray, Sampler &rng)
         {
@@ -19,10 +18,10 @@ namespace lightwave
                 if (!its)
                 {
                     // The ray misses and hits the background
-                    Color Le = m_scene->evaluateBackground(iterRay.direction).value;
+                    BackgroundLightEval bEval = m_scene->evaluateBackground(iterRay.direction);
 
                     // Incoporate the background contribution
-                    L += Le * throughput;
+                    L += bEval.value * throughput;
                     break;
                 }
 
@@ -42,7 +41,8 @@ namespace lightwave
                     L += its.evaluateEmission() * misWeight * throughput;
                 }
 
-                if (iterRay.depth >= maxDepth - 1) break;
+                if (iterRay.depth >= maxDepth - 1)
+                    break;
 
                 // Use Next-Event Estimation to sample a light if:
                 // 1. NEE is active or MIS is active;
@@ -98,7 +98,8 @@ namespace lightwave
                         break;
 
                     // Prevent division by zero or very small numbers
-                    if (q > 1.0f - Epsilon) q = 1.0f - Epsilon;
+                    if (q > 1.0f - Epsilon)
+                        q = 1.0f - Epsilon;
 
                     // If the path continues, scale the throughput to account for the survival probability
                     throughput /= (1 - q);
@@ -120,9 +121,9 @@ namespace lightwave
         float powerHeuristic(float pdf_a, float pdf_b)
         {
             // Clamp the Pdfs to avoid floating point innacuracies
-            pdf_a = clamp(pdf_a, MachineEpsilon, Infinity); 
-            pdf_b = clamp(pdf_b, MachineEpsilon, Infinity); 
-            
+            pdf_a = clamp(pdf_a, MachineEpsilon, Infinity);
+            pdf_b = clamp(pdf_b, MachineEpsilon, Infinity);
+
             // The sample from technique A should be trusted the most
             if (pdf_a == Infinity)
                 return 1.0f;
