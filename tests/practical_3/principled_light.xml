@@ -1,5 +1,5 @@
 <test type="image" id="principled_light">
-    <integrator type="direct">
+    <integrator type="pathtracer" nee="true" mis="true">
         <scene id="scene">
             <camera type="perspective" id="camera">
                 <integer name="width" value="512"/>
