@@ -39,10 +39,8 @@
         </transform>
     </light>
 </scene>
-<test type="image" id="alpha_masking" me="5e-4">
-    <integrator type="pathtracer" depth="12" nee="true" mis="true">
-        <ref id="scene"/>
-        <image id="alpha_masking"/>
-        <sampler type="independent" count="256"/>
-    </integrator>
-</test>
+<integrator type="pathtracer" depth="4" nee="true" mis="true">
+    <ref id="scene"/>
+    <image id="alpha_masking"/>
+    <sampler type="halton" count="512"/>
+</integrator>

@@ -1,0 +1,2333 @@
+<scene id="scene">
+    <camera type="thinlens">
+        <integer name="width" value="1920"/>
+        <integer name="height" value="1080"/>
+        <float name="fov" value="132.08"/>
+        <string name="fovAxis" value="x"/>
+        <float name="radius" value="0.02"/>
+        <float name="focalDistance" value="1.0"/>
+
+        <transform>
+            <matrix value="1,0,0,0,  0,-1,0,0,  0,0,-1,5.4692,  0,0,0,1"/>
+        </transform>
+    </camera>
+    <light type="area">
+        <instance>
+            <shape type="rectangle"/>
+            <transform>
+                <matrix value="-0.014596,-0.038524,-0.56669,0,  0.047743,-0.010031,-0.21911,0,  -0.0027562,0.030253,-0.79426,4,  0,0,0,1"/>
+            </transform>
+            <emission type="lambertian">
+                <texture name="emission" type="constant" value="25000,25000,25000"/>
+            </emission>
+        </instance>
+    </light>
+    <instance>
+        <bsdf id="Particle" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_001" type="mesh" filename="meshes/Icosphere.001.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0,  0,0.06471,0,0,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_001" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_001.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_003" type="mesh" filename="meshes/Icosphere.003.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.6471,  0,0.06471,0,0,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_002" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_002.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_004" type="mesh" filename="meshes/Icosphere.004.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0,  0,0.06471,0,0.32355,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_003" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_003.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_005" type="mesh" filename="meshes/Icosphere.005.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0,  0,0.06471,0,-0.32355,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_004" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_004.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_006" type="mesh" filename="meshes/Icosphere.006.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.6471,  0,0.06471,0,0,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_005" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_005.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_007" type="mesh" filename="meshes/Icosphere.007.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.32355,  0,0.06471,0,0.19413,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_007" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_007.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_009" type="mesh" filename="meshes/Icosphere.009.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.32355,  0,0.06471,0,0.19413,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_008" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_008.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_010" type="mesh" filename="meshes/Icosphere.010.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.32355,  0,0.06471,0,-0.19413,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <bsdf id="Particle_009" type="principled">
+            <texture name="baseColor" type="constant" value="0.73286,1,0.046378"/>
+            <texture name="roughness" type="constant" value="0.5"/>
+            <texture name="metallic" type="constant" value="0.25"/>
+            <texture name="specular" type="constant" value="0.5"/>
+        </bsdf>
+        <emission id="Particle_009.000" type="lambertian">
+            <texture name="emission" type="constant" value="44.813,1.9773,1.3121"/>
+        </emission>
+        <shape id="Icosphere_011" type="mesh" filename="meshes/Icosphere.011.ply"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.32355,  0,0.06471,0,-0.19413,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.2045,  0.032561,0.055921,0,0.74275,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.64524,  0.032561,0.055921,0,1.0684,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.3673,  0.032561,0.055921,0,1.0224,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0417,  0.032561,0.055921,0,0.46314,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.7637,  0.032561,0.055921,0,0.41714,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0225,  0.032561,0.055921,0,1.0733,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.5817,  0.032561,0.055921,0,0.74771,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.82717,  0.032561,0.055921,0,0.73779,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.3864,  0.032561,0.055921,0,0.41218,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.86319,  0,0.06471,0,1.1242,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.5103,  0,0.06471,0,1.1242,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.86319,  0,0.06471,0,1.4477,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.86319,  0,0.06471,0,0.80061,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.21609,  0,0.06471,0,1.1242,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.1867,  0,0.06471,0,1.3183,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.53964,  0,0.06471,0,1.3183,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.1867,  0,0.06471,0,0.93003,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.53964,  0,0.06471,0,0.93003,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.34126,  0.032561,0.055921,0,1.8669,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.21795,  0.032561,0.055921,0,2.1925,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.50407,  0.032561,0.055921,0,2.1465,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.17846,  0.032561,0.055921,0,1.5873,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.90047,  0.032561,0.055921,0,1.5413,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.15934,  0.032561,0.055921,0,2.1975,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.71855,  0.032561,0.055921,0,1.8719,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.036026,  0.032561,0.055921,0,1.8619,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.52319,  0.032561,0.055921,0,1.5363,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.020074,  0,0.06471,0,-0.60223,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.66717,  0,0.06471,0,-0.60223,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.020074,  0,0.06471,0,-0.27868,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.020074,  0,0.06471,0,-0.92578,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.62703,  0,0.06471,0,-0.60223,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.34362,  0,0.06471,0,-0.4081,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.30348,  0,0.06471,0,-0.4081,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.34362,  0,0.06471,0,-0.79636,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.30348,  0,0.06471,0,-0.79636,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.1844,  0.032561,0.055921,0,0.14052,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.62517,  0.032561,0.055921,0,0.46613,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.3472,  0.032561,0.055921,0,0.42013,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0216,  0.032561,0.055921,0,-0.13909,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.7436,  0.032561,0.055921,0,-0.18509,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0025,  0.032561,0.055921,0,0.47109,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.5617,  0.032561,0.055921,0,0.14548,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.80709,  0.032561,0.055921,0,0.13556,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.3663,  0.032561,0.055921,0,-0.19005,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.88327,  0,0.06471,0,0.52193,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.5304,  0,0.06471,0,0.52193,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.88327,  0,0.06471,0,0.84548,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.88327,  0,0.06471,0,0.19838,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.23617,  0,0.06471,0,0.52193,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.2068,  0,0.06471,0,0.71606,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.55972,  0,0.06471,0,0.71606,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.2068,  0,0.06471,0,0.3278,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.55972,  0,0.06471,0,0.3278,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.32119,  0.032561,0.055921,0,1.2647,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.23802,  0.032561,0.055921,0,1.5903,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.48399,  0.032561,0.055921,0,1.5443,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.15838,  0.032561,0.055921,0,0.98507,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.8804,  0.032561,0.055921,0,0.93907,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.13926,  0.032561,0.055921,0,1.5952,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.69848,  0.032561,0.055921,0,1.2696,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.0561,  0.032561,0.055921,0,1.2597,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.50311,  0.032561,0.055921,0,0.93411,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3048,  0,0.06471,0,0.50186,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.9519,  0,0.06471,0,0.50186,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3048,  0,0.06471,0,0.82541,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3048,  0,0.06471,0,0.17831,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.65773,  0,0.06471,0,0.50186,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.6284,  0,0.06471,0,0.69599,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.98128,  0,0.06471,0,0.69599,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.6284,  0,0.06471,0,0.30773,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.98128,  0,0.06471,0,0.30773,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.10037,  0.032561,0.055921,0,1.2446,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.65958,  0.032561,0.055921,0,1.5702,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.062433,  0.032561,0.055921,0,1.5242,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.26318,  0.032561,0.055921,0,0.965,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.45884,  0.032561,0.055921,0,0.919,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.28229,  0.032561,0.055921,0,1.5752,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.27692,  0.032561,0.055921,0,1.2496,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.47766,  0.032561,0.055921,0,1.2396,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.081552,  0.032561,0.055921,0,0.91404,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.168,  0,0.06471,0,1.626,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.8151,  0,0.06471,0,1.626,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.168,  0,0.06471,0,1.9496,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.168,  0,0.06471,0,1.3025,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.5209,  0,0.06471,0,1.626,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.4916,  0,0.06471,0,1.8201,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.8445,  0,0.06471,0,1.8201,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.4916,  0,0.06471,0,1.4319,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.8445,  0,0.06471,0,1.4319,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.96357,  0.032561,0.055921,0,2.3688,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.5228,  0.032561,0.055921,0,2.6944,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.80076,  0.032561,0.055921,0,2.6484,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.1264,  0.032561,0.055921,0,2.0892,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.40435,  0.032561,0.055921,0,2.0432,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.1455,  0.032561,0.055921,0,2.6993,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.58628,  0.032561,0.055921,0,2.3737,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.3409,  0.032561,0.055921,0,2.3638,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.78164,  0.032561,0.055921,0,2.0382,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3249,  0,0.06471,0,-0.10037,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.972,  0,0.06471,0,-0.10037,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3249,  0,0.06471,0,0.22318,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3249,  0,0.06471,0,-0.42392,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.6778,  0,0.06471,0,-0.10037,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.6485,  0,0.06471,0,0.093759,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0014,  0,0.06471,0,0.093759,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.6485,  0,0.06471,0,-0.2945,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0014,  0,0.06471,0,-0.2945,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.12045,  0.032561,0.055921,0,0.64238,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.67966,  0.032561,0.055921,0,0.96799,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.042359,  0.032561,0.055921,0,0.92198,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.28325,  0.032561,0.055921,0,0.36277,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.43877,  0.032561,0.055921,0,0.31677,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.30237,  0.032561,0.055921,0,0.97294,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.25684,  0.032561,0.055921,0,0.64734,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.49773,  0.032561,0.055921,0,0.63742,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.061478,  0.032561,0.055921,0,0.31181,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.1881,  0,0.06471,0,1.0238,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.8352,  0,0.06471,0,1.0238,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.1881,  0,0.06471,0,1.3473,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.1881,  0,0.06471,0,0.70024,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.541,  0,0.06471,0,1.0238,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.5116,  0,0.06471,0,1.2179,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.8645,  0,0.06471,0,1.2179,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,2.5116,  0,0.06471,0,0.82966,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.8645,  0,0.06471,0,0.82966,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.064033,-0.0055554,-0.0075069,1.1036,  0.0024718,0.060243,-0.023497,1.7665,  0.0090059,0.022964,0.059824,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.5429,  0.032561,0.055921,0,2.0921,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.82084,  0.032561,0.055921,0,2.0461,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.1464,  0.032561,0.055921,0,1.4869,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.42443,  0.032561,0.055921,0,1.4409,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.1656,  0.032561,0.055921,0,2.0971,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.60635,  0.032561,0.055921,0,1.7715,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,1.3609,  0.032561,0.055921,0,1.7616,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.80172,  0.032561,0.055921,0,1.436,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1242,  0,0.06471,0,1.7465,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.47706,  0,0.06471,0,1.7465,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1242,  0,0.06471,0,2.07,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1242,  0,0.06471,0,1.4229,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.7713,  0,0.06471,0,1.7465,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.80061,  0,0.06471,0,1.9406,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.4477,  0,0.06471,0,1.9406,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.80061,  0,0.06471,0,1.5523,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.4477,  0,0.06471,0,1.5523,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.3286,  0.032561,0.055921,0,2.4892,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.7694,  0.032561,0.055921,0,2.8148,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.1658,  0.032561,0.055921,0,2.2096,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.1467,  0.032561,0.055921,0,2.8198,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.9513,  0.032561,0.055921,0,2.4843,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.26097,  0,0.06471,0,2.8706,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.38613,  0,0.06471,0,2.8706,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.26097,  0,0.06471,0,3.1942,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.26097,  0,0.06471,0,2.5471,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.90807,  0,0.06471,0,2.8706,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.062585,  0,0.06471,0,3.0648,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.58452,  0,0.06471,0,3.0648,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.062585,  0,0.06471,0,2.6765,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.58452,  0,0.06471,0,2.6765,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.4654,  0.032561,0.055921,0,3.6134,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.90621,  0.032561,0.055921,0,3.939,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.6282,  0.032561,0.055921,0,3.893,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.3026,  0.032561,0.055921,0,3.3338,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.0246,  0.032561,0.055921,0,3.2878,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.2835,  0.032561,0.055921,0,3.9439,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.8427,  0.032561,0.055921,0,3.6183,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0881,  0.032561,0.055921,0,3.6084,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.6473,  0.032561,0.055921,0,3.2828,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1041,  0,0.06471,0,1.1442,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.45698,  0,0.06471,0,1.1442,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1041,  0,0.06471,0,1.4678,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.1041,  0,0.06471,0,0.82068,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.7512,  0,0.06471,0,1.1442,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.78054,  0,0.06471,0,1.3384,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.4276,  0,0.06471,0,1.3384,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.78054,  0,0.06471,0,0.9501,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-1.4276,  0,0.06471,0,0.9501,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.3085,  0.032561,0.055921,0,1.887,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.7493,  0.032561,0.055921,0,2.2126,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.1457,  0.032561,0.055921,0,1.6074,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.1266,  0.032561,0.055921,0,2.2175,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.9313,  0.032561,0.055921,0,1.882,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.24089,  0,0.06471,0,2.2684,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.40621,  0,0.06471,0,2.2684,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.24089,  0,0.06471,0,2.5919,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.24089,  0,0.06471,0,1.9448,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.88799,  0,0.06471,0,2.2684,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.082659,  0,0.06471,0,2.4625,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.56444,  0,0.06471,0,2.4625,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.082659,  0,0.06471,0,2.0743,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.56444,  0,0.06471,0,2.0743,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.4453,  0.032561,0.055921,0,3.0111,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.88614,  0.032561,0.055921,0,3.3368,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.6082,  0.032561,0.055921,0,3.2907,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.2825,  0.032561,0.055921,0,2.7315,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-2.0046,  0.032561,0.055921,0,2.6855,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.2634,  0.032561,0.055921,0,3.3417,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.8226,  0.032561,0.055921,0,3.0161,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0681,  0.032561,0.055921,0,3.0062,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.6273,  0.032561,0.055921,0,2.6806,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.18067,  0,0.06471,0,2.2483,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.82777,  0,0.06471,0,2.2483,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.18067,  0,0.06471,0,2.5719,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.18067,  0,0.06471,0,1.9248,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.46643,  0,0.06471,0,2.2483,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.50422,  0,0.06471,0,2.4424,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.14288,  0,0.06471,0,2.4424,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.50422,  0,0.06471,0,2.0542,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.14288,  0,0.06471,0,2.0542,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0238,  0.032561,0.055921,0,2.9911,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.46458,  0.032561,0.055921,0,3.3167,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.1866,  0.032561,0.055921,0,3.2707,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.86098,  0.032561,0.055921,0,2.7115,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.583,  0.032561,0.055921,0,2.6655,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.84186,  0.032561,0.055921,0,3.3216,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.4011,  0.032561,0.055921,0,2.996,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.6465,  0.032561,0.055921,0,2.9861,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.2057,  0.032561,0.055921,0,2.6605,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0439,  0,0.06471,0,3.3725,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.691,  0,0.06471,0,3.3725,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0439,  0,0.06471,0,3.696,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0439,  0,0.06471,0,3.0489,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.39676,  0,0.06471,0,3.3725,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3674,  0,0.06471,0,3.5666,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.72031,  0,0.06471,0,3.5666,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3674,  0,0.06471,0,3.1783,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.72031,  0,0.06471,0,3.1783,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.16059,  0.032561,0.055921,0,4.1152,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.39862,  0.032561,0.055921,0,4.4408,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.3234,  0.032561,0.055921,0,4.3948,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.0022101,  0.032561,0.055921,0,3.8356,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.71981,  0.032561,0.055921,0,3.7896,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.021329,  0.032561,0.055921,0,4.4458,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.53788,  0.032561,0.055921,0,4.1202,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.21669,  0.032561,0.055921,0,4.1103,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.34252,  0.032561,0.055921,0,3.7847,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.20074,  0,0.06471,0,1.6461,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.84784,  0,0.06471,0,1.6461,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.20074,  0,0.06471,0,1.9696,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.20074,  0,0.06471,0,1.3225,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.44636,  0,0.06471,0,1.6461,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.52429,  0,0.06471,0,1.8402,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.12281,  0,0.06471,0,1.8402,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.52429,  0,0.06471,0,1.452,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,-0.12281,  0,0.06471,0,1.452,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.0037,  0.032561,0.055921,0,2.3888,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.4445,  0.032561,0.055921,0,2.7144,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.1665,  0.032561,0.055921,0,2.6684,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.84091,  0.032561,0.055921,0,2.1092,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.5629,  0.032561,0.055921,0,2.0632,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.82179,  0.032561,0.055921,0,2.7194,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.381,  0.032561,0.055921,0,2.3938,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.62643,  0.032561,0.055921,0,2.3839,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-1.1856,  0.032561,0.055921,0,2.0583,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0639,  0,0.06471,0,2.7703,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.711,  0,0.06471,0,2.7703,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0639,  0,0.06471,0,3.0938,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.0639,  0,0.06471,0,2.4467,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.41684,  0,0.06471,0,2.7703,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3875,  0,0.06471,0,2.9644,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.74039,  0,0.06471,0,2.9644,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.06471,0,0,1.3875,  0,0.06471,0,2.5761,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.06471,0,0,0.74039,  0,0.06471,0,2.5761,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle"/>
+        <ref id="Particle.000"/>
+        <ref id="Icosphere_001"/>
+        <transform>
+            <matrix value="0.064033,-0.0055554,-0.0075069,-0.02052,  0.0024718,0.060243,-0.023497,3.513,  0.0090059,0.022964,0.059824,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_001"/>
+        <ref id="Particle_001.000"/>
+        <ref id="Icosphere_003"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.41869,  0.032561,0.055921,0,3.8386,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_002"/>
+        <ref id="Particle_002.000"/>
+        <ref id="Icosphere_004"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.30332,  0.032561,0.055921,0,3.7926,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_003"/>
+        <ref id="Particle_003.000"/>
+        <ref id="Icosphere_005"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.022284,  0.032561,0.055921,0,3.2334,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_004"/>
+        <ref id="Particle_004.000"/>
+        <ref id="Icosphere_006"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.69973,  0.032561,0.055921,0,3.1874,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_005"/>
+        <ref id="Particle_005.000"/>
+        <ref id="Icosphere_007"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.041404,  0.032561,0.055921,0,3.8436,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_007"/>
+        <ref id="Particle_007.000"/>
+        <ref id="Icosphere_009"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.51781,  0.032561,0.055921,0,3.518,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_008"/>
+        <ref id="Particle_008.000"/>
+        <ref id="Icosphere_010"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,0.23677,  0.032561,0.055921,0,3.508,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <instance>
+        <ref id="Particle_009"/>
+        <ref id="Particle_009.000"/>
+        <ref id="Icosphere_011"/>
+        <transform>
+            <matrix value="0.055921,-0.032561,0,-0.32244,  0.032561,0.055921,0,3.1824,  0,0,0.06471,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+</scene>
+<integrator type="pathtracer" depth="10" nee="true" mis="true">
+    <ref id="scene"/>
+    <image id="simple_bokeh_example_without_bokeh"/>
+    <sampler type="independent" count="128"/>
+</integrator>

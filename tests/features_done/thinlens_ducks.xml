@@ -219,6 +219,6 @@
     <integrator type="pathtracer" depth="2">
         <ref id="scene"/>
         <image id="thinlens_ducks"/>
-        <sampler type="independent" count="64"/>
+        <sampler type="halton" count="128"/>
     </integrator>
 </test>

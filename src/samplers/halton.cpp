@@ -7,7 +7,7 @@ namespace lightwave
     {
       private:
         // Randomization strategy to use
-        const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::Owen;  
+        const RandomizeStrategy HaltonRandomizeStrategy = RandomizeStrategy::PermuteDigits;  
 
         // Stores digit permutations for each dimension used to scramble the Halton sequence,
         // enhancing the randomness and reducing correlation between samples.

@@ -18,6 +18,6 @@ namespace lightwave::diffuse
      */
     inline float pdf(const Vector &wo, const Vector &wi)
     {
-        return cosineHemispherePdf(wi);
+        return cosineHemispherePdf(wi.normalized());
     }
 } // namespace lightwave::diffuse

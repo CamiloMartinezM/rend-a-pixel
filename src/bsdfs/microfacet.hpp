@@ -17,6 +17,9 @@ namespace lightwave::microfacet {
  * @see https://www.graphics.cornell.edu/~bjw/microfacetbsdf.pdf (Figure 6)
  */
 inline float detReflection(const Vector &normal, const Vector &wo) {
+    if (abs(4 * normal.dot(wo)) <= MachineEpsilon)
+        return Infinity;
+        
     return 1 / abs(4 * normal.dot(wo));
 }
 
@@ -117,6 +120,9 @@ inline Vector sampleGGXVNDF(float alpha, const Vector &wo, const Point2 &rnd) {
  */
 inline float pdfGGXVNDF(float alpha, const Vector &wh, const Vector &wo) {
     // clang-format off
+    if (Frame::absCosTheta(wo) <= MachineEpsilon)
+        return Infinity;
+
     return microfacet::evaluateGGX(alpha, wh) *
            microfacet::smithG1(alpha, wh, wo) *
            abs(wh.dot(wo)) / Frame::absCosTheta(wo);

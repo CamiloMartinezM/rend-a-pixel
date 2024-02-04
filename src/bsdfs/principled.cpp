@@ -60,7 +60,8 @@ namespace lightwave
             float G1wo = microfacet::smithG1(alpha, wm, nWo);
             float denominator = 4 * Frame::absCosTheta(nWi) * Frame::absCosTheta(nWo);
             return {.value = color * D * G1wi * G1wo / denominator * Frame::absCosTheta(nWi),
-                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
+                    .pdf = clamp(microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo),
+                                 MachineEpsilon, Infinity)};
         }
 
         BsdfSample sample(const Vector &wo, Sampler &rng) const
@@ -77,7 +78,8 @@ namespace lightwave
             float G1wi = microfacet::smithG1(alpha, wm, wi);
             return {.wi = wi,
                     .weight = color * G1wi,
-                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
+                    .pdf = clamp(microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo),
+                                 MachineEpsilon, Infinity)};
         }
     };
 

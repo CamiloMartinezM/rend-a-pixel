@@ -160,8 +160,8 @@ namespace lightwave
     AreaSample Instance::sampleArea(Sampler &rng, const SurfaceEvent &ref) const
     {
         SurfaceEvent localRef = ref;
-        localRef.position = m_transform->inverse(localRef.position);
-        // inverseTransformFrame(localRef);
+        // localRef.position = m_transform->inverse(localRef.position);
+        inverseTransformFrame(localRef);
         AreaSample sample = m_shape->sampleArea(rng, localRef);
         transformFrame(sample);
         return sample;

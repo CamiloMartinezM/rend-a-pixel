@@ -131,6 +131,9 @@ namespace lightwave
     inline float pdfToSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
+        if (abs(n.dot(-wiNormalized)) <= MachineEpsilon)
+            return Infinity;
+
         float result = pdf * sqr(distance) / abs(n.dot(-wiNormalized));
         return clamp(result, MachineEpsilon, Infinity); 
     }
@@ -145,6 +148,10 @@ namespace lightwave
     inline float pdfFromSolidAngleMeasure(const float &pdf, const float &distance, const Vector &n, const Vector &wi)
     {
         Vector wiNormalized = wi.normalized();
+
+        if (sqr(distance) <= MachineEpsilon)
+            return Infinity;
+
         float result = pdf * abs(n.dot(-wiNormalized)) / sqr(distance);
         // Clamp the resulting pdf between the machine epsilon and infinity
         return clamp(result, MachineEpsilon, Infinity); 
