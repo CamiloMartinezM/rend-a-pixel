@@ -1,0 +1,34 @@
+<scene id="scene">
+    <camera type="perspective">
+        <integer name="width" value="1920"/>
+        <integer name="height" value="1080"/>
+        <float name="fov" value="39.598"/>
+        <string name="fovAxis" value="x"/>
+        <transform>
+            <matrix value="0.68592,0.32401,-0.65156,7.3589,  0.72768,-0.30542,0.61417,-6.9258,  -4.0113e-09,-0.8954,-0.44527,4.9583,  0,0,0,1"/>
+        </transform>
+    </camera>
+    <light type="point" position="4.0762,1.0055,5.9039" power="1000,1000,1000"/>
+    <instance>
+        <bsdf type="diffuse">
+            <texture name="albedo" type="constant" value="0.8"/>
+        </bsdf>
+        <shape type="mesh" filename="meshes/Sphere.ply"/>
+        <transform>
+            <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1"/>
+        </transform>
+    </instance>
+    <light type="envmap">
+        <texture type="constant" value="0.050876,0.050876,0.050876"/>
+        <transform>
+            <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+        </transform>
+    </light>
+</scene>
+<test type="image" id="diffuse_lighting_with_envmap" me="5e-4">
+    <integrator type="pathtracer" depth="12" nee="true" mis="true">
+        <ref id="scene"/>
+        <image id="diffuse_lighting_with_envmap"/>
+        <sampler type="independent" count="256"/>
+    </integrator>
+</test>

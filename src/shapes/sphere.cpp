@@ -31,11 +31,11 @@ namespace lightwave
         const ShapeSamplingMethod SphereSampling = ShapeSamplingMethod::SubtendedCone;
 
         /// @brief Converts a position to a uv coordinate.
-        /// @param position The normalized hitpoint as a Vector from the center of the sphere. 
+        /// @param position The normalized hitpoint as a Vector from the center of the sphere.
         inline Point2 sphereToUV(const Vector &position) const
         {
             // Calculate spherical coordinates
-            float theta = acos(position.y());         // inclination
+            float theta = acos(position.y());              // inclination
             float phi = atan2(position.x(), position.z()); // azimuth
 
             // Map the spherical coordinates to UV coordinates
@@ -176,12 +176,12 @@ namespace lightwave
             if (its.alphaMask)
             {
                 // convert hit position to UV coordinates
-                Point2 uv = sphereToUV((hitPosition - centerPoint).normalized());             
+                Point2 uv = sphereToUV((hitPosition - centerPoint).normalized());
                 float alphaValue = its.alphaMask->scalar(uv);
 
                 // stochastically dismiss the intersection based on alpha value
                 if (alphaValue < rng.next())
-                    return false; 
+                    return false;
             }
 
             // we have determined there was an intersection!

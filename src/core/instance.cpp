@@ -36,7 +36,7 @@ namespace lightwave
         {
             // If m_flipNormal is true, flip the direction of the bitangent
             transformedBitangent *= m_flipNormal ? -1 : 1;
-            worldNormal = transformedTangent.cross(transformedBitangent);
+            worldNormal = transformedTangent.normalized().cross(transformedBitangent.normalized());
         }
 
         // Build an orthonormal frame with the new normal
@@ -53,21 +53,12 @@ namespace lightwave
         Vector transformedTangent = m_transform->inverse(surf.frame.tangent);
         Vector transformedBitangent = m_transform->inverse(surf.frame.bitangent);
 
-        // The length of the cross product gives us the area spanned by tangent and bitangent, which is a measure of
-        // the change in surface area, which can affect the sampling density
-        Vector crossProduct = transformedTangent.cross(transformedBitangent);
-
         // If m_flipNormal is true, flip the direction of the bitangent
         transformedBitangent *= m_flipNormal ? -1 : 1;
 
         // Normalize the tangent and bitangent to ensure the frame remains orthonormal
-        surf.frame.tangent = transformedTangent.normalized();
-        surf.frame.bitangent = transformedBitangent.normalized();
-        surf.frame.normal = surf.frame.tangent.cross(surf.frame.bitangent).normalized();
-
-        // Adjust PDF for transformed area, measured by the cross product, to account for the transforms which can
-        // affect the sampling density
-        surf.pdf /= abs(crossProduct.length());
+        Vector newNormal = transformedTangent.normalized().cross(transformedBitangent.normalized());
+        surf.frame = Frame(newNormal.normalized());
     }
 
     bool Instance::intersect(const Ray &worldRay, Intersection &its, Sampler &rng) const
@@ -169,8 +160,8 @@ namespace lightwave
     AreaSample Instance::sampleArea(Sampler &rng, const SurfaceEvent &ref) const
     {
         SurfaceEvent localRef = ref;
-        // inverseTransformFrame(localRef);
         localRef.position = m_transform->inverse(localRef.position);
+        // inverseTransformFrame(localRef);
         AreaSample sample = m_shape->sampleArea(rng, localRef);
         transformFrame(sample);
         return sample;

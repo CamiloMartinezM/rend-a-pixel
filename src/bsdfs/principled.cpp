@@ -15,16 +15,14 @@ namespace lightwave
             // hints:
             // * copy your diffuse bsdf evaluate here
             // * you do not need to query a texture, the albedo is given by `color`
-            Vector wiCorrected = wi;
+            Vector nWi = wi.normalized();
 
-            // Check if wo and wi are in different hemispheres
+            // If wi comes from the other way, return an invalid evaluation
             if (!Frame::sameHemisphere(wo, wi))
-            {
-                // Flip the incoming direction wi to the same hemisphere as wo
-                wiCorrected = Vector(wi.x(), wi.y(), -wi.z());
-            }
+                return BsdfEval::invalid();
 
-            return {.value = color * Frame::absCosTheta(wiCorrected) / Pi, .pdf = diffuse::pdf(wo, wiCorrected)};
+            float cosTheta = Frame::absCosTheta(nWi);
+            return {.value = color * cosTheta * InvPi, .pdf = diffuse::pdf(wo, wi)};
         }
 
         BsdfSample sample(const Vector &wo, Sampler &rng) const
@@ -34,9 +32,11 @@ namespace lightwave
             // * you do not need to query a texture, the albedo is given by `color`
             Vector wi = squareToCosineHemisphere(rng.next2D());
 
-            // Check if wo is in the opposite direction of the surface normal
-            // If it is, flip wi to the opposite hemisphere
-            wi *= Vector(1.0f, 1.0f, wo.z() < 0 ? -1.0f : 1.0f);
+            // Check if wo is in the opposite direction of the surface normal. If it is, flip wi to the opposite
+            // hemisphere, i.e, to make it the same as wo
+            if (!Frame::sameHemisphere(wo, wi))
+                wi *= -1;
+
             return {.wi = wi.normalized(), .weight = color, .pdf = diffuse::pdf(wo, wi)};
         }
     };
@@ -60,7 +60,7 @@ namespace lightwave
             float G1wo = microfacet::smithG1(alpha, wm, nWo);
             float denominator = 4 * Frame::absCosTheta(nWi) * Frame::absCosTheta(nWo);
             return {.value = color * D * G1wi * G1wo / denominator * Frame::absCosTheta(nWi),
-                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
+                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
         }
 
         BsdfSample sample(const Vector &wo, Sampler &rng) const
@@ -75,7 +75,9 @@ namespace lightwave
             Vector wi = reflect(wo, m).normalized(); // Reflect wo about m to get outgoing direction wi
             Vector wm = (wi + wo).normalized();
             float G1wi = microfacet::smithG1(alpha, wm, wi);
-            return {.wi = wi, .weight = color * G1wi, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
+            return {.wi = wi,
+                    .weight = color * G1wi,
+                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
         }
     };
 

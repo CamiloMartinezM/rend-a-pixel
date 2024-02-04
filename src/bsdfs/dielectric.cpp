@@ -32,7 +32,6 @@ namespace lightwave
             Vector normal = Vector(0.f, 0.f, 1.f) * (entering ? 1.f : -1.f); // Flip the normal for exiting rays
             float eta = entering ? ior : 1.f / ior;
             float F = fresnelDielectric(Frame::cosTheta(wo), eta);
-
             if (rng.next() < F)
             {
                 Vector wi = reflect(wo, normal).normalized();

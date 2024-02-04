@@ -36,7 +36,7 @@ namespace lightwave
             if (!Frame::sameHemisphere(wo, wi))
                 wi *= -1;
 
-            return {.wi = wi.normalized(), .weight = albedo, .pdf = diffuse::pdf(wo, wi)};
+            return {.wi = wi.normalized(), .weight = albedo, .pdf = diffuse::pdf(wo, wi.normalized())};
         }
 
         Color getAlbedo(const Point2 &uv) const override

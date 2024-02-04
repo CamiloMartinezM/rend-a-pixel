@@ -7,6 +7,8 @@ __pycache__
 /out
 /scenes/*/meshes
 /scenes/*/textures
+/scenes/*.blend
+/scenes/*.blend1
 /tests/*/meshes
 /tests/*/textures
 /codeparts_saved

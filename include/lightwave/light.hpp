@@ -15,7 +15,7 @@ namespace lightwave {
 enum class LightType { Directional, Point, Envmap, AreaLight };              
 
 /// @brief Defines if Improved Environment Sampling routine should be used
-static const bool UseImprovedEnvSampling = true;  
+static const bool UseImprovedEnvSampling = false;  
 
 /// @brief The result of sampling a light from a given query point using @ref Light::sampleDirect .
 struct DirectLightSample {
@@ -99,7 +99,7 @@ public:
         return DirectLightSample::invalid();
     }
 
-    bool canBeIntersected() const override { return false; }
+    bool canBeIntersected() const override { return true; }
 };
 
 }

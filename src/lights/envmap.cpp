@@ -70,8 +70,10 @@ namespace lightwave
             // Vector direction(sinTheta * cos(phi), cos(theta), sinTheta * sin(phi));
             Vector direction(sinTheta * cos(phi), cos(theta), sinTheta * sin(phi));
 
-            // Compute Pdf for sampled infinite light direction
+            // Compute Pdf for sampled infinite light direction and convert it to solid-angle measure
             float pdf = (sinTheta == 0) ? 0.0f : InvPi * Inv2Pi * mapPdf / sinTheta;
+
+            // Conversion of the pdf from area measure (in uv space) to solid angle measure
             return {direction.normalized(), pdf};
         }
 
@@ -129,8 +131,18 @@ namespace lightwave
 
             // Return the evaluated texture value at the mapped uv coordinates
             Vector2 warped(u, v);
-            float pdf = m_distribution->pdf(warped) * Inv2Pi * InvPi / sin(theta);
-            return {.value = Lmap->Lookup(warped), .pdf = pdf};
+            float pdf = uniformSpherePdf();
+            Color colorEval;
+            if (providedEnvironmentMap && UseImprovedEnvSampling)
+            {
+                // Convert to solid-angle measure
+                pdf = m_distribution->pdf(warped) * Inv2Pi * InvPi / sin(theta);
+                colorEval = Lmap->Lookup(warped);
+            }
+            else
+                colorEval = m_texture->evaluate(warped);
+
+            return {.value = colorEval, .pdf = pdf};
         }
 
         DirectLightSample sampleDirect(const Point &origin, Sampler &rng) const override
@@ -140,11 +152,8 @@ namespace lightwave
             if (!providedEnvironmentMap || !UseImprovedEnvSampling)
             {
                 Vector direction = squareToUniformSphere(rng.next2D());
-                auto E = evaluate(direction); 
-                float pdf = uniformSpherePdf();
-
-                // We ignore the Pdf of E, since the direction was sampled uniformly on the sphere
-                return {.wi = direction, .weight = E.value / pdf, .distance = Infinity, .pdf = pdf};
+                auto E = evaluate(direction);
+                return {.wi = direction, .weight = E.value / Inv4Pi, .distance = Infinity, .pdf = E.pdf};
             }
 
             // Improved Environment Sampling routine

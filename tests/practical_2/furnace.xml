@@ -1,5 +1,5 @@
 <test type="image" id="furnace">
-    <integrator type="direct">
+    <integrator type="pathtracer" depth="12" nee="true" mis="true">
         <scene>
             <camera type="perspective" id="camera">
                 <integer name="width" value="512"/>

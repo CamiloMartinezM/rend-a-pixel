@@ -17,9 +17,10 @@ namespace lightwave
                 Intersection its = m_scene->intersect(iterRay, rng);
                 if (!its)
                 {
-                    // The ray misses and hits the background
-                    // Add background contribution for first bounce
-                    if (depth == 0)
+                    // The ray misses and hits the background:
+                    // 1. Add background contribution for first bounce always.
+                    // 2. If UseImprovedEnvSampling is not active, always account for background contribution.
+                    if (!UseImprovedEnvSampling || depth == 0)
                     {
                         BackgroundLightEval bEval = m_scene->evaluateBackground(iterRay.direction);
                         L += bEval.value * throughput;

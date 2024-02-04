@@ -6,6 +6,7 @@
 #pragma once
 
 #include <lightwave/math.hpp>
+#include <lightwave/warp.hpp>
 
 namespace lightwave::diffuse
 {
@@ -17,9 +18,6 @@ namespace lightwave::diffuse
      */
     inline float pdf(const Vector &wo, const Vector &wi)
     {
-        // Check if wo and wi are in the same hemisphere:
-        // * If they are, for a Lambertian reflectance, the PDF is 1 divided by the hemisphere area (2 * Pi).
-        // * Otherwise, return 0 as there's no reflection.
-        return Frame::sameHemisphere(wo, wi) ? Inv2Pi : 0.0f;
+        return cosineHemispherePdf(wi);
     }
 } // namespace lightwave::diffuse

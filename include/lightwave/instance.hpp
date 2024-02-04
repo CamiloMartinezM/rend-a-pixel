@@ -34,7 +34,7 @@ class Instance : public Shape {
     bool m_flipNormal;
     /// @brief Tracks whether this instance has been added to the scene, i.e., could be hit by ray tracing.
     bool m_visible;
-    /// @brief Holds the optional normal property for Normal mapping.
+    // /// @brief Holds the optional normal property for Normal mapping.
     ref<Texture> m_normal;
     /// @brief Holds the optional alpha property for Alpha masking.
     ref<Texture> m_alpha;

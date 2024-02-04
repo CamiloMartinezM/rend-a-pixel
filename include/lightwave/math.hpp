@@ -908,7 +908,6 @@ struct Intersection : public SurfaceEvent {
 
     /// @brief Evaluates the emission of the underlying instance.
     Color evaluateEmission() const;
-    float evaluateEmissionPdf() const;
     
     /// @brief Samples the Bsdf of the underlying surface.
     BsdfSample sampleBsdf(Sampler &rng) const;

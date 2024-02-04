@@ -37,7 +37,8 @@ namespace lightwave
             // Frame::absCosTheta(wi) cancels out from the denominator
             float denominator = 4 * Frame::absCosTheta(nWo);
 
-            return {.value = R * D * G1wi * G1wo / denominator, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
+            return {.value = R * D * G1wi * G1wo / denominator,
+                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
         }
 
         BsdfSample sample(const Point2 &uv, const Vector &wo, Sampler &rng) const override
@@ -53,7 +54,9 @@ namespace lightwave
             Vector wm = (wi + wo).normalized();
             float G1wi = microfacet::smithG1(alpha, wm, wi);
             Color weight = m_reflectance->evaluate(uv) * G1wi;
-            return {.wi = wi, .weight = weight, .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo)};
+            return {.wi = wi,
+                    .weight = weight,
+                    .pdf = microfacet::pdfGGXVNDF(alpha, wm, nWo) * microfacet::detReflection(wm, nWo)};
         }
 
         Color getAlbedo(const Point2 &uv) const override
