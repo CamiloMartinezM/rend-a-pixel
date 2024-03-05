@@ -56,8 +56,9 @@ namespace lightwave
                 if (nee && m_scene->hasLights())
                 {
                     LightSample lightSample = m_scene->sampleLight(rng);
-                    if (mis || (nee && (!lightSample.light->canBeIntersected() ||
-                                        lightSample.light->getLightType() == LightType::AreaLight)))
+                    if ((mis && !lightSample.light->canBeIntersected()) ||
+                        (nee && (!lightSample.light->canBeIntersected() ||
+                                 lightSample.light->getLightType() == LightType::AreaLight)))
                     {
                         DirectLightSample directLightSample = lightSample.light->sampleDirect(its.position, rng, its);
                         Ray shadowRay(its.position, directLightSample.wi);

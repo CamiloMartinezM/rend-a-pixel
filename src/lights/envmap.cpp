@@ -1,5 +1,5 @@
-#include "../util/sampling_utils.h"
-#include "../util/texture_utils.h"
+// #include "../util/sampling_utils.h"
+// #include "../util/texture_utils.h"
 #include <lightwave.hpp>
 
 namespace lightwave
@@ -22,11 +22,37 @@ namespace lightwave
         /// @brief Defines whether an Environment Map was provided. Defaults to false
         bool providedEnvironmentMap = false;
 
-        /// @brief A unique pointer to the 2D sampling distribution calculated from an environment map image
-        std::unique_ptr<Distribution2D> m_distribution;
+        struct Distribution2D
+        {
+            std::vector<float> func;
+            std::vector<float> cdf;
+            int count;
+        };
 
-        /// @brief A unique pointer to a MIPMap holding the environment map in terms of color data
-        std::unique_ptr<MIPMap<Color>> Lmap;
+        Distribution2D m_rowDistribution;
+        std::vector<Distribution2D> m_colDistributions;
+
+        void computeCumulativeDistribution(Distribution2D &dist)
+        {
+            dist.cdf[0] = 0;
+            for (size_t i = 1; i < dist.cdf.size(); ++i)
+            {
+                dist.cdf[i] = dist.cdf[i - 1] + dist.func[i - 1] / dist.func.size();
+            }
+        }
+
+        float sampleContinuousDistribution(const Distribution2D &dist, float sample, float &pdf) const
+        {
+            auto it = std::lower_bound(dist.cdf.begin(), dist.cdf.end(), sample);
+            int offset = std::max(0, static_cast<int>(it - dist.cdf.begin() - 1));
+            float du = sample - dist.cdf[offset];
+            if ((dist.cdf[offset + 1] - dist.cdf[offset]) > 0)
+            {
+                du /= (dist.cdf[offset + 1] - dist.cdf[offset]);
+            }
+            pdf = dist.func[offset] / (dist.func.size() * (dist.cdf.back() - dist.cdf.front()));
+            return (offset + du) / dist.func.size();
+        }
 
         /**
          * @brief Initializes the 2D sampling distribution from the environment map.
@@ -37,25 +63,38 @@ namespace lightwave
          */
         void initializeDistribution2D()
         {
-            std::unique_ptr<float[]> img(new float[m_width * m_height]);
+            std::unique_ptr<float[]> imageLuminance(new float[m_width * m_height]);
 
-            // Compute scalar-valued image from environment map using luminance
-            float filter = (float)1.0f / max(m_width, m_height);
-
-            for (int v = 0; v < m_height; ++v)
+            // Compute luminance for each pixel and row marginal CDF
+            m_rowDistribution.func.resize(m_height);
+            m_rowDistribution.cdf.resize(m_width + 1);
+            for (int y = 0; y < m_height; ++y)
             {
-                float vp = (float)v / (float)m_height;
-                float sinTheta = sin(Pi * static_cast<float>(v + 0.5f) / (float)m_height);
-                for (int u = 0; u < m_width; ++u)
+                float rowSum = 0;
+                float sinTheta = sin(Pi * static_cast<float>(y + 0.5f) / (float)m_height);
+                for (int x = 0; x < m_width; ++x)
                 {
-                    float up = (float)u / (float)m_width;
-                    img[u + v * m_width] = Lmap->Lookup(Point2(up, vp), filter).luminance();
-                    img[u + v * m_width] *= sinTheta;
+                    Point2 uv((x + 0.5f) / m_width, (y + 0.5f) / m_height);
+                    Color c = m_texture->evaluate(uv);
+                    imageLuminance[y * m_width + x] = c.luminance();
+                    rowSum += c.luminance();
                 }
+                m_rowDistribution.func[y] = rowSum;
             }
+            computeCumulativeDistribution(m_rowDistribution);
 
-            // Compute the 2D sampling distribution of the image
-            m_distribution.reset(new Distribution2D(img.get(), m_width, m_height));
+            // Compute column CDFs for each row
+            m_colDistributions.resize(m_height);
+            for (int y = 0; y < m_height; ++y)
+            {
+                m_colDistributions[y].func.resize(m_width);
+                m_colDistributions[y].cdf.resize(m_width + 1);
+                for (int x = 0; x < m_width; ++x)
+                {
+                    m_colDistributions[y].func[x] = imageLuminance[y * m_width + x];
+                }
+                computeCumulativeDistribution(m_colDistributions[y]);
+            }
         }
 
         /// @brief Convert (u, v) to an (x, y, z) direction vector. It is the opposite conversion done in "evaluate".
@@ -67,7 +106,6 @@ namespace lightwave
             float sinTheta = sin(theta);
 
             // Convert spherical coordinates back to 3D Cartesian coordinates
-            // Vector direction(sinTheta * cos(phi), cos(theta), sinTheta * sin(phi));
             Vector direction(sinTheta * cos(phi), cos(theta), sinTheta * sin(phi));
 
             // Compute Pdf for sampled infinite light direction and convert it to solid-angle measure
@@ -91,19 +129,6 @@ namespace lightwave
                     Point2i m_resolution = imageTexture->m_image->resolution();
                     m_width = m_resolution.x();
                     m_height = m_resolution.y();
-
-                    // Query the texture value at every pixel and store it in a flattened array
-                    std::unique_ptr<Color[]> texels(new Color[m_width * m_height]);
-                    for (int y = 0; y < m_height; ++y)
-                        for (int x = 0; x < m_width; ++x)
-                        {
-                            Point2 uv((x + 0.5f) / m_width, (y + 0.5f) / m_height);
-                            texels[y * m_width + x] = m_texture->evaluate(uv);
-                        }
-
-                    // Use the flattened texture values on the array to initialize MIPMap
-                    Lmap.reset(new MIPMap<Color>(m_resolution, texels.get()));
-
                     providedEnvironmentMap = true;
                     initializeDistribution2D();
                 }
@@ -132,16 +157,7 @@ namespace lightwave
             // Return the evaluated texture value at the mapped uv coordinates
             Vector2 warped(u, v);
             float pdf = uniformSpherePdf();
-            Color colorEval;
-            if (providedEnvironmentMap && UseImprovedEnvSampling)
-            {
-                // Convert to solid-angle measure
-                pdf = m_distribution->pdf(warped) * Inv2Pi * InvPi / sin(theta);
-                colorEval = Lmap->Lookup(warped);
-            }
-            else
-                colorEval = m_texture->evaluate(warped);
-
+            Color colorEval = m_texture->evaluate(warped);
             return {.value = colorEval, .pdf = pdf};
         }
 
@@ -157,14 +173,19 @@ namespace lightwave
             }
 
             // Improved Environment Sampling routine
-            float mapPdf = 0.0f;
-            Point2 uv = m_distribution->sampleContinuous(rng.next2D(), &mapPdf);
+            float pdfRow, pdfCol;
+            float uRow = rng.next();
+            float uCol = rng.next();
+
+            float u = sampleContinuousDistribution(m_rowDistribution, uRow, pdfRow);
+            float v = sampleContinuousDistribution(m_colDistributions[static_cast<int>(u * m_height)], uCol, pdfCol);
+            float mapPdf = pdfRow * pdfCol;
 
             // Return an invalid sample, just in case
             if (mapPdf == 0.0f)
                 return DirectLightSample::invalid();
 
-            // Convert the sampled uv to a direction and compute the Pdf for spherical mapping
+            Point2 uv(u, v);
             auto [direction, pdf] = uvToDirection(uv, mapPdf);
 
             // Return an invalid sample, just in case
@@ -172,7 +193,7 @@ namespace lightwave
                 return DirectLightSample::invalid();
 
             // Lookup the environment map using the uv coordinates
-            auto E = Lmap->Lookup(uv);
+            auto E = m_texture->evaluate(uv);
             return {.wi = direction, .weight = E / pdf, .distance = Infinity, .pdf = pdf};
         }
 

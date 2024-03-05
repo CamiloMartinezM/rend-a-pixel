@@ -1,0 +1,3512 @@
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="1920"/>
+    <integer name="height" value="1080"/>
+    <float name="fov" value="56.886"/>
+    <string name="fovAxis" value="x"/>
+    <transform>
+      <matrix value="0.21768,-0.0032879,0.97601,-214.06,  -0.97602,-0.00073352,0.21768,174.37,  2.8249e-07,-0.99999,-0.0033687,10.843,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture" type="image" filename="textures/Lantern_01_brass_diff.png.exr"/>
+      <texture name="roughness" id="Image Texture_002" type="image" filename="textures/Lantern_01_brass_roughness_1k.png" linear="true"/>
+      <texture name="metallic" id="Image Texture_001" type="image" filename="textures/Lantern_01_brass_metallic_1k.png" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_003" type="image" filename="textures/Lantern_01_brass_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Mesh.ply"/>
+    <transform>
+      <matrix value="5.1133,0.61044,-1.0388,-196.59,  -0.91167,4.9215,-1.5955,185.64,  0.78777,1.7333,4.8962,8.1432,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture"/>
+      <ref name="roughness" id="Image Texture_002"/>
+      <ref name="metallic" id="Image Texture_001"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_003"/>
+    <texture name="alpha" type="image" filename="textures/Lantern_01_brass_opacity_1k.png" linear="true"/>
+    <shape type="mesh" filename="meshes/Mesh.002.ply"/>
+    <transform>
+      <matrix value="5.1133,0.61044,-1.0388,-196.59,  -0.91167,4.9215,-1.5955,185.64,  0.78777,1.7333,4.8962,8.1432,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="0.040226,-0.01356,-0.89508,-196.56,  -0.085971,0.0016958,-0.42915,185.57,  -0.0073374,-0.094214,0.12111,8.5431,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="137.92,70.117,18.259"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf id="brass_diya_lantern" type="principled">
+      <texture name="baseColor" id="Image Texture.000" type="image" filename="textures/brass_diya_lantern_diff_1k.jpg"/>
+      <texture name="roughness" id="Image Texture_002.000" type="image" filename="textures/brass_diya_lantern_rough.png.exr" linear="true"/>
+      <texture name="metallic" id="Image Texture_001.000" type="image" filename="textures/brass_diya_lantern_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="brass_diya_lantern.000" type="image" filename="textures/brass_diya_lantern_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Spiral.001.ply"/>
+    <transform>
+      <matrix value="2.1597,0.19914,-0.36435,-193.81,  -0.26332,2.149,-0.38629,187.44,  0.32105,0.42297,2.1342,15.819,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="brass_diya_lantern"/>
+    <ref name="normal" id="brass_diya_lantern.000"/>
+    <shape type="mesh" filename="meshes/_m_0_Cylinder.002.ply"/>
+    <transform>
+      <matrix value="2.1597,0.19914,-0.36435,-193.9,  -0.26332,2.149,-0.38629,187.48,  0.32105,0.42297,2.1342,15.655,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.000"/>
+      <ref name="roughness" id="Image Texture_002.000"/>
+      <ref name="metallic" id="Image Texture_001.000"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <ref name="normal" id="brass_diya_lantern.000"/>
+    <texture name="alpha" id="Image Texture_004" type="image" filename="textures/brass_diya_lantern_opacity.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_1_Cylinder.002.ply"/>
+    <transform>
+      <matrix value="2.1597,0.19914,-0.36435,-193.9,  -0.26332,2.149,-0.38629,187.48,  0.32105,0.42297,2.1342,15.655,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.000"/>
+      <ref name="roughness" id="Image Texture_002.000"/>
+      <ref name="metallic" id="Image Texture_001.000"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <emission type="lambertian">
+      <ref name="emission" id="Image Texture.000"/>
+    </emission>
+    <ref name="normal" id="brass_diya_lantern.000"/>
+    <ref name="alpha" id="Image Texture_004"/>
+    <shape type="mesh" filename="meshes/_m_2_Cylinder.002.ply"/>
+    <transform>
+      <matrix value="2.1597,0.19914,-0.36435,-193.9,  -0.26332,2.149,-0.38629,187.48,  0.32105,0.42297,2.1342,15.655,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="brass_diya_lantern"/>
+    <ref name="normal" id="brass_diya_lantern.000"/>
+    <shape type="mesh" filename="meshes/Plane.014.ply"/>
+    <transform>
+      <matrix value="2.1597,0.19914,-0.36435,-193.9,  -0.26332,2.149,-0.38629,187.34,  0.32105,0.42297,2.1342,16.324,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="0.072253,-0.06074,0.12999,-193.77,  0.061888,0.071761,-0.095809,187.48,  0.003509,-0.014968,-0.98688,15.549,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="689.62,598.14,145.22"/>
+      </emission>
+    </instance>
+  </light>
+  <light type="point" position="-199.88,183.4,8.1073" power="20,13.168,1.7304"/>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/wooden_candlestick_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wooden_candlestick_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/wooden_candlestick_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/candle_01_stick_mesh.ply"/>
+    <transform>
+      <matrix value="2.1322,0.13896,-0.43102,-199.78,  -0.26805,2.0594,-0.66201,183.55,  0.36502,0.70057,2.0315,7.6844,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.001" type="image" filename="textures/TOR.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_001.001" type="image" filename="textures/TOR-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_ACUBE.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.001"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.001"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_ACUBE.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.2,0.1686,0.1255"/>
+      <texture name="roughness" type="constant" value="0.76336"/>
+      <texture name="metallic" id="Image Texture.002" type="image" filename="textures/LAKEREM.JPG"/>
+      <texture name="specular" type="constant" value="0.76"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/GUN.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_AGUNS.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.2941,0.2667,0.2431"/>
+      <texture name="roughness" type="constant" value="0.76336"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="0.76"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_1_ST_AGUNS.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="ROWS" type="principled">
+      <texture name="baseColor" id="Image Texture_001.002" type="image" filename="textures/ROWS.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.002"/>
+    <shape type="mesh" filename="meshes/ST_AROWS.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.005" type="image" filename="textures/CORTE.JPG"/>
+      <texture name="roughness" type="constant" value="0.9"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.1"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_002.002" type="image" filename="textures/CORTE-B.JPG"/>
+    <shape type="mesh" filename="meshes/ST_AW01.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/BLUE.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.85"/>
+    <shape type="mesh" filename="meshes/ST_BLUE.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.5804,0.3451,0.1333"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_BRONZ.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.949,0.9529,0.7843"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_CANDL.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.003" type="image" filename="textures/TABLONES.JPG"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_001.003" type="image" filename="textures/TABLON-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_FLOOR.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.003"/>
+      <texture name="roughness" type="constant" value="0.77864"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.39"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.003"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_FLOOR.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.004" type="image" filename="textures/RAIZ.JPG"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_002.001" type="image" filename="textures/RAIZ-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_FRONT.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.003"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.003"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_FRONT.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="Material__4" type="principled">
+      <texture name="baseColor" id="Image Texture.006" type="image" filename="textures/ROBLE.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <texture name="normal" id="Material__4.000" type="image" filename="textures/PUE-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_FRONT.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.051,0.1961,0.0039"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.5"/>
+    <shape type="mesh" filename="meshes/ST_GLASS.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Material__4"/>
+    <ref name="normal" id="Material__4.000"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_HANDG.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.004"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.001"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_HANDG.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.005"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.002"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_HANDG.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/LARGE.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.85"/>
+    <shape type="mesh" filename="meshes/ST_LARGE.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/LEON.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.85"/>
+    <shape type="mesh" filename="meshes/ST_LEON.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/SIDES.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/SIDE-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_MAIN.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/SIDER.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <ref name="normal" id="Material__4.000"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_MAIN.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.006"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <ref name="normal" id="Material__4.000"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_MAIN.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.002"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_METAL.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/REAR.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/REAR-B.JPG"/>
+    <shape type="mesh" filename="meshes/ST_REAR.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.004"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.001"/>
+    <shape type="mesh" filename="meshes/ST_RED.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="ROWS"/>
+    <ref name="normal" id="Image Texture_001.002"/>
+    <shape type="mesh" filename="meshes/ST_ROWS.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="ROWS"/>
+    <ref name="normal" id="Image Texture_001.002"/>
+    <shape type="mesh" filename="meshes/ST_ROWS2.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="STICKS" type="principled">
+      <ref name="baseColor" id="Image Texture.004"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.002"/>
+    <shape type="mesh" filename="meshes/ST_STAIR.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="STICKS"/>
+    <ref name="normal" id="Image Texture_002.002"/>
+    <shape type="mesh" filename="meshes/ST_STICK.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.3373,0.5333,0.7529"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.2"/>
+    <shape type="mesh" filename="meshes/ST_WATER.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture_002.003" type="image" filename="textures/MADERA.JPG"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <ref name="metallic" id="Image Texture.002"/>
+      <texture name="specular" type="constant" value="0.37"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.003"/>
+    <shape type="mesh" filename="meshes/ST_WOOD.ply"/>
+    <transform>
+      <matrix value="-0.0067901,-0.00068292,0.0057119,-215.18,  0.0057366,-0.0014625,0.0066445,166.66,  0.00042876,0.0087517,0.0015561,-0.97739,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="brass_pot_01" type="principled">
+      <texture name="baseColor" type="image" filename="textures/brass_pot_01_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/brass_pot_01_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/brass_pot_01_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="brass_pot_01.000" type="image" filename="textures/brass_pot_01_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/brass_pot_01.ply"/>
+    <transform>
+      <matrix value="1.9084,0.12438,-0.38578,-198.88,  -0.23992,1.8433,-0.59254,180.45,  0.32671,0.62705,1.8184,5.9683,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="brass_pot_01"/>
+    <ref name="normal" id="brass_pot_01.000"/>
+    <shape type="mesh" filename="meshes/brass_pot_01.001.ply"/>
+    <transform>
+      <matrix value="1.9084,0.12438,-0.38578,-198.97,  -0.23992,1.8433,-0.59254,180.31,  0.32671,0.62705,1.8184,6.4038,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/wicker_basket_01_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wicker_basket_01_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/wicker_basket_01_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Vert.001.ply"/>
+    <transform>
+      <matrix value="2.0396,0.022469,-0.41146,-199.44,  -0.14927,1.9769,-0.63198,180.01,  0.38409,0.64898,1.9394,5.7048,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="wine_barrel_01" type="principled">
+      <texture name="baseColor" type="image" filename="textures/wine_barrel_01_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wine_barrel_01_rough_1k.jpg" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/wine_barrel_01_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="wine_barrel_01.000" type="image" filename="textures/wine_barrel_01_nor_gl.png.exr" linear="true"/>
+    <shape id="DiameterSmall_012" type="mesh" filename="meshes/DiameterSmall.012.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.34,  -0.12297,0.94479,-0.30371,179.08,  0.16746,0.3214,0.93202,5.424,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <shape id="Cylinder_014" type="mesh" filename="meshes/Cylinder.014.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.34,  -0.12297,0.94479,-0.30371,179.08,  0.16746,0.3214,0.93202,5.424,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <shape id="Plane_017" type="mesh" filename="meshes/Plane.017.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.34,  -0.12297,0.94479,-0.30371,179.08,  0.16746,0.3214,0.93202,5.424,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <shape id="DiameterSmall_004" type="mesh" filename="meshes/DiameterSmall.004.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.34,  -0.12297,0.94479,-0.30371,179.08,  0.16746,0.3214,0.93202,5.424,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_012"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.71,  -0.12297,0.94479,-0.30371,178.44,  0.16746,0.3214,0.93202,5.1368,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Cylinder_014"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.71,  -0.12297,0.94479,-0.30371,178.44,  0.16746,0.3214,0.93202,5.1368,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Plane_017"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.71,  -0.12297,0.94479,-0.30371,178.44,  0.16746,0.3214,0.93202,5.1368,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_004"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-199.71,  -0.12297,0.94479,-0.30371,178.44,  0.16746,0.3214,0.93202,5.1368,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_012"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-199.58,  -0.12297,0.94479,-0.30371,183.81,  0.16746,0.3214,0.93202,6.9135,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Cylinder_014"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-199.58,  -0.12297,0.94479,-0.30371,183.81,  0.16746,0.3214,0.93202,6.9135,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Plane_017"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-199.58,  -0.12297,0.94479,-0.30371,183.81,  0.16746,0.3214,0.93202,6.9135,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_004"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-199.58,  -0.12297,0.94479,-0.30371,183.81,  0.16746,0.3214,0.93202,6.9135,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_012"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-200.21,  -0.12297,0.94479,-0.30371,183.47,  0.16746,0.3214,0.93202,6.6663,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Cylinder_014"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-200.21,  -0.12297,0.94479,-0.30371,183.47,  0.16746,0.3214,0.93202,6.6663,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Plane_017"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-200.21,  -0.12297,0.94479,-0.30371,183.47,  0.16746,0.3214,0.93202,6.6663,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_004"/>
+    <transform>
+      <matrix value="0.97818,0.063754,-0.19774,-200.21,  -0.12297,0.94479,-0.30371,183.47,  0.16746,0.3214,0.93202,6.6663,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_012"/>
+    <transform>
+      <matrix value="0.2497,-0.65745,-0.71092,-200.56,  -0.79302,0.28246,-0.53975,183.15,  0.55567,0.69855,-0.45084,6.8818,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Cylinder_014"/>
+    <transform>
+      <matrix value="0.2497,-0.65745,-0.71092,-200.56,  -0.79302,0.28246,-0.53975,183.15,  0.55567,0.69855,-0.45084,6.8818,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Plane_017"/>
+    <transform>
+      <matrix value="0.2497,-0.65745,-0.71092,-200.56,  -0.79302,0.28246,-0.53975,183.15,  0.55567,0.69855,-0.45084,6.8818,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_004"/>
+    <transform>
+      <matrix value="0.2497,-0.65745,-0.71092,-200.56,  -0.79302,0.28246,-0.53975,183.15,  0.55567,0.69855,-0.45084,6.8818,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_012"/>
+    <transform>
+      <matrix value="0.9786,0.056969,-0.19774,-201.55,  -0.11642,0.94562,-0.30371,182.83,  0.16968,0.32023,0.93202,6.1754,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Cylinder_014"/>
+    <transform>
+      <matrix value="0.9786,0.056969,-0.19774,-201.55,  -0.11642,0.94562,-0.30371,182.83,  0.16968,0.32023,0.93202,6.1754,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="Plane_017"/>
+    <transform>
+      <matrix value="0.9786,0.056969,-0.19774,-201.55,  -0.11642,0.94562,-0.30371,182.83,  0.16968,0.32023,0.93202,6.1754,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wine_barrel_01"/>
+    <ref name="normal" id="wine_barrel_01.000"/>
+    <ref id="DiameterSmall_004"/>
+    <transform>
+      <matrix value="0.9786,0.056969,-0.19774,-201.55,  -0.11642,0.94562,-0.30371,182.83,  0.16968,0.32023,0.93202,6.1754,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="wooden_bucket_01" type="principled">
+      <texture name="baseColor" type="image" filename="textures/wooden_bucket_01_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wooden_bucket_01_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/wooden_bucket_01_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="wooden_bucket_01.000" type="image" filename="textures/wooden_bucket_01_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Cylinder.003.ply"/>
+    <transform>
+      <matrix value="1.5147,0.098721,-0.3062,-201.13,  -0.19042,1.463,-0.4703,182.23,  0.25931,0.49769,1.4432,6.0704,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wooden_bucket_01"/>
+    <ref name="normal" id="wooden_bucket_01.000"/>
+    <shape type="mesh" filename="meshes/Plane.021.ply"/>
+    <transform>
+      <matrix value="1.5147,0.098721,-0.3062,-201.23,  -0.19042,1.463,-0.4703,182.08,  0.25931,0.49769,1.4432,6.5339,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="wooden_bucket_02" type="principled">
+      <texture name="baseColor" type="image" filename="textures/wooden_bucket_02_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wooden_bucket_02_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/wooden_bucket_02_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="wooden_bucket_02.000" type="image" filename="textures/wooden_bucket_02_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Plane.018.ply"/>
+    <transform>
+      <matrix value="0.64657,0.04214,-0.1307,-201.69,  -0.081283,0.6245,-0.20075,182.57,  0.11069,0.21244,0.61605,6.9583,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wooden_bucket_02"/>
+    <ref name="normal" id="wooden_bucket_02.000"/>
+    <shape type="mesh" filename="meshes/Plane.019.ply"/>
+    <transform>
+      <matrix value="0.64657,0.04214,-0.1307,-201.54,  -0.081283,0.6245,-0.20075,182.49,  0.11069,0.21244,0.61605,7.1491,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wooden_bucket_02"/>
+    <ref name="normal" id="wooden_bucket_02.000"/>
+    <shape type="mesh" filename="meshes/Plane.020.ply"/>
+    <transform>
+      <matrix value="0.64657,0.04214,-0.1307,-201.92,  -0.081283,0.6245,-0.20075,182.54,  0.11069,0.21244,0.61605,7.084,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="wooden_crate_01" type="principled">
+      <texture name="baseColor" type="image" filename="textures/wooden_crate_01_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/wooden_crate_01_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/wooden_crate_01_metal.png.exr" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="wooden_crate_01.000" type="image" filename="textures/wooden_crate_01_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Cube.005.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-202.05,  -0.12297,0.94479,-0.30371,182.12,  0.16746,0.3214,0.93202,5.8366,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wooden_crate_01"/>
+    <ref name="normal" id="wooden_crate_01.000"/>
+    <shape type="mesh" filename="meshes/Cube.020.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-202.05,  -0.12297,0.94479,-0.30371,182.12,  0.16746,0.3214,0.93202,5.8366,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="wooden_crate_01"/>
+    <ref name="normal" id="wooden_crate_01.000"/>
+    <shape type="mesh" filename="meshes/Cube.003.ply"/>
+    <transform>
+      <matrix value="0.97818,0.063753,-0.19774,-202.05,  -0.12297,0.94479,-0.30371,182.12,  0.16746,0.3214,0.93202,5.8366,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/dutch_ship_large_02_rigging_diff_4k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/dutch_ship_large_02_rigging_rough_4k.jpg" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/dutch_ship_large_02_rigging_metal_4k.jpg" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/dutch_ship_large_02_rigging_nor_gl_4k.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/x-Boats-Dutch-large-rigging-joined.002.ply"/>
+    <transform>
+      <matrix value="-1.0152,0.89144,-0.068379,231.67,  -0.88289,-1.0159,-0.13584,64.258,  -0.14086,-0.057312,1.3442,-1.6098,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/dutch_ship_large_02_hull_diff_4k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/dutch_ship_large_02_hull_rough_4k.jpg" linear="true"/>
+      <texture name="metallic" type="image" filename="textures/dutch_ship_large_02_hull_metal_4k.jpg" linear="true"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/dutch_ship_large_02_hull_nor_gl_4k.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/x-Boats-Dutch-large-baseB-joined.002.ply"/>
+    <transform>
+      <matrix value="-1.0152,0.89144,-0.068379,231.67,  -0.88289,-1.0159,-0.13584,64.258,  -0.14086,-0.057312,1.3442,-1.6098,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/dutch_ship_large_02_sails_diff_4k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/dutch_ship_large_02_sails_rough_4k.jpg" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/dutch_ship_large_02_sails_nor_gl_4k.jpg" linear="true"/>
+    <texture name="alpha" type="image" filename="textures/dutch_ship_large_02_sails_alpha_4k.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/Plane.004.ply"/>
+    <transform>
+      <matrix value="-1.0152,0.89144,-0.068379,231.67,  -0.88289,-1.0159,-0.13584,64.258,  -0.14086,-0.057312,1.3442,-1.6098,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="point" position="222,72.415,17.002" power="100,92.504,15.409"/>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="-0.65543,0.057631,-0.86691,242.31,  -1.1099,0.29551,0.49287,50.531,  -0.28458,-1.2852,0.07445,10.208,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="35.87,33.181,5.5274"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.0022358,0.062846,2.3058e-07"/>
+      <texture name="roughness" type="constant" value="0.08"/>
+      <texture name="metallic" type="constant" value="-1"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_0_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.099051,0.099051,0.099051"/>
+      <texture name="roughness" type="constant" value="0.22018"/>
+      <texture name="metallic" type="constant" value="0.65138"/>
+      <texture name="specular" type="constant" value="0.23394"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_1_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0,0,0"/>
+      <texture name="roughness" type="constant" value="0.57"/>
+      <texture name="metallic" type="constant" value="-1"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_2_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="1,1,1"/>
+      <texture name="roughness" type="constant" value="0.12844"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0"/>
+    </bsdf>
+    <emission type="lambertian">
+      <texture name="emission" type="constant" value="0.063983,0.072972,0.010132"/>
+    </emission>
+    <shape type="mesh" filename="meshes/_m_3_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.14517,0.14517,0.14517"/>
+      <texture name="roughness" type="constant" value="1"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.1055"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_4_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.18782,0.12045,0.015084"/>
+      <texture name="roughness" type="constant" value="0.018349"/>
+      <texture name="metallic" type="constant" value="0.9633"/>
+      <texture name="specular" type="constant" value="0.1055"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_5_Cylinder.ply"/>
+    <transform>
+      <matrix value="-2.2257,3.365e-07,2.2299e-11,-114.4,  -3.3607e-07,-2.2228,-0.1135,188.2,  -1.7138e-08,-0.1135,2.2228,2.4837,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="-0.077254,1.0393e-08,-0.95106,-114.4,  0.23776,3.3769e-09,-0.30902,188.2,  0,0.25,4.3711e-08,2.8837,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="75,38.128,9.9287"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.007" type="image" filename="textures/TOR.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_001.004" type="image" filename="textures/TOR-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_ACUBE.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.007"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.004"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_ACUBE.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.2,0.1686,0.1255"/>
+      <texture name="roughness" type="constant" value="0.76336"/>
+      <texture name="metallic" id="Image Texture.008" type="image" filename="textures/LAKEREM.JPG"/>
+      <texture name="specular" type="constant" value="0.76"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/GUN.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_AGUNS.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.2941,0.2667,0.2431"/>
+      <texture name="roughness" type="constant" value="0.76336"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="0.76"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/_m_1_ST_AGUNS.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="ROWS_001" type="principled">
+      <texture name="baseColor" id="Image Texture_001.005" type="image" filename="textures/ROWS.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.005"/>
+    <shape type="mesh" filename="meshes/ST_AROWS.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.011" type="image" filename="textures/CORTE.JPG"/>
+      <texture name="roughness" type="constant" value="0.9"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.1"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_002.005" type="image" filename="textures/CORTE-B.JPG"/>
+    <shape type="mesh" filename="meshes/ST_AW01.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/BLUE.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.85"/>
+    <shape type="mesh" filename="meshes/ST_BLUE.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.5804,0.3451,0.1333"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_BRONZ.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.949,0.9529,0.7843"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_CANDL.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.009" type="image" filename="textures/TABLONES.JPG"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_001.006" type="image" filename="textures/TABLON-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_FLOOR.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.009"/>
+      <texture name="roughness" type="constant" value="0.77864"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.39"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.006"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_FLOOR.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.010" type="image" filename="textures/RAIZ.JPG"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <texture name="normal" id="Image Texture_002.004" type="image" filename="textures/RAIZ-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_FRONT.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.009"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_001.006"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_FRONT.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="Material__4_001" type="principled">
+      <texture name="baseColor" id="Image Texture.012" type="image" filename="textures/ROBLE.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <texture name="normal" id="Material__4_001.000" type="image" filename="textures/PUE-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_FRONT.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.051,0.1961,0.0039"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.5"/>
+    <shape type="mesh" filename="meshes/ST_GLASS.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Material__4_001"/>
+    <ref name="normal" id="Material__4_001.000"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_HANDG.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.010"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.004"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_HANDG.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.011"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="0.48"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.005"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_HANDG.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/LEON.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.85"/>
+    <shape type="mesh" filename="meshes/ST_LEON.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/SIDES.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/SIDE-B.JPG"/>
+    <shape type="mesh" filename="meshes/_m_0_ST_MAIN.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/SIDER.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <ref name="normal" id="Material__4_001.000"/>
+    <shape type="mesh" filename="meshes/_m_1_ST_MAIN.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.012"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.27"/>
+    </bsdf>
+    <ref name="normal" id="Material__4_001.000"/>
+    <shape type="mesh" filename="meshes/_m_2_ST_MAIN.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.008"/>
+      <texture name="roughness" type="constant" value="0.68377"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/ST_METAL.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/REAR.JPG"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/REAR-B.JPG"/>
+    <shape type="mesh" filename="meshes/ST_REAR.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <ref name="baseColor" id="Image Texture.010"/>
+      <texture name="roughness" type="constant" value="0.72981"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="1"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.004"/>
+    <shape type="mesh" filename="meshes/ST_RED.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="ROWS_001"/>
+    <ref name="normal" id="Image Texture_001.005"/>
+    <shape type="mesh" filename="meshes/ST_ROWS.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="ROWS_001"/>
+    <ref name="normal" id="Image Texture_001.005"/>
+    <shape type="mesh" filename="meshes/ST_ROWS2.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="STICKS_001" type="principled">
+      <ref name="baseColor" id="Image Texture.010"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.005"/>
+    <shape type="mesh" filename="meshes/ST_STAIR.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="STICKS_001"/>
+    <ref name="normal" id="Image Texture_002.005"/>
+    <shape type="mesh" filename="meshes/ST_STICK.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="constant" value="0.3373,0.5333,0.7529"/>
+      <texture name="roughness" type="constant" value="0.8"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="0.3"/>
+    </bsdf>
+    <texture name="alpha" type="constant" value="0.2"/>
+    <shape type="mesh" filename="meshes/ST_WATER.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture_002.006" type="image" filename="textures/MADERA.JPG"/>
+      <texture name="roughness" type="constant" value="0.76762"/>
+      <ref name="metallic" id="Image Texture.008"/>
+      <texture name="specular" type="constant" value="0.37"/>
+    </bsdf>
+    <ref name="normal" id="Image Texture_002.006"/>
+    <shape type="mesh" filename="meshes/ST_WOOD.001.ply"/>
+    <transform>
+      <matrix value="-0.0074652,-0.001586,0.0045774,-126.65,  0.0047573,-0.00081283,0.0074769,176.94,  -0.00091444,0.008719,0.0015297,1.4909,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Leaf_Robinia-pseudoacecia" type="principled">
+      <texture name="baseColor" id="Image Texture_003.000" type="image" filename="textures/bq_Leaf_Robinia-pseudoacacia_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Leaf_Robinia-pseudoacecia.000" type="image" filename="textures/bq_Leaf_Robinia-pseudoacacia_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <shape id="bq_Tree_Robinia-pseudoacacia_A_summer" type="mesh" filename="meshes/_m_0_bq_Tree_Robinia-pseudoacacia_A_summer.ply"/>
+    <transform>
+      <matrix value="0.30799,-0.0073046,-0.050578,288.69,  0.018005,0.22188,0.023946,76.268,  0.068204,-0.02559,0.22207,31.104,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Bark_Robinia-pseudoacacia" type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Robinia-pseudoacacia_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Bark_Robinia-pseudoacacia.000" type="image" filename="textures/bq_Bark_Robinia-pseudoacacia_Normal.jpg" linear="true"/>
+    <shape id="bq_Tree_Robinia-pseudoacacia_A_summer.000" type="mesh" filename="meshes/_m_1_bq_Tree_Robinia-pseudoacacia_A_summer.ply"/>
+    <transform>
+      <matrix value="0.30799,-0.0073046,-0.050578,288.69,  0.018005,0.22188,0.023946,76.268,  0.068204,-0.02559,0.22207,31.104,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.22472,-0.017313,-0.08426,286.77,  0.055203,0.171,0.040448,77.351,  0.10519,-0.05275,0.15877,30.545,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.22472,-0.017313,-0.08426,286.77,  0.055203,0.171,0.040448,77.351,  0.10519,-0.05275,0.15877,30.545,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.29326,0.034726,-0.040653,287.67,  -0.080091,0.15363,-0.038314,76.896,  0.050721,0.041811,0.17455,30.677,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.29326,0.034726,-0.040653,287.67,  -0.080091,0.15363,-0.038314,76.896,  0.050721,0.041811,0.17455,30.677,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.30799,-0.0073046,-0.050578,288.86,  0.018005,0.22188,0.023946,75.268,  0.068204,-0.02559,0.22207,30.63,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.30799,-0.0073046,-0.050578,288.86,  0.018005,0.22188,0.023946,75.268,  0.068204,-0.02559,0.22207,30.63,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.22472,-0.017313,-0.08426,286.94,  0.055203,0.171,0.040448,76.351,  0.10519,-0.05275,0.15877,30.072,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.22472,-0.017313,-0.08426,286.94,  0.055203,0.171,0.040448,76.351,  0.10519,-0.05275,0.15877,30.072,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.29326,0.034726,-0.040653,287.84,  -0.080091,0.15363,-0.038314,75.896,  0.050721,0.041811,0.17455,30.203,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.29326,0.034726,-0.040653,287.84,  -0.080091,0.15363,-0.038314,75.896,  0.050721,0.041811,0.17455,30.203,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.29091,-0.032979,-0.082726,286.4,  0.084863,0.20363,0.07153,79.191,  0.089436,-0.085947,0.20122,29.263,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.29091,-0.032979,-0.082726,286.4,  0.084863,0.20363,0.07153,79.191,  0.089436,-0.085947,0.20122,29.263,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.19926,-0.032444,-0.10946,284.46,  0.11621,0.14655,0.065523,79.768,  0.10679,-0.098952,0.13293,28.251,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.19926,-0.032444,-0.10946,284.46,  0.11621,0.14655,0.065523,79.768,  0.10679,-0.098952,0.13293,28.251,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.29173,0.0082227,-0.058373,285.37,  -0.015478,0.16275,0.0016424,79.514,  0.098176,0.0012243,0.17372,28.586,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.29173,0.0082227,-0.058373,285.37,  -0.015478,0.16275,0.0016424,79.514,  0.098176,0.0012243,0.17372,28.586,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.27269,-0.044264,-0.10642,287.01,  0.13039,0.18033,0.096767,77.958,  0.092028,-0.12435,0.17821,29.39,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.27269,-0.044264,-0.10642,287.01,  0.13039,0.18033,0.096767,77.958,  0.092028,-0.12435,0.17821,29.39,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.17733,-0.074519,-0.12637,285.11,  0.15422,0.24464,0.075862,78.131,  0.096871,-0.25306,0.11055,28.156,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.17733,-0.074519,-0.12637,285.11,  0.15422,0.24464,0.075862,78.131,  0.096871,-0.25306,0.11055,28.156,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.15398,-0.012096,-0.073293,286.01,  0.018496,0.26849,0.026159,78.042,  0.065102,-0.047672,0.16592,28.595,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.15398,-0.012096,-0.073293,286.01,  0.018496,0.26849,0.026159,78.042,  0.065102,-0.047672,0.16592,28.595,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.29027,-0.0080743,-0.090321,286.44,  0.010848,0.37313,0.0057725,76.395,  0.12433,-0.013705,0.21037,29.306,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.29027,-0.0080743,-0.090321,286.44,  0.010848,0.37313,0.0057725,76.395,  0.12433,-0.013705,0.21037,29.306,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.26267,-0.015877,-0.10095,281.23,  0.031026,0.53456,0.017966,81.738,  0.16958,-0.07321,0.15308,28.099,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.26267,-0.015877,-0.10095,281.23,  0.031026,0.53456,0.017966,81.738,  0.16958,-0.07321,0.15308,28.099,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.27998,0.054065,-0.071284,285.51,  -0.085399,0.32378,-0.052398,77.061,  0.096468,0.12972,0.1605,28.753,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.27998,0.054065,-0.071284,285.51,  -0.085399,0.32378,-0.052398,77.061,  0.096468,0.12972,0.1605,28.753,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Bark_Aesculus-hippocastanum" type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Bark_Aesculus-hippocastanum.000" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <shape id="bq_Tree_Aesculus-hippocastanum_A_summer" type="mesh" filename="meshes/_m_0_bq_Tree_Aesculus-hippocastanum_A_summer.ply"/>
+    <transform>
+      <matrix value="0.087472,0.0078882,0.029082,288.95,  -0.0017268,0.090456,-0.019341,72.955,  -0.030083,0.017744,0.085671,31.309,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Leaf_Aesculus-hippocastanum" type="principled">
+      <texture name="baseColor" id="Image Texture.013" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Leaf_Aesculus-hippocastanum.000" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <shape id="bq_Tree_Aesculus-hippocastanum_A_summer.000" type="mesh" filename="meshes/_m_1_bq_Tree_Aesculus-hippocastanum_A_summer.ply"/>
+    <transform>
+      <matrix value="0.087472,0.0078882,0.029082,288.95,  -0.0017268,0.090456,-0.019341,72.955,  -0.030083,0.017744,0.085671,31.309,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.087472,0.0078882,0.029082,291.04,  -0.0017268,0.090456,-0.019341,72.955,  -0.030083,0.017744,0.085671,31.309,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.087472,0.0078882,0.029082,291.04,  -0.0017268,0.090456,-0.019341,72.955,  -0.030083,0.017744,0.085671,31.309,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.17256,0.017267,0.029082,290.42,  -0.0034066,0.19801,-0.019341,73.449,  -0.059348,0.038841,0.085671,32.432,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.17256,0.017267,0.029082,290.42,  -0.0034066,0.19801,-0.019341,73.449,  -0.059348,0.038841,0.085671,32.432,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.40167,0.12916,0.079906,291.32,  -0.064826,0.74193,-0.020866,72.128,  -0.15659,0.024158,0.21361,31.313,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.40167,0.12916,0.079906,291.32,  -0.064826,0.74193,-0.020866,72.128,  -0.15659,0.024158,0.21361,31.313,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.099472,-0.025907,-0.060504,286.39,  0.034828,0.13937,0.0076459,73.688,  0.070529,-0.032285,0.081558,30.699,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.099472,-0.025907,-0.060504,286.39,  0.034828,0.13937,0.0076459,73.688,  0.070529,-0.032285,0.081558,30.699,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.1474,-0.046374,-0.14238,279.05,  -0.037842,0.16163,-0.075868,78.456,  0.2036,0.063613,0.088976,22.672,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.1474,-0.046374,-0.14238,279.05,  -0.037842,0.16163,-0.075868,78.456,  0.2036,0.063613,0.088976,22.672,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.1474,-0.1057,-0.14238,280.39,  -0.037842,0.36841,-0.075868,78.465,  0.2036,0.14499,0.088976,23.999,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.1474,-0.1057,-0.14238,280.39,  -0.037842,0.36841,-0.075868,78.465,  0.2036,0.14499,0.088976,23.999,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.24221,-0.024079,-0.050152,281.52,  0.046774,0.17413,0.03088,79.768,  0.061309,-0.037718,0.17458,28.251,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.24221,-0.024079,-0.050152,281.52,  0.046774,0.17413,0.03088,79.768,  0.061309,-0.037718,0.17458,28.251,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.1791,-0.021776,-0.026376,282.91,  0.021161,0.18411,-0.0031665,82.244,  0.048733,8.7494e-05,0.098312,28.84,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.1791,-0.021776,-0.026376,282.91,  0.021161,0.18411,-0.0031665,82.244,  0.048733,8.7494e-05,0.098312,28.84,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.1474,-0.1057,-0.14238,279.96,  -0.037842,0.36841,-0.075868,78.035,  0.2036,0.14499,0.088976,22.453,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.1474,-0.1057,-0.14238,279.96,  -0.037842,0.36841,-0.075868,78.035,  0.2036,0.14499,0.088976,22.453,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.26092,-0.16879,-0.2738,283.5,  -0.066985,0.58832,-0.14589,73.301,  0.36041,0.23154,0.1711,22.762,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.26092,-0.16879,-0.2738,283.5,  -0.066985,0.58832,-0.14589,73.301,  0.36041,0.23154,0.1711,22.762,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.19571,-0.15971,-0.18872,290.99,  -0.23672,0.17316,-0.1623,71.494,  0.22969,0.31454,-0.0064729,23.821,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.19571,-0.15971,-0.18872,290.99,  -0.23672,0.17316,-0.1623,71.494,  0.22969,0.31454,-0.0064729,23.821,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.19571,-0.15971,-0.18872,291.64,  -0.23672,0.17316,-0.1623,71.839,  0.22969,0.31454,-0.0064729,26.212,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.19571,-0.15971,-0.18872,291.64,  -0.23672,0.17316,-0.1623,71.839,  0.22969,0.31454,-0.0064729,26.212,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.27325,0.16954,-0.1378,294.08,  -0.26913,0.17375,-0.13911,71.529,  0.0014002,0.30902,0.15382,23.975,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.27325,0.16954,-0.1378,294.08,  -0.26913,0.17375,-0.13911,71.529,  0.0014002,0.30902,0.15382,23.975,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.099472,-0.025907,-0.060504,292.33,  0.034828,0.13937,0.0076459,70.391,  0.070529,-0.032285,0.081558,24.157,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.099472,-0.025907,-0.060504,292.33,  0.034828,0.13937,0.0076459,70.391,  0.070529,-0.032285,0.081558,24.157,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="Rock Texture" type="principled">
+      <texture name="baseColor" type="image" filename="textures/Rock039_2K-JPG_Color.jpg"/>
+      <texture name="roughness" type="image" filename="textures/Rock039_2K-JPG_Roughness.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.05"/>
+    </bsdf>
+    <texture name="normal" id="Rock Texture.000" type="image" filename="textures/Rock039_2K-JPG_NormalGL.jpg"/>
+    <shape type="mesh" filename="meshes/_m_0_Cube.002.ply"/>
+    <transform>
+      <matrix value="1.4318,0,0,289.29,  0,1.4318,0,81.347,  0,0,1.4318,8.3352,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="Sand" type="principled">
+      <texture name="baseColor" type="image" filename="textures/Ground055L_2K-JPG_Color.jpg"/>
+      <texture name="roughness" type="image" filename="textures/Ground055L_2K-JPG_Roughness.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.24091"/>
+    </bsdf>
+    <texture name="normal" id="Sand.000" type="image" filename="textures/Ground055L_2K-JPG_NormalGL.jpg"/>
+    <shape type="mesh" filename="meshes/Plane.ply"/>
+    <transform>
+      <matrix value="-1,8.7423e-08,0,294.21,  -8.7423e-08,-1,0,135.95,  0,0,1,1,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.26323,0.46958,0.014356,246.28,  -0.64607,0.17751,0.12573,126.36,  0.15423,-0.057866,0.50217,69.673,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.26323,0.46958,0.014356,246.28,  -0.64607,0.17751,0.12573,126.36,  0.15423,-0.057866,0.50217,69.673,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.2821,0.35337,0.025103,247.2,  -0.44072,0.16181,0.20986,131.25,  0.23787,-0.11928,0.35904,68.409,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.2821,0.35337,0.025103,247.2,  -0.44072,0.16181,0.20986,131.25,  0.23787,-0.11928,0.35904,68.409,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.042517,0.35416,-0.11166,246.87,  -0.68611,0.037752,0.059062,129.01,  0.1147,0.094546,0.3947,68.707,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.042517,0.35416,-0.11166,246.87,  -0.68611,0.037752,0.059062,129.01,  0.1147,0.094546,0.3947,68.707,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.26323,0.46958,0.014356,244.26,  -0.64607,0.17751,0.12573,125.27,  0.15423,-0.057866,0.50217,68.602,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.26323,0.46958,0.014356,244.26,  -0.64607,0.17751,0.12573,125.27,  0.15423,-0.057866,0.50217,68.602,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.2821,0.35337,0.025103,245.18,  -0.44072,0.16181,0.20986,130.16,  0.23787,-0.11928,0.35904,67.338,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.2821,0.35337,0.025103,245.18,  -0.44072,0.16181,0.20986,130.16,  0.23787,-0.11928,0.35904,67.338,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.042517,0.35416,-0.11166,244.86,  -0.68611,0.037752,0.059062,127.91,  0.1147,0.094546,0.3947,67.636,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.042517,0.35416,-0.11166,244.86,  -0.68611,0.037752,0.059062,127.91,  0.1147,0.094546,0.3947,67.636,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.39387,0.41179,0.092749,250.86,  -0.56076,0.21914,0.22925,133.39,  0.20224,-0.19435,0.45501,65.51,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.39387,0.41179,0.092749,250.86,  -0.56076,0.21914,0.22925,133.39,  0.20224,-0.19435,0.45501,65.51,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.39411,0.29001,0.06039,250.68,  -0.3417,0.17636,0.28208,137.97,  0.24148,-0.22376,0.3006,63.221,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.39411,0.29001,0.06039,250.68,  -0.3417,0.17636,0.28208,137.97,  0.24148,-0.22376,0.3006,63.221,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.1797,0.35434,-0.03907,250.8,  -0.63571,0.10113,0.12614,135.82,  0.22201,0.0027686,0.39282,63.978,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.1797,0.35434,-0.03907,250.8,  -0.63571,0.10113,0.12614,135.82,  0.22201,0.0027686,0.39282,63.978,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.47803,0.35368,0.12948,248.66,  -0.48853,0.2263,0.29836,131.19,  0.2081,-0.28119,0.40299,65.797,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.47803,0.35368,0.12948,248.66,  -0.48853,0.2263,0.29836,131.19,  0.2081,-0.28119,0.40299,65.797,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.45946,0.46927,0.070184,247.65,  -0.26704,0.33798,0.32582,135.38,  0.21905,-0.57225,0.24999,63.007,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.45946,0.46927,0.070184,247.65,  -0.26704,0.33798,0.32582,135.38,  0.21905,-0.57225,0.24999,63.007,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.15193,0.56586,0.0025192,248.12,  -0.31609,0.22177,0.17596,133.38,  0.14721,-0.1078,0.37521,63.999,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.15193,0.56586,0.0025192,248.12,  -0.31609,0.22177,0.17596,133.38,  0.14721,-0.1078,0.37521,63.999,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.23498,0.79276,-0.053537,244.91,  -0.61338,0.2895,0.19753,131.26,  0.28114,-0.030991,0.47572,65.607,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.23498,0.79276,-0.053537,244.91,  -0.61338,0.2895,0.19753,131.26,  0.28114,-0.030991,0.47572,65.607,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.25804,1.1326,-0.035191,252.54,  -0.53958,0.42397,0.22917,146.31,  0.38347,-0.16555,0.34615,62.878,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.25804,1.1326,-0.035191,252.54,  -0.53958,0.42397,0.22917,146.31,  0.38347,-0.16555,0.34615,62.878,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.021468,0.73245,-0.16416,245.65,  -0.66156,0.12049,0.11435,133.75,  0.21814,0.29333,0.36294,64.356,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.021468,0.73245,-0.16416,245.65,  -0.66156,0.12049,0.11435,133.75,  0.21814,0.29333,0.36294,64.356,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.060118,0.19936,-0.020182,239.38,  -0.18848,0.049107,-0.076357,123.38,  -0.068027,0.040124,0.19373,70.138,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.060118,0.19936,-0.020182,239.38,  -0.18848,0.049107,-0.076357,123.38,  -0.068027,0.040124,0.19373,70.138,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.060118,0.19936,-0.020182,240.9,  -0.18848,0.049107,-0.076357,118.9,  -0.068027,0.040124,0.19373,70.138,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.060118,0.19936,-0.020182,240.9,  -0.18848,0.049107,-0.076357,118.9,  -0.068027,0.040124,0.19373,70.138,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.1186,0.4364,-0.020182,241.51,  -0.37184,0.10749,-0.076357,120.59,  -0.1342,0.087831,0.19373,72.677,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.1186,0.4364,-0.020182,241.51,  -0.37184,0.10749,-0.076357,120.59,  -0.1342,0.087831,0.19373,72.677,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.15428,1.6822,0.013634,239.34,  -0.90702,0.26482,-0.18625,117.7,  -0.3541,0.054629,0.48303,70.146,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.15428,1.6822,0.013634,239.34,  -0.90702,0.26482,-0.18625,117.7,  -0.3541,0.054629,0.48303,70.146,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.14711,0.27941,-0.027775,239.07,  -0.1875,0.15713,0.13508,129.41,  0.15949,-0.073006,0.18443,68.758,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.14711,0.27941,-0.027775,239.07,  -0.1875,0.15713,0.13508,129.41,  0.15949,-0.073006,0.18443,68.758,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.026537,0.31212,-0.26626,243.93,  -0.34309,0.21717,0.2494,148.58,  0.46041,0.14385,0.2012,50.605,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.026537,0.31212,-0.26626,243.93,  -0.34309,0.21717,0.2494,148.58,  0.46041,0.14385,0.2012,50.605,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.026537,0.71143,-0.26626,244.92,  -0.34309,0.49501,0.2494,145.72,  0.46041,0.32787,0.2012,53.605,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.026537,0.71143,-0.26626,244.92,  -0.34309,0.49501,0.2494,145.72,  0.46041,0.32787,0.2012,53.605,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.27682,0.35513,0.029507,248.54,  -0.4843,0.17857,0.12987,144.26,  0.13864,-0.085291,0.39477,63.221,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.27682,0.35513,0.029507,248.54,  -0.4843,0.17857,0.12987,144.26,  0.13864,-0.085291,0.39477,63.221,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.17595,0.37817,-0.02602,254.85,  -0.36791,0.18092,0.054145,143.09,  0.1102,0.00019785,0.22231,64.554,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.17595,0.37817,-0.02602,254.85,  -0.36791,0.18092,0.054145,143.09,  0.1102,0.00019785,0.22231,64.554,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.026537,0.71143,-0.26626,243.69,  -0.34309,0.49501,0.2494,146.33,  0.46041,0.32787,0.2012,50.111,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.026537,0.71143,-0.26626,243.69,  -0.34309,0.49501,0.2494,146.33,  0.46041,0.32787,0.2012,50.111,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="0.046975,1.1361,-0.51201,236.14,  -0.60733,0.79049,0.47959,135.3,  0.81499,0.52358,0.3869,50.81,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="0.046975,1.1361,-0.51201,236.14,  -0.60733,0.79049,0.47959,135.3,  0.81499,0.52358,0.3869,50.81,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="-0.36389,0.25411,-0.48507,237.73,  -0.59158,0.46818,0.28552,117.96,  0.51941,0.71126,-0.014637,53.204,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="-0.36389,0.25411,-0.48507,237.73,  -0.59158,0.46818,0.28552,117.96,  0.51941,0.71126,-0.014637,53.204,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="-0.36389,0.25411,-0.48507,238.95,  -0.59158,0.46818,0.28552,116.81,  0.51941,0.71126,-0.014637,58.61,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="-0.36389,0.25411,-0.48507,238.95,  -0.59158,0.46818,0.28552,116.81,  0.51941,0.71126,-0.014637,58.61,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Robinia-pseudoacecia"/>
+    <ref name="normal" id="bq_Leaf_Robinia-pseudoacecia.000"/>
+    <ref name="alpha" id="Image Texture_003.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer"/>
+    <transform>
+      <matrix value="-0.37669,0.49558,-0.39827,240.06,  -0.78119,-0.23613,0.19346,111.37,  0.0031663,0.69878,0.34783,53.551,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Robinia-pseudoacacia"/>
+    <ref name="normal" id="bq_Bark_Robinia-pseudoacacia.000"/>
+    <ref id="bq_Tree_Robinia-pseudoacacia_A_summer.000"/>
+    <transform>
+      <matrix value="-0.37669,0.49558,-0.39827,240.06,  -0.78119,-0.23613,0.19346,111.37,  0.0031663,0.69878,0.34783,53.551,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer"/>
+    <transform>
+      <matrix value="0.14711,0.27941,-0.027775,236.35,  -0.1875,0.15713,0.13508,114.27,  0.15949,-0.073006,0.18443,53.963,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum.000"/>
+    <ref name="alpha" id="Image Texture.013"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_summer.000"/>
+    <transform>
+      <matrix value="0.14711,0.27941,-0.027775,236.35,  -0.1875,0.15713,0.13508,114.27,  0.15949,-0.073006,0.18443,53.963,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Rock Texture"/>
+    <ref name="normal" id="Rock Texture.000"/>
+    <shape type="mesh" filename="meshes/_m_0_Cube.001.ply"/>
+    <transform>
+      <matrix value="1.0446,3.0646,0,257.58,  -3.0646,1.0446,0,128.77,  0,0,3.2378,18.186,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Sand"/>
+    <ref name="normal" id="Sand.000"/>
+    <shape type="mesh" filename="meshes/Plane.016.ply"/>
+    <transform>
+      <matrix value="-0.72954,-2.1404,0,378.05,  2.1404,-0.72954,0,158.07,  0,0,2.2613,6,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Rock_Basalt_Photoscan_A_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Rock_Basalt_Photoscan_A_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/bq_Rock_Basalt-Photoscan_A_spring-summer-autumn.ply"/>
+    <transform>
+      <matrix value="-3.4853,-8.6565,-1.4744,222.7,  8.5209,-2.9505,-2.8188,131.87,  2.1223,-2.3696,8.8959,0.48664,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Acer-pseudoplatanus_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Bark_Acer-pseudoplatanus_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_0_bq_Sapling_Acer-pseudoplatanus_A_summer.ply"/>
+    <transform>
+      <matrix value="-5.6503,-17.21,-2.1373,227.42,  17.173,-5.8661,1.837,163.7,  -2.4207,-1.4432,18.021,-1.0545,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.014" type="image" filename="textures/bq_Leaf_Acer-pseudoplatanus_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Leaf_Acer-pseudoplatanus_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.014"/>
+    <shape type="mesh" filename="meshes/_m_1_bq_Sapling_Acer-pseudoplatanus_A_summer.ply"/>
+    <transform>
+      <matrix value="-5.6503,-17.21,-2.1373,227.42,  17.173,-5.8661,1.837,163.7,  -2.4207,-1.4432,18.021,-1.0545,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.015" type="image" filename="textures/bq_Fern_Diffuse.png"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Fern_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.015"/>
+    <shape type="mesh" filename="meshes/_m_0_bq_Plant_Dryopteris-carthusiana_A_spring-summer-autumn.ply"/>
+    <transform>
+      <matrix value="-1.2713,-8.3562,-3.4956,235.09,  7.7155,-2.8482,4.0026,88.986,  -4.7452,-2.3923,7.4446,2.1791,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.016" type="image" filename="textures/bq_Bark_Ficus-carica_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <ref name="alpha" id="Image Texture.016"/>
+    <shape type="mesh" filename="meshes/_m_1_bq_Plant_Dryopteris-carthusiana_A_spring-summer-autumn.ply"/>
+    <transform>
+      <matrix value="-1.2713,-8.3562,-3.4956,235.09,  7.7155,-2.8482,4.0026,88.986,  -4.7452,-2.3923,7.4446,2.1791,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Malus-domestica_Diffuse.png"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Bark_Malus-domestica_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_0_bq_Tree_Malus-domestica_A_summer.ply"/>
+    <transform>
+      <matrix value="-1.8097,-5.0361,-1.6656,225.86,  5.3044,-1.7165,-0.57309,149.69,  0.0048296,-1.7614,5.3206,-0.031905,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.017" type="image" filename="textures/bq_Leaf_Malus-domestica_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Leaf_Malus-domestica_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.017"/>
+    <shape type="mesh" filename="meshes/_m_1_bq_Tree_Malus-domestica_A_summer.ply"/>
+    <transform>
+      <matrix value="-1.8097,-5.0361,-1.6656,225.86,  5.3044,-1.7165,-0.57309,149.69,  0.0048296,-1.7614,5.3206,-0.031905,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Fruit_Apple_A_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Fruit_Apple_A_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_2_bq_Tree_Malus-domestica_A_summer.ply"/>
+    <transform>
+      <matrix value="-1.8097,-5.0361,-1.6656,225.86,  5.3044,-1.7165,-0.57309,149.69,  0.0048296,-1.7614,5.3206,-0.031905,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Fruit_Apple_B_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Fruit_Apple_B_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_3_bq_Tree_Malus-domestica_A_summer.ply"/>
+    <transform>
+      <matrix value="-1.8097,-5.0361,-1.6656,225.86,  5.3044,-1.7165,-0.57309,149.69,  0.0048296,-1.7614,5.3206,-0.031905,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="water_005" type="principled">
+      <texture name="baseColor" type="constant" value="0.69984,0.78189,1"/>
+      <texture name="roughness" type="constant" value="0.1"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Plane.007.ply"/>
+    <transform>
+      <matrix value="8.5436,0,0,0,  0,3.8452,0,129.13,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.012.ply"/>
+    <transform>
+      <matrix value="8.5436,0,0,0,  0,3.8452,0,-50,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.001.ply"/>
+    <transform>
+      <matrix value="8.5436,0,0,0,  0,3.8452,0,129.13,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.006.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-10.032,0,534,  8.5436,-4.385e-07,0,294.17,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.011.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-10.032,0,450,  8.5436,-4.385e-07,0,-100,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.005.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-3.8452,0,193.91,  8.5436,-1.6808e-07,0,0,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.013.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-3.8452,0,193.91,  8.5436,-1.6808e-07,0,294.17,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.008.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-10.032,0,534,  8.5436,-4.385e-07,0,294.17,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="water_005"/>
+    <shape type="mesh" filename="meshes/Plane.009.ply"/>
+    <transform>
+      <matrix value="-3.7345e-07,-10.032,0,534,  8.5436,-4.385e-07,0,294.17,  0,0,0.80934,-1.25,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="-0.70889,3.2268,0.7506,185.47,  -0.33056,-3.8137,0.64332,75.395,  -4.9384,-0.20792,-0.15081,52.019,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="25,15.096,0.82762"/>
+      </emission>
+    </instance>
+  </light>
+  <light type="point" position="239.91,96.749,76.564" power="10000,6038.3,331.05"/>
+  <light type="directional" direction="0.78903,-0.33492,0.51504" intensity="0.094731,0.021953,0.0024158"/>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="5.2613,20.235,-0.54825,239.96,  -7.2516,14.681,0.75564,136.45,  -23.34,0,-0.35837,136.93,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="0.094731,0.021953,0.0024158"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <bsdf type="diffuse">
+      <texture name="albedo" type="constant" value="0.25016,0.011612,0.007499"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Sphere.ply"/>
+    <transform>
+      <matrix value="-1.6344,0.83873,-10.848,541.92,  0.83873,10.947,0.72,59.715,  10.848,-0.72001,-1.6901,15,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="diffuse">
+      <texture name="albedo" type="image" filename="textures/mc20.jpg"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/mesh.ply"/>
+    <transform>
+      <matrix value="1.5254,-0.19004,-0.2587,-157.89,  0.27609,1.4176,0.58651,217.27,  0.16377,-0.61976,1.4209,14.307,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="Bricks" type="principled">
+      <texture name="baseColor" type="image" filename="textures/TexturesCom_Brick_Rustic_1K_albedo.jpg"/>
+      <texture name="roughness" type="image" filename="textures/TexturesCom_Brick_Rustic_1K_roughness.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.1"/>
+    </bsdf>
+    <texture name="normal" id="Bricks.000" type="image" filename="textures/TexturesCom_Brick_Rustic_1K_normal.jpg"/>
+    <shape type="mesh" filename="meshes/Cube.ply"/>
+    <transform>
+      <matrix value="5.4716,0.059127,-0.0046512,-159.07,  -0.059099,5.4715,0.032034,217.97,  0.004997,-0.031982,5.4718,-12.376,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="0.39807,-0.0060698,-0.60499,-146.13,  0.30251,-0.00094199,0.79621,200.65,  0.0054028,0.49996,-0.0058447,1.3134,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="119.95,125,11.935"/>
+      </emission>
+    </instance>
+  </light>
+  <light type="point" position="-157.92,211.94,16.914" power="50,44.672,10.722"/>
+  <instance>
+    <bsdf id="Tiles_001" type="principled">
+      <texture name="baseColor" type="image" filename="textures/TexturesCom_AncientFloor_1K_albedo.jpg"/>
+      <texture name="roughness" type="image" filename="textures/TexturesCom_AncientFloor_1K_roughness.jpg"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.1"/>
+    </bsdf>
+    <texture name="normal" id="Tiles_001.000" type="image" filename="textures/TexturesCom_AncientFloor_1K_normal.jpg"/>
+    <shape type="mesh" filename="meshes/Cube.091.ply"/>
+    <transform>
+      <matrix value="5.3333,1.5648,0.004028,-54.135,  -1.5638,5.3305,-0.18328,316.75,  -0.055462,0.17474,5.5551,0.18657,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Tiles_001"/>
+    <ref name="normal" id="Tiles_001.000"/>
+    <shape type="mesh" filename="meshes/Cube.726.ply"/>
+    <transform>
+      <matrix value="5.8178,1.6955,-0.27072,119.23,  -1.7043,5.8187,-0.18296,410.25,  0.20854,0.25154,6.0571,-1.3841,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="Bricks"/>
+    <ref name="normal" id="Bricks.000"/>
+    <shape type="mesh" filename="meshes/Cube.004.ply"/>
+    <transform>
+      <matrix value="6.7829,3.7452,-0.028945,-29.196,  -3.7426,6.7802,0.24019,250.65,  0.14143,-0.19628,7.7445,0.35717,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.018" type="image" filename="textures/bq_Flowers_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Flowers_Normal.jpg" border="clamp" linear="true"/>
+    <ref name="alpha" id="Image Texture.018"/>
+    <shape type="mesh" filename="meshes/bq_Flower_Bellis-perennis_A_spring-summer.001.ply"/>
+    <transform>
+      <matrix value="6.2851,-0.0002685,0.031617,-134.28,  -0.0002685,6.2843,0.10674,203.44,  -0.031617,-0.10674,6.2842,-0.026448,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.019" type="image" filename="textures/bq_Weeds_Diffuse.png"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Weeds_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.019"/>
+    <shape type="mesh" filename="meshes/_m_0_bq_Weed_Taraxacum-officinale_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="3.5622,4.1819e-05,-0.028942,-113.9,  4.1697e-05,3.5624,0.01028,210.82,  0.028942,-0.01028,3.5622,-0.008812,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.020" type="image" filename="textures/bq_Flowers_Diffuse.png"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Flowers_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.020"/>
+    <shape type="mesh" filename="meshes/_m_1_bq_Weed_Taraxacum-officinale_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="3.5622,4.1819e-05,-0.028942,-113.9,  4.1697e-05,3.5624,0.01028,210.82,  0.028942,-0.01028,3.5622,-0.008812,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <shape type="mesh" filename="meshes/_m_0_bq_Tree_Aesculus-hippocastanum_A_summer.001.ply"/>
+    <transform>
+      <matrix value="-0.009877,-0.99632,0.085187,25.919,  0.99941,-0.0070296,0.03366,268.91,  -0.032937,0.08547,0.9958,-2.58,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" id="Image Texture.021" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.021"/>
+    <shape type="mesh" filename="meshes/_m_1_bq_Tree_Aesculus-hippocastanum_A_summer.001.ply"/>
+    <transform>
+      <matrix value="-0.009877,-0.99632,0.085187,25.919,  0.99941,-0.0070296,0.03366,268.91,  -0.032937,0.08547,0.9958,-2.58,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Stem_Ivy" type="principled">
+      <texture name="baseColor" id="Image Texture.022" type="image" filename="textures/bq_Stem_Ivy_Diffuse.png"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Stem_Ivy.000" type="image" filename="textures/bq_Stem_Ivy_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.022"/>
+    <shape id="bq_Vine_Vitis-vinifera_A_spring-summer" type="mesh" filename="meshes/_m_0_bq_Vine_Vitis-vinifera_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="12.748,-1.7883,1.2593,-145.04,  -0.84813,2.8224,12.594,214.51,  -2.016,-12.495,2.6645,23.489,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Leaf_Ivy" type="principled">
+      <texture name="baseColor" id="Image Texture.023" type="image" filename="textures/bq_Leaf_Ivy_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Leaf_Ivy.000" type="image" filename="textures/bq_Leaf_Ivy_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.023"/>
+    <shape id="bq_Vine_Vitis-vinifera_A_spring-summer.000" type="mesh" filename="meshes/_m_1_bq_Vine_Vitis-vinifera_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="12.748,-1.7883,1.2593,-145.04,  -0.84813,2.8224,12.594,214.51,  -2.016,-12.495,2.6645,23.489,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Stem_Ivy"/>
+    <ref name="normal" id="bq_Stem_Ivy.000"/>
+    <ref name="alpha" id="Image Texture.022"/>
+    <ref id="bq_Vine_Vitis-vinifera_A_spring-summer"/>
+    <transform>
+      <matrix value="-0.47327,-7.0064,10.862,-144.47,  -12.682,-1.8482,-1.7448,214.23,  2.4972,-10.714,-6.8022,23.646,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Ivy"/>
+    <ref name="normal" id="bq_Leaf_Ivy.000"/>
+    <ref name="alpha" id="Image Texture.023"/>
+    <ref id="bq_Vine_Vitis-vinifera_A_spring-summer.000"/>
+    <transform>
+      <matrix value="-0.47327,-7.0064,10.862,-144.47,  -12.682,-1.8482,-1.7448,214.23,  2.4972,-10.714,-6.8022,23.646,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Stem_Ivy"/>
+    <ref name="normal" id="bq_Stem_Ivy.000"/>
+    <ref name="alpha" id="Image Texture.022"/>
+    <ref id="bq_Vine_Vitis-vinifera_A_spring-summer"/>
+    <transform>
+      <matrix value="4.9509,-5.5163,10.6,-144.78,  -11.878,-3.5233,3.7143,214.2,  1.3033,-11.156,-6.4144,23.298,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Ivy"/>
+    <ref name="normal" id="bq_Leaf_Ivy.000"/>
+    <ref name="alpha" id="Image Texture.023"/>
+    <ref id="bq_Vine_Vitis-vinifera_A_spring-summer.000"/>
+    <transform>
+      <matrix value="4.9509,-5.5163,10.6,-144.78,  -11.878,-3.5233,3.7143,214.2,  1.3033,-11.156,-6.4144,23.298,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Grass" type="principled">
+      <texture name="baseColor" type="constant" value="0.015941,0.064341,0.014171"/>
+      <texture name="roughness" type="constant" value="0.21379"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.32414"/>
+    </bsdf>
+    <shape id="bq_Grass_Lolium-perenne_D_spring-summer" type="mesh" filename="meshes/bq_Grass_Lolium-perenne_D_spring-summer.ply"/>
+    <transform>
+      <matrix value="18.295,0,0,-13.812,  0,18.295,0,237.2,  0,0,18.295,2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="9.4288,15.679,0,-18.048,  -15.679,9.4288,0,237.48,  0,0,18.295,-5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="17.489,5.3708,0,-21.526,  -5.3708,17.489,0,239.67,  0,0,18.295,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3625,0,-24.703,  -9.3625,15.718,0,241.05,  0,0,18.295,2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="18.295,0,0,-36.83,  0,18.295,0,246.99,  0,0,18.295,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="9.4288,15.679,0,-41.066,  -15.679,9.4288,0,247.27,  0,0,18.295,-1.033e-05,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="17.489,5.3708,0,-44.543,  -5.3708,17.489,0,249.45,  0,0,18.295,-5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3625,0,-47.721,  -9.3625,15.718,0,250.84,  0,0,18.295,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Bark_Aesculus-hippocastanum_002" type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Bark_Aesculus-hippocastanum_002.000" type="image" filename="textures/bq_Bark_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <shape id="bq_Tree_Aesculus-hippocastanum_A_autumn" type="mesh" filename="meshes/_m_0_bq_Tree_Aesculus-hippocastanum_A_autumn.ply"/>
+    <transform>
+      <matrix value="0.84099,0,0,22.519,  0,0.84099,0,245.24,  0,0,0.84099,1.049e-05,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Leaf_Aesculus-hippocastanum_autumn" type="principled">
+      <texture name="baseColor" id="Image Texture.024" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Diffuse.png" border="clamp"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="bq_Leaf_Aesculus-hippocastanum_autumn.000" type="image" filename="textures/bq_Leaf_Aesculus-hippocastanum_Normal.jpg" linear="true"/>
+    <ref name="alpha" id="Image Texture.024"/>
+    <shape id="bq_Tree_Aesculus-hippocastanum_A_autumn.000" type="mesh" filename="meshes/_m_1_bq_Tree_Aesculus-hippocastanum_A_autumn.ply"/>
+    <transform>
+      <matrix value="0.84099,0,0,22.519,  0,0.84099,0,245.24,  0,0,0.84099,1.049e-05,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Bark_Aesculus-hippocastanum_002"/>
+    <ref name="normal" id="bq_Bark_Aesculus-hippocastanum_002.000"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_autumn"/>
+    <transform>
+      <matrix value="0.67538,0,0,-41.038,  0,0.67538,0,268.1,  0,0,0.67538,1.033e-05,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Leaf_Aesculus-hippocastanum_autumn"/>
+    <ref name="normal" id="bq_Leaf_Aesculus-hippocastanum_autumn.000"/>
+    <ref name="alpha" id="Image Texture.024"/>
+    <ref id="bq_Tree_Aesculus-hippocastanum_A_autumn.000"/>
+    <transform>
+      <matrix value="0.67538,0,0,-41.038,  0,0.67538,0,268.1,  0,0,0.67538,1.033e-05,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <shape id="bq_Grass-Dry_Lolium-perenne_A_spring-summer" type="mesh" filename="meshes/bq_Grass-Dry_Lolium-perenne_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="8.7909,0,0,-51.769,  0,8.7909,0,304.73,  0,0,8.7909,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-55.224,  0,8.7909,0,305.78,  1.537e-06,0,8.7909,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-58.436,  0,8.7909,0,306.7,  1.537e-06,0,8.7909,-7.7477e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-61.345,  0,8.7909,0,307.64,  1.537e-06,0,8.7909,5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-64.313,  0,8.7909,0,309.55,  1.537e-06,0,8.7909,5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-47.403,  0,8.7909,0,304.49,  1.537e-06,0,8.7909,2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-44.021,  0,8.7909,0,308.84,  1.537e-06,0,8.7909,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-43.799,  0,8.7909,0,304.45,  1.537e-06,0,8.7909,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="8.7909,0,-1.537e-06,-43.464,  0,8.7909,0,313.31,  1.537e-06,0,8.7909,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-22.951,  -4.9906,9.4857,0,252.32,  0,0,10.718,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-26.557,  -4.9906,9.4857,0,247.17,  0,0,10.718,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-28.199,  -4.9906,9.4857,0,242.85,  0,0,10.718,7.7477e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-46.34,  -4.9906,9.4857,0,258.08,  0,0,10.718,2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-49.672,  -4.9906,9.4857,0,252.49,  0,0,10.718,5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-43.776,  -4.9906,9.4857,0,263.53,  0,0,10.718,-2.5826e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="bq_Rock_Basalt-Photoscan_A_001" type="principled">
+      <texture name="baseColor" type="image" filename="textures/bq_Rock_Basalt_Photoscan_A_Diffuse.jpg"/>
+      <texture name="roughness" type="constant" value="0.5"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <shape id="bq_Rock_Basalt-Photoscan_A_spring-summer-autumn_001" type="mesh" filename="meshes/bq_Rock_Basalt-Photoscan_A_spring-summer-autumn.001.ply"/>
+    <transform>
+      <matrix value="7.3463,-1.5953,0.12957,-140.95,  1.5954,7.3474,0.0064411,212.38,  -0.12799,0.021202,7.5175,0.039589,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <shape id="bq_Grass-Dry_Lolium-perenne_D_spring-summer" type="mesh" filename="meshes/bq_Grass-Dry_Lolium-perenne_D_spring-summer.ply"/>
+    <transform>
+      <matrix value="17.464,0.0030588,0.30101,-147.32,  -0.0033172,17.467,0.014964,211.58,  -0.30101,-0.015019,17.464,0.15004,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="17.455,0.0062233,-0.64326,-151.16,  0.0062234,17.464,0.33783,211.63,  0.64326,-0.33783,17.452,0.055862,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="17.467,-6.9034e-07,6.5069e-08,-153.47,  6.9034e-07,17.467,-3.2535e-08,215.91,  -6.5069e-08,3.2535e-08,17.467,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="17.464,0.023966,0.30047,-145.59,  -0.0033038,17.426,-1.1979,207.56,  -0.3014,1.1977,17.423,-0.11133,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Rock_Basalt-Photoscan_A_001"/>
+    <ref id="bq_Rock_Basalt-Photoscan_A_spring-summer-autumn_001"/>
+    <transform>
+      <matrix value="5.1752,0.032448,-0.59521,-90.886,  0.032448,5.1786,0.56443,175.82,  0.59521,-0.56443,5.1444,-0.76575,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="coast_rocks_02" type="principled">
+      <texture name="baseColor" type="image" filename="textures/coast_rocks_02_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/coast_rocks_02_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="coast_rocks_02.000" type="image" filename="textures/coast_rocks_02_nor_gl.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Plane.022.ply"/>
+    <transform>
+      <matrix value="0.69,-0.00052453,0.025511,-142.65,  0.0044713,0.68213,-0.10691,193.39,  -0.025121,0.107,0.68167,-1.1374,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_rocks_02"/>
+    <ref name="normal" id="coast_rocks_02.000"/>
+    <shape type="mesh" filename="meshes/Plane.024.ply"/>
+    <transform>
+      <matrix value="0.69,-0.00052453,0.025511,-142.65,  0.0044713,0.68213,-0.10691,193.39,  -0.025121,0.107,0.68167,-1.1374,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_rocks_02"/>
+    <ref name="normal" id="coast_rocks_02.000"/>
+    <shape type="mesh" filename="meshes/Plane.025.ply"/>
+    <transform>
+      <matrix value="0.69,-0.00052453,0.025511,-142.65,  0.0044713,0.68213,-0.10691,193.39,  -0.025121,0.107,0.68167,-1.1374,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_rocks_02"/>
+    <ref name="normal" id="coast_rocks_02.000"/>
+    <shape type="mesh" filename="meshes/Plane.026.ply"/>
+    <transform>
+      <matrix value="0.69,-0.00052453,0.025511,-142.65,  0.0044713,0.68213,-0.10691,193.39,  -0.025121,0.107,0.68167,-1.1374,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf id="coast_line_02" type="principled">
+      <texture name="baseColor" type="image" filename="textures/coast_line_02_diff_1k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/coast_line_02_rough.png.exr" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" id="coast_line_02.000" type="image" filename="textures/coast_line_02_nor_gl.png.exr" linear="true"/>
+    <shape id="Plane_027" type="mesh" filename="meshes/Plane.027.ply"/>
+    <transform>
+      <matrix value="-0.5131,0.85833,-6.3862e-10,-42.554,  -0.85833,-0.5131,-1.6076e-10,225.82,  -4.6566e-10,4.6566e-10,1,0.12734,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <shape id="Plane_028" type="mesh" filename="meshes/Plane.028.ply"/>
+    <transform>
+      <matrix value="-0.5131,0.85833,-6.3862e-10,-42.554,  -0.85833,-0.5131,-1.6076e-10,225.82,  -4.6566e-10,4.6566e-10,1,0.12734,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <shape id="Plane_029" type="mesh" filename="meshes/Plane.029.ply"/>
+    <transform>
+      <matrix value="-0.5131,0.85833,-6.3862e-10,-42.554,  -0.85833,-0.5131,-1.6076e-10,225.82,  -4.6566e-10,4.6566e-10,1,0.12734,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <shape id="Plane_030" type="mesh" filename="meshes/Plane.030.ply"/>
+    <transform>
+      <matrix value="-0.5131,0.85833,-6.3862e-10,-42.554,  -0.85833,-0.5131,-1.6076e-10,225.82,  -4.6566e-10,4.6566e-10,1,0.12734,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <shape id="bq_Grass_Lolium-perenne_A_spring-summer" type="mesh" filename="meshes/bq_Grass_Lolium-perenne_A_spring-summer.ply"/>
+    <transform>
+      <matrix value="13.865,0.010792,0.31435,-150.51,  0.010792,13.836,-0.95099,207.51,  -0.31435,0.95099,13.832,-0.018219,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="13.864,-0.0090988,0.35288,-156.26,  0.012285,13.868,-0.12507,208.98,  -0.35278,0.12534,13.863,-0.13557,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="13.868,0.039843,0.066214,-156.66,  -0.02436,13.531,-3.0399,201.76,  -0.073338,3.0398,13.531,1.0621,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3625,0.010224,-101.26,  -9.3625,15.718,-0.01028,270.18,  -0.014045,0.0035998,18.295,0.013397,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3626,0.13603,-98.894,  -9.3618,15.718,-0.13607,267.21,  -0.1865,0.047295,18.294,0.0029621,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3626,0.13602,-95.16,  -9.3618,15.718,-0.13608,269.51,  -0.1865,0.047304,18.294,-0.0076962,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3618,0.13603,-96.229,  -9.362,15.719,-0.0047599,265.02,  -0.1193,-0.065518,18.295,-0.028812,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.716,9.3606,0.32896,-101.68,  -9.362,15.719,-0.010272,265.98,  -0.28788,-0.15951,18.292,0.013304,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3618,0.13603,-99.219,  -9.362,15.719,-0.0047599,263.15,  -0.1193,-0.065518,18.295,-0.0070686,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.718,9.3621,0.010224,-98.047,  -9.3621,15.718,-0.01028,272.81,  -0.014045,0.0035998,18.295,0.013073,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.716,9.3606,0.32895,-105.03,  -9.3619,15.719,-0.010279,268.32,  -0.28788,-0.1595,18.292,0.07493,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.713,9.3662,0.32889,-103.86,  -9.3599,15.715,-0.37513,264.8,  -0.47455,0.15391,18.289,0.035309,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.717,9.3634,0.13603,-100.95,  -9.3636,15.718,-0.0047553,261.46,  -0.1193,-0.065536,18.295,0.0053711,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.716,9.3638,0.24492,-94.185,  -9.3631,15.717,-0.11367,262.56,  -0.26859,-0.027707,18.293,-0.060316,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass_Lolium-perenne_D_spring-summer"/>
+    <transform>
+      <matrix value="15.714,9.3634,0.33227,-91.655,  -9.3626,15.718,-0.13606,268.45,  -0.35509,-0.053174,18.292,-0.064163,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-49.672,  -4.9906,9.4857,0,252.49,  0,0,10.718,5.1651e-06,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-51.612,  -4.9906,9.4857,0,269.04,  0,0,10.718,-1.0856,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,64.124,  -4.9906,9.4857,0,237.96,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,65.438,  -4.9906,9.4857,0,249.24,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,58.089,  -4.9906,9.4857,0,246.27,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,23.386,  -4.9906,9.4857,0,245.41,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,24.864,  -4.9906,9.4857,0,267.5,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,-1.2656e-06,70.859,  -4.9906,9.4857,-3.9297e-07,237.6,  9.3704e-07,9.3704e-07,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,-14.772,  -4.9906,9.4857,0,295.57,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,7.404,  -4.9906,9.4857,0,323.43,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9906,0,9.0408,  -4.9906,9.4857,0,328.69,  0,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="-2.3666,-2.9117,10.04,15.727,  -6.2244,8.6631,1.0452,305.31,  -8.3989,-5.5998,-3.6036,1.2007,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9907,-1.6585e-06,15.727,  -4.9907,9.4857,8.7259e-07,365.07,  1.8741e-06,0,10.718,1.2007,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9907,-1.6585e-06,38.468,  -4.9907,9.4857,8.7259e-07,365.19,  1.8741e-06,-2.2848e-13,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.4857,4.9907,-1.6585e-06,20.636,  -4.9907,9.4857,8.7259e-07,366.95,  1.8741e-06,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.3848,4.9802,-1.4176,-5.6683,  -4.9502,9.4899,0.56783,371.92,  1.519,0.15754,10.609,-1.2617,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.2378,5.0032,2.1251,-5.3834,  -4.6441,9.4419,-2.0417,376.63,  -2.825,0.83896,10.305,-1.3185,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="bq_Grass"/>
+    <ref id="bq_Grass-Dry_Lolium-perenne_A_spring-summer"/>
+    <transform>
+      <matrix value="9.5234,4.9184,2.8382e-07,-2.6346,  -4.9184,9.5234,-1.4658e-07,369.52,  -3.1944e-07,0,10.718,-1.5,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <ref id="Plane_027"/>
+    <transform>
+      <matrix value="-0.51299,0.85838,-0.0045629,-60.613,  -0.85693,-0.51241,-0.055655,187.85,  -0.050111,-0.02464,0.99844,-0.5517,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <ref id="Plane_028"/>
+    <transform>
+      <matrix value="-0.51299,0.85838,-0.0045629,-60.613,  -0.85693,-0.51241,-0.055655,187.85,  -0.050111,-0.02464,0.99844,-0.5517,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <ref id="Plane_029"/>
+    <transform>
+      <matrix value="-0.51299,0.85838,-0.0045629,-60.613,  -0.85693,-0.51241,-0.055655,187.85,  -0.050111,-0.02464,0.99844,-0.5517,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <ref id="coast_line_02"/>
+    <ref name="normal" id="coast_line_02.000"/>
+    <ref id="Plane_030"/>
+    <transform>
+      <matrix value="-0.51299,0.85838,-0.0045629,-60.613,  -0.85693,-0.51241,-0.055655,187.85,  -0.050111,-0.02464,0.99844,-0.5517,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="principled">
+      <texture name="baseColor" type="image" filename="textures/coast_sand_rocks_02_diff_2k.jpg"/>
+      <texture name="roughness" type="image" filename="textures/coast_sand_rocks_02_rough_8k.png.exr" linear="true"/>
+      <texture name="metallic" type="constant" value="0"/>
+      <texture name="specular" type="constant" value="0.5"/>
+    </bsdf>
+    <texture name="normal" type="image" filename="textures/coast_sand_rocks_02_nor_gl_8k.png.exr" linear="true"/>
+    <shape type="mesh" filename="meshes/Plane.003.ply"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,1,0,250,  0,0,1,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="-0.075398,-0.16102,-0.9282,-136.17,  0.24559,-0.057203,-0.27949,160.31,  0.0039362,0.48462,-0.3414,8.1671,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="71.008,36.098,9.4001"/>
+      </emission>
+    </instance>
+  </light>
+  <light type="area">
+    <instance>
+      <shape type="rectangle"/>
+      <transform>
+        <matrix value="0.70721,-0.25303,0.96616,32.535,  -2.6973,0.80058,0.25759,397.83,  0.83866,2.7882,0.013717,9.8,  0,0,0,1"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="7.3712,5.9003,1.1532"/>
+      </emission>
+    </instance>
+  </light>
+  <light type="envmap">
+    <texture type="image" filename="textures/NightEnvironmentHDRI004_2K-HDR.exr.exr" exposure="2" border="clamp" linear="true"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      <rotate axis="0,0,1" angle="20"/>
+    </transform>
+  </light>
+</scene>
+<integrator type="pathtracer" depth="2" nee="true" mis="true">
+  <ref id="scene"/>
+  <image id="final_scene_v2"/>
+  <sampler type="independent" count="10"/>
+</integrator>
+
+<integrator type="normals">
+    <ref id="scene"/>
+    <image id="normals_final_scene_v2"/>
+    <sampler type="halton" count="100"/>
+</integrator>
+
+<integrator type="albedo">
+    <ref id="scene"/>
+    <image id="albedo_final_scene_v2"/>
+    <sampler type="halton" count="100"/>
+</integrator>
+
+<postprocess type="denoising">
+    <ref name="input" id="final_scene_v2"/>
+    <ref name="normals" id="normals_final_scene_v2"/>
+    <ref name="albedo" id="albedo_final_scene_v2"/>
+    <image id="denoised_final_scene_v2"/>
+</postprocess>

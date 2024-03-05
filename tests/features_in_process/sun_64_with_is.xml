@@ -40,6 +40,6 @@
             </instance>
         </scene>
         <image id="sun_64_with_is"/>
-        <sampler type="independent" count="64"/>
+        <sampler type="halton" count="64"/>
     </integrator>
 </test>
