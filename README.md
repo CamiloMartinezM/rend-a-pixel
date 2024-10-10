@@ -85,8 +85,8 @@
   <td align="center">3-bladed Bokeh Shapes</td>
 </tr>
 <tr>
-    <td><img src="images/custom_bokeh_shapes/simple_bokeh_example_without_bokeh.jpeg"</td>
-    <td><img src="images/custom_bokeh_shapes/simple_bokeh_example_test.jpeg"</td>
+    <td><img src="images/custom_bokeh_shapes/simple_bokeh_example_without_bokeh.jpg"</td>
+    <td><img src="images/custom_bokeh_shapes/simple_bokeh_example_test.jpg"</td>
 </tr>
 </table>
 
