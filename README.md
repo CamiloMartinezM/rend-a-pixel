@@ -192,7 +192,7 @@
 - [x] Custom Bokeh Shapes
 
 ## Copyright & Credits
-&copy; The Lightwave Framework was written by [Alexander Rath](https://graphics.cg.uni-saarland.de/people/rath.html), with contributions from [Ömercan Yazici](https://graphics.cg.uni-saarland.de/people/yazici.html) and [Philippe Weier](https://graphics.cg.uni-saarland.de/people/weier.html). Their support was invaluable in the coding of these features. The scenes showcasing the features were provided by their team, and should be used under permission. Many textures and models were taken from [Poly Haven](https://polyhaven.com.)'s extensive library.
+&copy; The Lightwave Framework was written by [Alexander Rath](https://graphics.cg.uni-saarland.de/people/rath.html), with contributions from [Ömercan Yazici](https://graphics.cg.uni-saarland.de/people/yazici.html) and [Philippe Weier](https://graphics.cg.uni-saarland.de/people/weier.html). Their support was invaluable in the coding of these features. The scenes showcasing the features were provided by their team, and should be used under permission. Many textures and models were taken from [Poly Haven](https://polyhaven.com.)'s extensive library. Many thanks to the team behind [Tev](https://github.com/Tom94/tev) used extensively throughout this project as an EXR viewer.
                     
 ## References
 
